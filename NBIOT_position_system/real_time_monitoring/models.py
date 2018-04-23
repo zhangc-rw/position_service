@@ -10,7 +10,7 @@ class Target(models.Model):
     #运营商消息产生时间
     message_time = models.DateTimeField()
     #工作状态
-    working_status = models.CharField(max_length=30)
+    working_status = models.CharField(max_length=20)
     #基站编号
     base_num = models.CharField(max_length=80,)
     #小区编号
