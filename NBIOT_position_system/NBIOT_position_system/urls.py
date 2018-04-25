@@ -15,7 +15,31 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+import real_time_monitoring.views
+import carrier_management.views
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-]
+    url(r'^$', real_time_monitoring.views.real_time_monitoring),
+    url(r'^track_the_playback$', real_time_monitoring.views.track_the_playback),
+    url(r'^real_time_monitoring$', real_time_monitoring.views.real_time_monitoring),
+    url(r'^PandG_management$', carrier_management.views.PandG_management),
+    url(r'^personnel_management_form$', real_time_monitoring.views.personnel_management_form),
+    url(r'^gun_management_form$', carrier_management.views.gun_management_form),
+
+    url(r'^add_form_person/$', carrier_management.views.add_form_PG),
+    url(r'^personnel_management_form/(?P<aid>\d+)/d/$', carrier_management.views.delete_form_PG),
+    url(r'^personnel_management_form_update/(?P<aid>\d+)/u/$', carrier_management.views.update_form_PG),
+    url(r'^personnel_management_form_update/(?P<aid>\d+)/$', carrier_management.views.personnel_management_form_update),
+    
+    url(r'^add_form_gun/$', carrier_management.views.add_form_PG),
+    url(r'^gun_management_form_update/(?P<aid>\d+)/$', carrier_management.views.gun_management_form_update),
+    url(r'^gun_management_form/(?P<aid>\d+)/d/$', carrier_management.views.delete_form_PG),
+    url(r'^gun_management_form_update/(?P<aid>\d+)/u/$', carrier_management.views.update_form_PG),
+
+    url(r'^postdata$', real_time_monitoring.views.postdata),
+    url(r'^postdata1$', real_time_monitoring.views.postdata1),
+
+    url(r'^map_real_time_monitoring$', real_time_monitoring.views.map_real_time_monitoring)
+    ]

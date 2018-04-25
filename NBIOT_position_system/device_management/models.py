@@ -4,9 +4,9 @@ from carrier_management.models import Carrier
 # Create your models here.
 class Device(models.Model):
     #设备编号
-    device_num = models.CharField(unique=True,max_length=80)
+    device_num = models.IntegerField(unique=True)
     #设备类型
-    device_type = models.CharField(max_length=50)
+    device_type = models.IntegerField()
     #入库时间
     storage_time = models.DateTimeField(auto_now_add=True)
     #更新时间
