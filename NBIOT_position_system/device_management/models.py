@@ -10,11 +10,11 @@ class Device(models.Model):
     #入库时间
     storage_time = models.DateTimeField(auto_now_add=True)
     #更新时间
-    update_time = models.DateTimeField(auto_now=True,null=True,)
+    update_time = models.DateTimeField(auto_now=True,null=True)
     #设备卡号
     card_num = models.CharField(max_length=80)
     #关联载体
-    associated_carrier = models.ForeignKey(Carrier,null=True,)
+    associated_carrier = models.ForeignKey(Carrier,null=True)
     #备注
     remark = models.TextField()
 

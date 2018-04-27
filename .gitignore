@@ -97,3 +97,5 @@ ENV/
 
 # mypy
 .mypy_cache/
+*.sqlite3
+NBIOT_position_system/db.sqlite3
