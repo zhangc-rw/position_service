@@ -26,24 +26,25 @@ def add_form_PG(request):
 			identity_num  = None
 		else:
 			identity_num  = request.POST['identity_num']
+		#print (identity_num)
 		sex  = request.POST['sex']
 		birthday  = request.POST['birthday']
 		#查看日期格式
-		print (birthday)
+		#print (birthday)
 		nationality  = request.POST['nationality']
 		work_unit  = request.POST['work_unit']
 		remarks  = request.POST['remarks']
 		#存储各项数据
 		b_list = Carrier(carrier_num=carrier_num,carrier_name=carrier_name,carrier_type=carrier_type,identity_num=identity_num ,sex=sex,birthday=birthday,nationality=nationality,work_unit=work_unit,remarks=remarks)
 		b_list.save()
-		return HttpResponseRedirect('/PandG_management')
+		return HttpResponseRedirect('/carrier_management/PandG_management')
 
 #人员及枪支删除
 def delete_form_PG(request,aid):
 		#根据获取ID，删除信息
 		Carrier.objects.filter(id = aid ).delete()
 		carrier_list = Carrier.objects.all()
-		return HttpResponseRedirect('/PandG_management')
+		return HttpResponseRedirect('/carrier_management/PandG_management')
 
 #人员及枪支修改
 def update_form_PG(request,aid):
@@ -52,10 +53,11 @@ def update_form_PG(request,aid):
         carrier_name  = request.POST['carrier_name']
         carrier_type  = request.POST['carrier_type']
 		#判断字符串，为空或‘none’输出none
-        if request.POST['identity_num'] == "" or "None":
+        if (request.POST['identity_num'] == "") or (request.POST['identity_num'] == "None"):
         	identity_num  = None
         else:
-        	identity_num  = request.POST['identity_num']
+        	identity_num = request.POST['identity_num']
+        #print(identity_num)
         sex  = request.POST['sex']
         birthday  = request.POST['birthday']
         nationality  = request.POST['nationality']
@@ -63,7 +65,7 @@ def update_form_PG(request,aid):
         remarks  = request.POST['remarks']
         #获取id,更改信息
         Carrier.objects.filter(id = aid).update(carrier_num=carrier_num,carrier_name=carrier_name,carrier_type=carrier_type,identity_num=identity_num ,sex=sex,birthday=birthday,nationality=nationality,work_unit=work_unit,remarks=remarks)
-        return HttpResponseRedirect('/PandG_management')
+        return HttpResponseRedirect('/carrier_management/PandG_management')
 
 #人员查看
 def personnel_management_form_update(request,aid):
@@ -78,12 +80,7 @@ def gun_management_form_update(request,aid):
 
 
 #跳转页面链接	
-def track_the_playback(request):		
-	return render(request,'track_the_playback.html')
-def real_time_monitoring(request):		
-	return render(request,'real_time_monitoring.html')
-def map_real_time_monitoring(request):		
-	return render(request,'map_real_time_monitoring.html')
+
 def personnel_management_form(request):		
 	return render(request,'personnel_management_form.html')
 def gun_management_form(request):		

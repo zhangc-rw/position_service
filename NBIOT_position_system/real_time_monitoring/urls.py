@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url,include
+from django.conf.urls import url
 from django.contrib import admin
 import real_time_monitoring.views
 import carrier_management.views
@@ -21,8 +21,12 @@ import carrier_management.views
 
 urlpatterns = [
 
-    url(r'^admin/', admin.site.urls),
-    #url(r'^$', real_time_monitoring.views.real_time_monitoring),
-    url(r'^real_time_monitoring/', include('real_time_monitoring.urls')),
-    url(r'^carrier_management/', include('carrier_management.urls'))
+    url(r'^track_the_playback/$', real_time_monitoring.views.track_the_playback),
+    url(r'^real_time_monitoring/$', real_time_monitoring.views.real_time_monitoring),
+
+    url(r'^postdata/$', real_time_monitoring.views.postdata),
+    url(r'^postdata1/$', real_time_monitoring.views.postdata1),
+
+    url(r'^canvas_realTime/$', real_time_monitoring.views.canvas_realTime)
+    
     ]

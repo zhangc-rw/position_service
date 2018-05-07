@@ -11,19 +11,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <title>国民教育学校定位系统</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="static/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../static/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="static/css/ionicons.min.css">
+  <link rel="stylesheet" href="../../static/css/ionicons.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="static/css/dataTables.bootstrap.min.css">
+  <link rel="stylesheet" href="../../static/css/dataTables.bootstrap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="static/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../../static/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
-  <link rel="stylesheet" href="static/css/skin-blue.min.css">
+  <link rel="stylesheet" href="../../static/css/skin-blue.min.css">
+  <link rel="stylesheet" href="../../static/css/_all-skins.min.css">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="../../static/css/all.css">
+  <link rel="stylesheet" href="../../static/css/blue.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../../static/css/select2.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -90,14 +96,14 @@ desired effect
               <!-- Menu Toggle Button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <!-- The user image in the navbar-->
-                 <img src="static/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                 <img src="../../static/img/user2-160x160.jpg" class="user-image" alt="User Image">
                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                 <span class="hidden-xs">Alexander Pierce</span>
               </a>
               <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
                 <li class="user-header">
-                  <img src="static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                  <img src="../../static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                   <p>
                     Alexander Pierce - Web Developer
@@ -142,9 +148,9 @@ desired effect
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
           <!-- Optionally, you can add icons to the links -->
-          <li class="active"><a href="real_time_monitoring"><i class="fa fa-link"></i><span>实时监控</span></a></li>
-          <li><a href="track_the_playback"><i class="fa fa-link"></i> <span>轨迹回放</span></a></li>
-          <li><a href="PandG_management"><i class="fa fa-link"></i> <span>人员及枪支管理</span></a></li>
+          <li class="active"><a href="/real_time_monitoring/real_time_monitoring"><i class="fa fa-link"></i><span>实时监控</span></a></li>
+          <li><a href="/real_time_monitoring/track_the_playback"><i class="fa fa-link"></i> <span>轨迹回放</span></a></li>
+          <li><a href="/carrier_management/PandG_management"><i class="fa fa-link"></i> <span>人员及枪支管理</span></a></li>
           <li><a href="#"><i class="fa fa-link"></i> <span>报警管理</span></a></li>
           <li><a href="#"><i class="fa fa-link"></i> <span>区域管理</span></a></li>
           <li><a href="#"><i class="fa fa-link"></i> <span>设备管理</span></a></li>
@@ -176,6 +182,7 @@ desired effect
                 <div class="tab-pane" id="tab_heatmap">
                   <!-- Main content -->
                   <section class="content">
+                  {% csrf_token %}
                     <div class="row">
                       <div class="col-xs-12">
                         <div class="box">
@@ -239,42 +246,78 @@ desired effect
                 </div>
                  <!--二维地图显示选项卡-->
                 <div class="tab-pane active" id="tab_2dmapdisplay">
-                <div class="box-body">
-                  <form id="sqlform" class="form-horizontal" method="post" target="formsubmit">
-                    <iframe name="formsubmit" style='display: none;'></iframe>
-                      姓名 <select name="carrier_name" input type="varchar" style="width:155px" class="text-input form-input" id="carrier_name" placeholder="姓名">
-                      <option></option>
-                      <option value="买买提">买买提</option>
-                      </select>
-                      性别 <select name="sex" input type="varchar" style="width:100px" class="text-input form-input" id="sex" placeholder="性别">
-                      <option value="男">男</option>
-                      <option value="女">女</option></select>
-                  <button type="submit" id="submit" class="btn btn-info submitBtn">搜索</button>
-                  </form>
+                 <section class="content">
+                  <div class="row">
+                   <div class="col-md-9">
+                   <div id="allmap">
+                   <canvas id="map_canvas"></canvas>
+                   </div>
+                   <!--
+                    <iframe src="map_real_time_monitoring" width="100%" height="650" frameborder="0" scrolling="no"></iframe>
+                    -->
+                   </div>
+                   <!-- /.col -->
+                   <div class="col-md-3">
+                    <div class="box box-solid">
+                     <div class="box-header with-border">
+                      <h3 class="box-title">人员信息</h3>
+                       <div class="box-tools">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                       </div>
+                       <!-- /.box-tools -->
+                       </div>
+                     <div class="box-body no-padding box-messages">
+                      <ul class="nav nav-pills nav-stacked">
+                      <button type="button" class="btn btn-info" onclick='getCheck()'>查询</button>
+                      <table id="dataList1" class="table table-bordered table-hover tabTable">
+                              <thead>
+                                <tr>
+                                 <th>
+                                 <!-- Check all button -->
+                                  <button type="button" class="btn btn-default btn-sm checkbox-toggle">
+                                  <i class="fa fa-square-o"></i></button>
+                                  </th>
+                                  <th>编号</th>
+                                  <th>名称</th>
+                                  <th>位置</th>
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                {% for line in carrier_list %}
+                                <tr>
+                                  <td><input type="checkbox" value="{{line.id}}"></td>
+                                  <td style="word-break:break-all;" width="30px">{{line.carrier_num}}</td>
+                                  <td style="word-break:break-all;">{{line.carrier_name}}</td>
+                                  <td style="word-break:break-all;" width="50px"></td>
+                                  {% endfor %}
+                                </tr>
+                              </tbody>
+                            </table>
+                       
+                      </ul> 
+                     </div>
+                     <!-- /.box-body -->
+                    </div>
+                    <!-- /. box -->
+                   </div> 
+                   <!-- /.col -->
+                  </div>
+                  <!-- /.row -->
+                 </div>
+                 <!-- /.tab-content -->
+                </div> 
                 </div>
-                  <iframe src="map_real_time_monitoring" width="100%" height="550" frameborder="0" scrolling="no"></iframe>
-                </div>
-              </div>
-              <!-- /.tab-content -->
-            </div>
+               <!-- /.tab-content -->
+               </div>
             <!-- nav-tabs-custom -->
           </div>
           <!-- /.col -->
         </div>
-
+        <!-- /.row -->
       </section>
       <!-- /.content -->
-    </div>
-  </div>
-  <!-- /.tab-content -->
-  </div>
-  <!-- nav-tabs-custom -->
-  </div>
-  <!-- /.col -->
-  </div>
-
-  </section>
-  <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
@@ -371,19 +414,120 @@ desired effect
 
   <!-- jQuery 3 -->
   <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ry5Rs1651cU9c7mbAvdsfQP4VS7XnMYG"></script>
-  <script src="static/js/jquery.min.js"></script>
+  <script src="../../static/js/jquery.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
-  <script src="static/js/bootstrap.min.js"></script>
+  <script src="../../static/js/bootstrap.min.js"></script>
   <!-- DataTables -->
-  <script src="static/js/jquery.dataTables.min.js"></script>
-  <script src="static/js/dataTables.bootstrap.min.js"></script>
+  <script src="../../static/js/jquery.dataTables.min.js"></script>
+  <script src="../../static/js/dataTables.bootstrap.min.js"></script>
   <!-- AdminLTE App -->
-  <script src="static/js/adminlte.min.js"></script>
+  <script src="../../static/js/adminlte.min.js"></script>
   <!-- vue -->
-  <script src="static/js/vue.js"></script>
+  <script src="../../static/js/vue.js"></script>
+  <!-- FastClick -->
+  <script src="../../static/js/fastclick.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="../../static/js/demo.js"></script>
+  <!-- Select2 -->
+  <script src="../../static/js/select2.full.min.js"></script>
+  <!-- iCheck 1.0.1 -->
+  <script src="../../static/js/icheck.min.js"></script>
+  <!-- Slimscroll -->
+  <script src="../../static/js/jquery.slimscroll.min.js"></script>
+  <script src="../../static/js/csrf.js"></script>
 
   <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
+  <script> 
+    var map = new BMap.Map("allmap");
+	map.enableScrollWheelZoom();
+	map.centerAndZoom(new BMap.Point(116.404, 39.915), 13);
+	
+  $(document).ready(function(){
+              $.ajaxSetup({  
+                   data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
+              })  
+	})
+	
+	function getCheck(){
+		var arr=[];
+		$("input[type='checkbox']:checked").each(function(){ 
+		arr.push(this.value);
+		})
+		var ids = JSON.stringify(arr);//数组转换成json，都在了，数组和json
+		//alert(ids);
+	
+				  $.ajax({  
+                      type:"POST", 
+					  url: "http://127.0.0.1:8000/real_time_monitoring/canvas_realTime/", //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致,或者直接写http地址
+					  dataType: "JSON",   
+                      data:{ids:ids},
+						  //cache: false, 
+                      success: function(res){//成功时弹出view传回来的结果即后端处理函数中HttpResponse的返回值</span>
+						  //result = JSON.parse(result);
+						  var x=res.x;
+						  var y=res.y;
+						  var canvas=document.getElementById("map_canvas");
+						  if (canvas.getContext('2d')) {
+							  var context = canvas.getContext('2d');
+							  //开始路径
+							  context.beginPath();
+							  context.moveTo(x,y);
+							  context.lineTo(700,700);
+							  context.closePath();
+						  }else{
+							  console.log('当前浏览器不支持canvas');
+						  }
+					  },
+					  error: function(res){
+						  //请求失败回调  
+						  console.log('error');  
+                     }
+					  })
+		}
+	
+	
+  </script> 
+  <script>
+    $('#dataList1').DataTable({
+	  'paging'      : false,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : false,
+      'info'        : false,
+      "scrollY"     : "370px",
+	  "scrollCollapse": true,
+	  "sDom":'<"top"f<"clear">>t<"bottom"<"clear">>',
+	  
+		language:{
+			"sLengthMenu": "显示_MENU_项结果",
+			"sInfo": "显示第_START_至_END_项结果，共_TOTAL_项",
+			"sSearch": "搜索",
+			"sZeroRecords" : "对不起，没有匹配的数据",
+			"sInfoFiltered" : "(数据表中共 _MAX_ 条记录)", 
+			"oPaginate":{
+				"sPrevious": "上一页",
+				"sNext":"下一页"
+				}
+			}
+			})
+
+    //Enable check and uncheck all functionality
+    $(".checkbox-toggle").click(function () {
+      var clicks = $(this).data('clicks');
+      if (clicks) {
+        //Uncheck all checkboxes
+        $(".box-messages input[type='checkbox']").iCheck("uncheck");
+        $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+      } else {
+        //Check all checkboxes
+        $(".box-messages input[type='checkbox']").iCheck("check");
+        $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+      }
+      $(this).data("clicks", !clicks);
+    })
+
+  </script>
 </body>
 </html>

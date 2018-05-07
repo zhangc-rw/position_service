@@ -3,10 +3,34 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
 import json
-
+import re
 from carrier_management.models import Carrier
 from real_time_monitoring.models import Target
 from django.shortcuts import HttpResponse
+
+def real_time_monitoring(request):
+		carrier_list = Carrier.objects.all()#全部信息
+		return render(request,'real_time_monitoring.html',{'carrier_list':carrier_list})
+	    
+def canvas_realTime(request):
+
+    if request.method == "POST":
+    	ID_list  = request.POST.get('ids')
+    	print (ID_list)
+    	ID_list = re.findall(r"\d+\.?\d*",ID_list)#从字符串中取出数字
+    	print (ID_list)
+    	print (ID_list[0])
+    	target_list = []
+    	for ID in ID_list:
+	    	#t_list = Target.objects.filter(device__associated_carrier__carrier_num = ID)
+	    	t_list = Target.objects.filter(device__associated_carrier_id = ID)
+	    	#print(Target.coordinates)
+	    	for target in t_list:
+
+	    		target_list.append(target.coordinates)#全部信息
+    	print (target_list)
+    	return HttpResponse(json.dumps({'target_list':target_list}))
+
 def postdata(request):
 	if request.method == "POST":
 		ID  = request.POST.get('input')
@@ -60,11 +84,5 @@ def postdata1(request):
 		
 def track_the_playback(request):		
 	return render(request,'track_the_playback.html')
-def real_time_monitoring(request):		
-	return render(request,'real_time_monitoring.html')
-def map_real_time_monitoring(request):		
-	return render(request,'map_real_time_monitoring.html')
-def personnel_management_form(request):		
-	return render(request,'personnel_management_form.html')
 
 
