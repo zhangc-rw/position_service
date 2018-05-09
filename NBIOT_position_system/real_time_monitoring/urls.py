@@ -22,7 +22,7 @@ import carrier_management.views
 urlpatterns = [
 
     url(r'^track_the_playback/$', real_time_monitoring.views.track_the_playback),
-    url(r'^real_time_monitoring/$', real_time_monitoring.views.real_time_monitoring),
+    url(r'^real_time_monitoring/$', real_time_monitoring.views.real_time_monitoring,name='tiao'),
 
     url(r'^postdata/$', real_time_monitoring.views.postdata),
     url(r'^postdata1/$', real_time_monitoring.views.postdata1),

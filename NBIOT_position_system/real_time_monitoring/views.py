@@ -6,7 +6,12 @@ import json
 import re
 from carrier_management.models import Carrier
 from real_time_monitoring.models import Target
+from device_management.models import Device
 from django.shortcuts import HttpResponse
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+def old_real_time_monitoring(request):
+	return HttpResponseRedirect(reverse('tiao'))
 
 def real_time_monitoring(request):
 		carrier_list = Carrier.objects.all()#全部信息
@@ -24,12 +29,16 @@ def canvas_realTime(request):
     	for ID in ID_list:
 	    	#t_list = Target.objects.filter(device__associated_carrier__carrier_num = ID)
 	    	t_list = Target.objects.filter(device__associated_carrier_id = ID)
-	    	#print(Target.coordinates)
-	    	for target in t_list:
-
-	    		target_list.append(target.coordinates)#全部信息
+	    	#n = get(t_list)
+	    	if len(t_list) == 1 :
+	    		for target in t_list:
+	    			target_list.append(target.coordinates)
+	    	else:
+	    		target_list.append("")
+	    		#tar_list = Target.objects.filter(~Q(coordinates = None))
     	print (target_list)
-    	return HttpResponse(json.dumps({'target_list':target_list}))
+
+    return HttpResponse(json.dumps({'target_list':target_list}))
 
 def postdata(request):
 	if request.method == "POST":

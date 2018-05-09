@@ -22,7 +22,7 @@ import carrier_management.views
 urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
-    #url(r'^$', real_time_monitoring.views.real_time_monitoring),
+    url(r'^$', real_time_monitoring.views.old_real_time_monitoring),
     url(r'^real_time_monitoring/', include('real_time_monitoring.urls')),
     url(r'^carrier_management/', include('carrier_management.urls'))
     ]
