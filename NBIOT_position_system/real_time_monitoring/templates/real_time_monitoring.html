@@ -269,7 +269,7 @@ desired effect
                        </div>
                      <div class="box-body no-padding box-messages">
                       <ul class="nav nav-pills nav-stacked">
-                      <button type="button" class="btn btn-info" onclick='getCheck()'>查询</button>
+                      <!--<button type="button" class="btn btn-info" onclick='getCheck()'>查询</button>-->
                       <table id="dataList1" class="table table-bordered table-hover tabTable">
                               <thead>
                                 <tr>
@@ -286,12 +286,12 @@ desired effect
 
                               <tbody>
                                 {% for line in carrier_list %}
-                                <tr>
-                                  <td><input type="checkbox" value="{{line.id}}"></td>
+                                <tr name={{line.id}}>
+                                  <td><input type="checkbox" value="{{line.carrier_num}}"></td>
                                   <td style="word-break:break-all;" width="30px">{{line.carrier_num}}</td>
                                   <td style="word-break:break-all;">{{line.carrier_name}}</td>
                                   <td style="word-break:break-all;" width="50px"></td>
-                                  {% endfor %}
+                                {% endfor %}
                                 </tr>
                               </tbody>
                             </table>
@@ -388,10 +388,12 @@ desired effect
           <h3 class="control-sidebar-heading">General Settings</h3>
 
           <div class="form-group">
+          <!--
             <label class="control-sidebar-subheading">
               Report panel usage
               <input type="checkbox" class="pull-right" checked>
             </label>
+            -->
 
             <p>
               Some information about this general settings option
@@ -442,53 +444,96 @@ desired effect
   <script> 
     var map = new BMap.Map("allmap");
 	map.enableScrollWheelZoom();
-	map.centerAndZoom(new BMap.Point(116.404, 39.915), 13);
+	map.centerAndZoom(new BMap.Point(116.404,39.915), 13);
 	
-  $(document).ready(function(){
+	var P0 = [];//起始点的经纬度;
+	for(var i=0;i<1000;i++){
+		var P = new BMap.Point();//设定初值
+		P0.push(P);//给初始点赋初值
+		}	
+		//console.log(P)
+		//console.log(P0[0])
+		//console.log(P0[1])
+	var P1 = [];//终止点的经纬度
+	var marker = [];//设置变量，用于打点、去点
+		
+	$(document).ready(function(){
               $.ajaxSetup({  
                    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
-              })  
-	})
-	
+              }) 
+			  });
+		
 	function getCheck(){
 		var arr=[];
 		$("input[type='checkbox']:checked").each(function(){ 
+		//$("input[type='checkbox']:checked").each(function(i.e){ 
+		//console.log(e)
 		arr.push(this.value);
 		})
-		var ids = JSON.stringify(arr);//数组转换成json，都在了，数组和json
-		//alert(ids);
+		var nums = JSON.stringify(arr);//数组转换成json，都在了，数组和json
+		//alert(nums);
+		return nums;
+		};
+		
+	setInterval(function postID(){
+		
+		var nums = getCheck();
+		//console.log('fid:',fid);
+		
+		$.ajax({
+             type: "POST",
+             url: "http://127.0.0.1:8000/real_time_monitoring/canvas_realTime/", //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致,或者直接写http地址
+             dataType: "JSON",
+             data: {"nums":nums},
+			 traditional: true,
+			 //async:false,
+             //cache: false,
+             success: function (result) {//成功时弹出view传回来的结果即后端处理函数中HttpResponse的返回值</span>
+			 
+				for(var j=0;j<result.target_list.length;j++){
+					//alert(result.target_list.length)
+					//alert(String(result.target_list[i]))
+					
+					var data = String(result.target_list[j]);
+					//alert(data);
+					
+					var arr = data.split(",");
+					//alert(arr)
+					P1[j] = new BMap.Point(arr[0],arr[1]);//从后台读取的坐标
+					//console.log(P)
+					//console.log(P1[j])
+					//console.log(P0[j])
+					
+					if((P0[j].lng == P.lng) && (P0[j].lat == P.lat)){
+						P0[j]=P1[j];
+						marker[j] = new BMap.Marker(P1[j]);
+						map.addOverlay(marker[j]);//打点
+						}else{
+							map.removeOverlay(marker[j]);//去点
+							marker[j] = new BMap.Marker(P1[j]);
+							map.addOverlay(marker[j]);//打点
+							var polyline = new BMap.Polyline([P0[j],P1[j]], {
+								strokeColor: "red",//设置颜色
+            					strokeWeight: 3, //宽度
+            					strokeOpacity: 0.5 //透明度
+								});
+							map.addOverlay(polyline);//画线
+							
+							P0[j]=P1[j];
+							}
+						}
+					},
+			error: function (res) {
+				console.log('error');//请求失败回调
+				}
+				})
+		
+		
+	}
+	,8000);
 	
-				  $.ajax({  
-                      type:"POST", 
-					  url: "http://127.0.0.1:8000/real_time_monitoring/canvas_realTime/", //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致,或者直接写http地址
-					  dataType: "JSON",   
-                      data:{ids:ids},
-						  //cache: false, 
-                      success: function(res){//成功时弹出view传回来的结果即后端处理函数中HttpResponse的返回值</span>
-						  //result = JSON.parse(result);
-						  var x=res.x;
-						  var y=res.y;
-						  var canvas=document.getElementById("map_canvas");
-						  if (canvas.getContext('2d')) {
-							  var context = canvas.getContext('2d');
-							  //开始路径
-							  context.beginPath();
-							  context.moveTo(x,y);
-							  context.lineTo(700,700);
-							  context.closePath();
-						  }else{
-							  console.log('当前浏览器不支持canvas');
-						  }
-					  },
-					  error: function(res){
-						  //请求失败回调  
-						  console.log('error');  
-                     }
-					  })
-		}
-	
-	
-  </script> 
+  </script>
+ 
   <script>
     $('#dataList1').DataTable({
 	  'paging'      : false,
@@ -528,6 +573,6 @@ desired effect
       $(this).data("clicks", !clicks);
     })
 
-  </script>
+</script>
 </body>
 </html>

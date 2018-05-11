@@ -20,23 +20,20 @@ def real_time_monitoring(request):
 def canvas_realTime(request):
 
     if request.method == "POST":
-    	ID_list  = request.POST.get('ids')
-    	print (ID_list)
-    	ID_list = re.findall(r"\d+\.?\d*",ID_list)#从字符串中取出数字
-    	print (ID_list)
-    	print (ID_list[0])
+    	Num_list  = request.POST.get('nums')
+    	#print (Num_list)
+    	Num_list = re.findall(r"\d+\.?\d*",Num_list)#从字符串中取出数字
+    	#print (Num_list)
+    	#print (Num_list[0])
     	target_list = []
-    	for ID in ID_list:
-	    	#t_list = Target.objects.filter(device__associated_carrier__carrier_num = ID)
-	    	t_list = Target.objects.filter(device__associated_carrier_id = ID)
-	    	#n = get(t_list)
+    	for Num in Num_list:
+	    	t_list = Target.objects.filter(device__associated_carrier__carrier_num = Num)
 	    	if len(t_list) == 1 :
 	    		for target in t_list:
 	    			target_list.append(target.coordinates)
 	    	else:
 	    		target_list.append("")
-	    		#tar_list = Target.objects.filter(~Q(coordinates = None))
-    	print (target_list)
+    	#print (target_list)
 
     return HttpResponse(json.dumps({'target_list':target_list}))
 
@@ -55,7 +52,7 @@ def postdata(request):
 			detailed_list.append(carrier.identity_num)
 			detailed_list.append(carrier.sex)		
 			detailed_list.append(carrier.birthday.strftime('%Y-%m-%d'))
-			detailed_list.append(carrier.nationality)
+			detailed_list.append(carrier.nationality)  
 			detailed_list.append(carrier.work_unit)
 
 
