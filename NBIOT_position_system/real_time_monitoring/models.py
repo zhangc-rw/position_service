@@ -18,7 +18,7 @@ class Target(models.Model):
     #定位时间
     location_time = models.DateTimeField()
     #当前坐标
-    coordinates = models.CharField(max_length=60,default='116.404,39.915')
+    coordinates = models.CharField(max_length=60)
     #速度
     velocity = models.FloatField(default=0)
     #运动方向
