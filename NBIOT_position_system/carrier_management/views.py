@@ -15,6 +15,7 @@ def PandG_management(request):
 		carrier_list_person = Carrier.objects.filter(carrier_type__gte = 1,carrier_type__lte = 100)#筛选小于多少
 		return render(request,'PandG_management.html',{'carrier_list_person':carrier_list_person,'carrier_list_gun':carrier_list_gun})
 
+from django.core.exceptions import ObjectDoesNotExist   
 #人员及枪支增加
 def add_form_PG(request):
 	if request.method == "POST":	
@@ -35,9 +36,16 @@ def add_form_PG(request):
 		work_unit  = request.POST['work_unit']
 		remarks  = request.POST['remarks']
 		#存储各项数据
-		b_list = Carrier(carrier_num=carrier_num,carrier_name=carrier_name,carrier_type=carrier_type,identity_num=identity_num ,sex=sex,birthday=birthday,nationality=nationality,work_unit=work_unit,remarks=remarks)
+		try:
+			c_list = Carrier.objects.get(carrier_num=carrier_num)
+			return HttpResponseRedirect('/carrier_management/personnel_management_form')
+		except ObjectDoesNotExist:
+			b_list = Carrier(carrier_num=carrier_num,carrier_name=carrier_name,carrier_type=carrier_type,identity_num=identity_num ,sex=sex,birthday=birthday,nationality=nationality,work_unit=work_unit,remarks=remarks)
+			b_list.save()
+			return HttpResponseRedirect('/carrier_management/PandG_management')
+		'''b_list = Carrier(carrier_num=carrier_num,carrier_name=carrier_name,carrier_type=carrier_type,identity_num=identity_num ,sex=sex,birthday=birthday,nationality=nationality,work_unit=work_unit,remarks=remarks)
 		b_list.save()
-		return HttpResponseRedirect('/carrier_management/PandG_management')
+		return HttpResponseRedirect('/carrier_management/PandG_management')'''
 
 #人员及枪支删除
 def delete_form_PG(request,aid):

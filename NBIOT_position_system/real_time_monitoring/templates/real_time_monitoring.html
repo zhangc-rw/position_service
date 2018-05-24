@@ -290,7 +290,7 @@ desired effect
                                   <td><input type="checkbox" value="{{line.carrier_num}}"></td>
                                   <td style="word-break:break-all;" width="30px">{{line.carrier_num}}</td>
                                   <td style="word-break:break-all;">{{line.carrier_name}}</td>
-                                  <td style="word-break:break-all;" width="50px"></td>
+                                  <td id="coordinate" style="word-break:break-all;" width="50px"></td>
                                 {% endfor %}
                                 </tr>
                               </tbody>
@@ -456,6 +456,7 @@ desired effect
 		//console.log(P0[1])
 	var P1 = [];//终止点的经纬度
 	var marker = [];//设置变量，用于打点、去点
+	var data = [];//设置变量，用于存放传回的坐标
 		
 	$(document).ready(function(){
               $.ajaxSetup({  
@@ -494,11 +495,13 @@ desired effect
 					//alert(result.target_list.length)
 					//alert(String(result.target_list[i]))
 					
-					var data = String(result.target_list[j]);
-					//alert(data);
+					data[j] = String(result.target_list[j]);
+					//alert(data[j]);
+					$("#coordinate").html(data[j]); 
 					
-					var arr = data.split(",");
-					//alert(arr)
+					var arr = data[j].split(",");
+					//alert(arr[0])
+					
 					P1[j] = new BMap.Point(arr[0],arr[1]);//从后台读取的坐标
 					//console.log(P)
 					//console.log(P1[j])
@@ -506,6 +509,7 @@ desired effect
 					
 					if((P0[j].lng == P.lng) && (P0[j].lat == P.lat)){
 						P0[j]=P1[j];
+						//map.centerAndZoom(P0[0], 13);
 						marker[j] = new BMap.Marker(P1[j]);
 						map.addOverlay(marker[j]);//打点
 						}else{

@@ -15,25 +15,30 @@ def old_real_time_monitoring(request):
 
 def real_time_monitoring(request):
 		carrier_list = Carrier.objects.all()#全部信息
+		#carrier_list_js = Carrier.objects.all()#全部信息
 		return render(request,'real_time_monitoring.html',{'carrier_list':carrier_list})
-	    
+from django.core.exceptions import ObjectDoesNotExist    
 def canvas_realTime(request):
 
     if request.method == "POST":
     	Num_list  = request.POST.get('nums')
     	#print (Num_list)
     	Num_list = re.findall(r"\d+\.?\d*",Num_list)#从字符串中取出数字
-    	#print (Num_list)
+    	print (Num_list)
     	#print (Num_list[0])
     	target_list = []
     	for Num in Num_list:
-	    	t_list = Target.objects.filter(device__associated_carrier__carrier_num = Num)
-	    	if len(t_list) == 1 :
+    		try:
+    			t_list = Target.objects.get(device__associated_carrier__carrier_num = Num)
+	    		target_list.append(t_list.coordinates)
+	    	except ObjectDoesNotExist:
+	    		target_list.append("")
+	    	'''if len(t_list) == 1 :
 	    		for target in t_list:
 	    			target_list.append(target.coordinates)
 	    	else:
-	    		target_list.append("")
-    	#print (target_list)
+	    		target_list.append("")'''
+    	print (target_list)
 
     return HttpResponse(json.dumps({'target_list':target_list}))
 
