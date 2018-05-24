@@ -85,6 +85,18 @@ DATABASES = {
 }
 
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',   # 数据库引擎
+#        'NAME': 'mydata',       # 你要存储数据的库名，事先要创建之
+#        'USER': 'root',         # 数据库用户名
+#        'PASSWORD': '123456',     # 密码
+#        'HOST': '172.20.10.7',    # 主机
+#        'PORT': '3306',         # 数据库使用的端口
+#    }
+#}
+
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
