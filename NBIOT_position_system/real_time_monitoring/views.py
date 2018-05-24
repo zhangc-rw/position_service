@@ -15,7 +15,6 @@ def old_real_time_monitoring(request):
 
 def real_time_monitoring(request):
 		carrier_list = Carrier.objects.all()#全部信息
-		#carrier_list_js = Carrier.objects.all()#全部信息
 		return render(request,'real_time_monitoring.html',{'carrier_list':carrier_list})
 from django.core.exceptions import ObjectDoesNotExist    
 def canvas_realTime(request):
