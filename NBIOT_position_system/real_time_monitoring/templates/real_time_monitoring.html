@@ -270,7 +270,7 @@ desired effect
                      <div class="box-body no-padding box-messages">
                       <ul class="nav nav-pills nav-stacked">
                       <!--<button type="button" class="btn btn-info" onclick='getCheck()'>查询</button>-->
-                      <table id="dataList1" class="table table-bordered table-hover tabTable">
+                      <table id="dataList" class="table table-bordered table-hover tabTable">
                               <thead>
                                 <tr>
                                  <th>
@@ -286,12 +286,12 @@ desired effect
 
                               <tbody>
                                 {% for line in carrier_list %}
-                                <tr name={{line.id}}>
-                                  <td><input type="checkbox" value="{{line.carrier_num}}"></td>
+                                <tr name={{line.carrier_num}}>
+                                  <td><input type="checkbox" value="{{line.carrier_num}}={{line.carrier_type}}"></td>
                                   <td style="word-break:break-all;" width="30px">{{line.carrier_num}}</td>
                                   <td style="word-break:break-all;">{{line.carrier_name}}</td>
-                                  <td id="coordinate" style="word-break:break-all;" width="50px"></td>
-                                {% endfor %}
+                                  <td id="coor" style="word-break:break-all;" width="50px"></td>
+                                {% endfor %} 
                                 </tr>
                               </tbody>
                             </table>
@@ -443,44 +443,103 @@ desired effect
      user experience. -->
   <script> 
     var map = new BMap.Map("allmap");
-	map.enableScrollWheelZoom();
-	map.centerAndZoom(new BMap.Point(116.404,39.915), 13);
+	map.enableScrollWheelZoom();//滑动滚轮进行缩放
+	map.centerAndZoom(new BMap.Point(116.404,39.915), 13);//设置中心点，此处默认为天安门广场
+	//var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/fox.gif", new BMap.Size(300,157));  //定义自己的标注
+	//var Icon_person = new BMap.Icon("../../static/img/person.png", new BMap.Size(500,257));  //定义自己的标注—人
+	//var Icon_gun = new BMap.Icon("../../static/img/gun.png", new BMap.Size(500,257));  //定义自己的标注—枪
 	
-	var P0 = [];//起始点的经纬度;
-	for(var i=0;i<1000;i++){
-		var P = new BMap.Point();//设定初值
-		P0.push(P);//给初始点赋初值
-		}	
-		//console.log(P)
-		//console.log(P0[0])
-		//console.log(P0[1])
+	//map方法，设置索引
+	var P0 = new Map();//起始点的经纬度，将P0坐标添加到map
+	var marker = new Map();////设置变量，用于打点、去点
+		for(var i=0;i<1000;i++){
+			var P = new BMap.Point();//符合百度api的经纬坐标
+			P0.set(i,P);//给初始点set值
+			var M = new BMap.Marker();//符合百度api的打点方法
+			marker.set(i,M);//给初始点set值
+			}
+		//console.log(P0)
+		//console.log(P0.get(7))
 	var P1 = [];//终止点的经纬度
-	var marker = [];//设置变量，用于打点、去点
-	var data = [];//设置变量，用于存放传回的坐标
+	var data = [];//设置变量，用于存放有ajax传回的坐标
+	var isFirst = 1;//加载页面时，以第一个勾选的点为中心显示，只执行一次
 		
 	$(document).ready(function(){
               $.ajaxSetup({  
                    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
               }) 
 			  });
-		
-	function getCheck(){
+			  
+	//识别页面打钩项，获取carrier_num
+	function getCheck_nums(){
 		var arr=[];
+		var nums_ori=[];
+		//获取状态为checked的value
 		$("input[type='checkbox']:checked").each(function(){ 
 		//$("input[type='checkbox']:checked").each(function(i.e){ 
 		//console.log(e)
-		arr.push(this.value);
+		arr.push(this.value);//将value通过push方法放入arr数组
 		})
-		var nums = JSON.stringify(arr);//数组转换成json，都在了，数组和json
-		//alert(nums);
-		return nums;
+		//console.log(arr)
+		for(var k=0;k<arr.length;k++){
+			var numstype = arr[k].split("=");//通过设置的“=”进行拆分
+			//console.log(numstype)
+			nums_ori[k] = numstype[0];//第一项是carrier_num
+            //console.log(nums_ori)
+            } 
+		return nums_ori;
+		};
+	
+	//识别页面打钩项，获取carrier_type
+	function getCheck_type(){
+		var arr=[];
+		var type_ori=[];
+		//获取状态为checked的value
+		$("input[type='checkbox']:checked").each(function(){
+		arr.push(this.value);//将value通过push方法放入arr数组
+		})
+		for(var k=0;k<arr.length;k++){
+			var numstype = arr[k].split("=");//通过设置的“=”进行拆分
+			type_ori[k] = numstype[1];//第二项是carrier_type
+			var type = JSON.parse('[' + type_ori + ']');//将字符串数组转为数值数组
+            } 
+		//console.log(type_ori)
+		return type;
 		};
 		
+	//识别页面打钩项，获取所需信息，实现气泡弹窗功能
+	function getCheck_nums(){
+		var arr=[];
+		var nums_ori=[];
+		//获取状态为checked的value
+		$("input[type='checkbox']:checked").each(function(){ 
+		//$("input[type='checkbox']:checked").each(function(i.e){ 
+		//console.log(e)
+		arr.push(this.value);//将value通过push方法放入arr数组
+		})
+		//console.log(arr)
+		for(var k=0;k<arr.length;k++){
+			var numstype = arr[k].split("=");//通过设置的“=”进行拆分
+			//console.log(numstype)
+			nums_ori[k] = numstype[0];//第一项是carrier_num
+            //console.log(nums_ori)
+            } 
+		return nums_ori;
+		};
+
+    //定时器，每隔一段时间遍历列表
 	setInterval(function postID(){
 		
-		var nums = getCheck();
-		//console.log('fid:',fid);
+		var nums_ori = getCheck_nums();//获取通过getCheck_nums()得到的nums_ori
+		//console.log(nums_ori);
+		var nums = JSON.stringify(nums_ori);//数组转换成json，这样使用ajax传递
+		//console.log(nums)
+		var Nums = JSON.parse('[' + nums_ori + ']');//将字符串数组转为数值数组，这样才能提取使用
+		//console.log(Nums);
+		var type = getCheck_type();//获取通过getCheck_type()得到的type
+		//console.log(type)
 		
+		//ajax方法实现前后端交互
 		$.ajax({
              type: "POST",
              url: "http://127.0.0.1:8000/real_time_monitoring/canvas_realTime/", //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致,或者直接写http地址
@@ -490,56 +549,90 @@ desired effect
 			 //async:false,
              //cache: false,
              success: function (result) {//成功时弹出view传回来的结果即后端处理函数中HttpResponse的返回值</span>
-			 
+	
 				for(var j=0;j<result.target_list.length;j++){
 					//alert(result.target_list.length)
 					//alert(String(result.target_list[i]))
-					
-					data[j] = String(result.target_list[j]);
+					data[j] = String(result.target_list[j]);//将传回的list转为字符串
 					//alert(data[j]);
-					$("#coordinate").html(data[j]); 
 					
-					var arr = data[j].split(",");
+					var arr = data[j].split(",");//通过设置的","进行拆分，获得经纬度
 					//alert(arr[0])
 					
-					P1[j] = new BMap.Point(arr[0],arr[1]);//从后台读取的坐标
+					P1[j] = new BMap.Point(arr[0],arr[1]);//从后台读取的坐标，百度api格式
 					//console.log(P)
 					//console.log(P1[j])
-					//console.log(P0[j])
-					
-					if((P0[j].lng == P.lng) && (P0[j].lat == P.lat)){
-						P0[j]=P1[j];
-						//map.centerAndZoom(P0[0], 13);
-						marker[j] = new BMap.Marker(P1[j]);
-						map.addOverlay(marker[j]);//打点
-						}else{
-							map.removeOverlay(marker[j]);//去点
-							marker[j] = new BMap.Marker(P1[j]);
-							map.addOverlay(marker[j]);//打点
-							var polyline = new BMap.Polyline([P0[j],P1[j]], {
-								strokeColor: "red",//设置颜色
+					//console.log(P0.get(j))
+					//console.log(P0.get(nums[j]))
+					if(((P0.get(Nums[j])).lng == P.lng) && ((P0.get(Nums[j])).lat == P.lat)){//get获取值，判断坐标是否为空
+						P0.set(Nums[j],P1[j]);//将P1[j]赋值给P0(Nums[j])，作为起点
+						//console.log(P0)
+						//只操作一次，加载页面时，以第一个勾选的点为中心显示
+						if(isFirst==1){
+							map.centerAndZoom(P0.get(Nums[0]), 13);
+							isFirst = 0;
+							}
+						//区分打点样式
+						if((type[j] >= 1) && (type[j] <= 100)){
+							marker.set(Nums[j],new BMap.Marker(P1[j]));//将BMap.Marker P1[j]赋值给marker(Nums[j])
+							map.addOverlay(marker.get(Nums[j]));//打点
+						}else if((type[j] > 100) && (type[j] <= 200)){
+							marker.set(Nums[j],new BMap.Marker(P1[j]));
+							map.addOverlay(marker.get(Nums[j]));//打点
+							}
+					}else{
+						map.removeOverlay(marker.get(Nums[j]));//去点
+						//区分打点样式和画线颜色
+						if((type[j] >= 1) && (type[j] <= 100)){
+							marker.set(Nums[j],new BMap.Marker(P1[j]));
+							map.addOverlay(marker.get(Nums[j]));//打点
+							//设置线的样式
+							var polyline = new BMap.Polyline([P0.get(Nums[j]),P1[j]], {
+								strokeColor: "red",//设置颜色，人为红色
             					strokeWeight: 3, //宽度
             					strokeOpacity: 0.5 //透明度
 								});
-							map.addOverlay(polyline);//画线
-							
-							P0[j]=P1[j];
+						}else if((type[j] > 100) && (type[j] <= 200)){
+							marker.set(Nums[j],new BMap.Marker(P1[j]));
+							map.addOverlay(marker.get(Nums[j]));//打点
+							var polyline = new BMap.Polyline([P0.get(Nums[j]),P1[j]], {
+								strokeColor: "blue",//设置颜色，枪为蓝色
+            					strokeWeight: 3, //宽度
+            					strokeOpacity: 0.5 //透明度
+								});
 							}
+							map.addOverlay(polyline);//画线
+							P0.set(Nums[j],P1[j]);//将P1[j]赋值给P0(Nums[j])
+						  }	
 						}
+						//console.log(data)
+						//for(var k=0;k<data.length;k++){
+							//$("input[type='checkbox']:checked").html(data[k]); 
+						//}
 					},
-			error: function (res) {
-				console.log('error');//请求失败回调
-				}
-				})
-		
-		
-	}
-	,8000);
-	
+			 error: function (res) {
+				 console.log('error');//请求失败回调
+					}
+			 })
+	 }
+    ,5000);	
   </script>
- 
+  
+  <!--<script>
+    //双击列表，显示到当前对应点，待测试
+	alert 
+    $("#dataList tr").bind("dblclick",function(){
+	    //map.centerAndZoom(P0["name"], 13);
+	    //P0.set(Nums[j],P1[j]);//将P1[j]赋值给P0(Nums[j])
+	    //console.log(P0)
+	    map.centerAndZoom(P1["name"], 13);
+	  });
+  </script>
+  -->
+  
   <script>
-    $('#dataList1').DataTable({
+    //设置列表的样式，将模板中的英文翻译为中文
+    $('#dataList').DataTable({
 	  'paging'      : false,
       'lengthChange': false,
       'searching'   : true,
@@ -562,7 +655,7 @@ desired effect
 			}
 			})
 
-    //Enable check and uncheck all functionality
+    //checkBox中的选择、全选、全不选功能
     $(".checkbox-toggle").click(function () {
       var clicks = $(this).data('clicks');
       if (clicks) {
@@ -576,7 +669,6 @@ desired effect
       }
       $(this).data("clicks", !clicks);
     })
-
-</script>
+  </script>
 </body>
 </html>
