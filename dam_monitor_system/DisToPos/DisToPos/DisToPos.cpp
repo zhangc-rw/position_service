@@ -1,8 +1,6 @@
 #include "StdAfx.h"
 #include "DisToPos.h"
 #include <windows.h>
-#include <cstring>
-#include <string.h>
 
 
 
