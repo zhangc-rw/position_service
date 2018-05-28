@@ -9,31 +9,33 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	int i = 0;
+	int my_temp = 0;
+	
 	ANCHOR_INFO info;
 	CDisToPos test;
 	POSITION_3D pos_t;
-	int my_temp = 0;
 	pos_t.x = 2;
 	pos_t.y = 3;
 	pos_t.z = 4;
 	double dis_list[4] = {4.14,5.13,5.0,4.9};
-	int i = 0;
 
 	my_temp = test.Init();
 
 	my_temp = test.GetAnchorInfo(&info);
 
-//	my_temp = test.SetAnchorPos(1, pos_t);
+	//	my_temp = test.SetAnchorPos(1, pos_t);
 
 	my_temp = test.DoDisToPos(4, dis_list, &pos_t);
 
 	my_temp = test.UpdateAnchorPos();
 
 	my_temp = test.SetAnchorCount(4);
+	
 
 	while (1)
 	{
-		my_temp = dis_to_pos_matlabInitialize();
+//		my_temp = dis_to_pos_matlabInitialize();
 		if (my_temp)    //必须的要初始化，格式为  名字Initialize()
 		{
 			printf("success!\n");

@@ -2,6 +2,7 @@
 #include "DisToPos.h"
 #include <windows.h>
 #include "dis_to_pos_matlab.h"
+#include <math.h>
 
 
 
@@ -17,13 +18,25 @@ CDisToPos::CDisToPos(void)
 
 CDisToPos::~CDisToPos(void)
 {
-
+	//判断是否初始化
+	if (m_IfInit != 0)
+	{
+		dis_to_pos_matlabTerminate();
+		m_IfInit = 0;
+	}
 }
 
 // 初始化配置
 int CDisToPos::Init()
 {
 	int my_temp = 0;
+
+	//判断是否初始化
+	if (m_IfInit == 1)
+	{
+		return 0;
+	}
+
 	my_temp = UpdateAnchorPos();
 	if (my_temp != 0)
 	{
@@ -39,6 +52,7 @@ int CDisToPos::Init()
 	m_IfInit = 1;
 	return 0;
 }
+
 
 
 
@@ -168,11 +182,16 @@ int CDisToPos::DoDisToPos(int dis_count, double *dis_list, POSITION_3D *pos)
 
 	//调用DLL函数
 	dis_to_pos_matlab(1,xyz,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,da,db,dc,dd);
+	
+	//判断执行是否出错（输出是否为非数NAN）
+	if (!(_finite(xyz.Get(1,1))))
+	{
+		return ERROR_TRANS_WRONG;
+	}
 
 	pos->x = xyz.Get(1,1);
 	pos->y = xyz.Get(1,2);
 	pos->z = xyz.Get(1,3);
-
 
 	return 0;
 }

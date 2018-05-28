@@ -8,6 +8,7 @@
 #define ERROR_ANCHOR_POS_NOT_FOUND 0x00000002	//基站位置未找到
 #define ERROR_NOT_INIT 0x00000003	//未初始化
 #define ERROR_INDEX_NOT_RANGE 0x00000004	//输入索引不在范围
+#define ERROR_TRANS_WRONG 0x00000005	//由于基站坐标和距离引起的不能转换
 
 #define MAX_ANCHOR 20
 
