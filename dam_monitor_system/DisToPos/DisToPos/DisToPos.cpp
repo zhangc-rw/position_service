@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "DisToPos.h"
 #include <windows.h>
+#include "dis_to_pos_matlab.h"
 
 
 
@@ -28,6 +29,13 @@ int CDisToPos::Init()
 	{
 		return my_temp;
 	}
+
+	my_temp = dis_to_pos_matlabInitialize();
+	if (my_temp == 0)
+	{
+		return 1;
+	}
+
 	m_IfInit = 1;
 	return 0;
 }
@@ -92,6 +100,42 @@ int CDisToPos::SetAnchorPos(int index, POSITION_3D pos)
 //执行根据距离计算坐标
 int CDisToPos::DoDisToPos(int dis_count, double *dis_list, POSITION_3D *pos)
 {
+	//定义mwArray类型变量，用于存放矩阵
+	mwArray x1(1,1,mxDOUBLE_CLASS);
+	mwArray x2(1,1,mxDOUBLE_CLASS);
+	mwArray x3(1,1,mxDOUBLE_CLASS);
+	mwArray x4(1,1,mxDOUBLE_CLASS);
+	mwArray x5(1,1,mxDOUBLE_CLASS);
+	mwArray x6(1,1,mxDOUBLE_CLASS);
+	mwArray x7(1,1,mxDOUBLE_CLASS);
+	mwArray x8(1,1,mxDOUBLE_CLASS);
+	mwArray x9(1,1,mxDOUBLE_CLASS);
+	mwArray x10(1,1,mxDOUBLE_CLASS);
+	mwArray x11(1,1,mxDOUBLE_CLASS);
+	mwArray x12(1,1,mxDOUBLE_CLASS);
+	mwArray da(1,1,mxDOUBLE_CLASS);
+	mwArray db(1,1,mxDOUBLE_CLASS);
+	mwArray dc(1,1,mxDOUBLE_CLASS);
+	mwArray dd(1,1,mxDOUBLE_CLASS);
+	mwArray xyz(3,1,mxDOUBLE_CLASS);
+
+	double nu1[] = {m_AnchorPosList[0].x};
+	double nu2[] = {m_AnchorPosList[0].y};
+	double nu3[] = {m_AnchorPosList[0].z};
+	double nu4[] = {m_AnchorPosList[1].x};
+	double nu5[] = {m_AnchorPosList[1].y};
+	double nu6[] = {m_AnchorPosList[1].z};
+	double nu7[] = {m_AnchorPosList[2].x};
+	double nu8[] = {m_AnchorPosList[2].y};
+	double nu9[] = {m_AnchorPosList[2].z};
+	double nu10[] = {m_AnchorPosList[3].x};
+	double nu11[] = {m_AnchorPosList[3].y};
+	double nu12[] = {m_AnchorPosList[3].z};
+	double nuda[] = {dis_list[0]};
+	double nudb[] = {dis_list[1]};
+	double nudc[] = {dis_list[2]};
+	double nudd[] = {dis_list[3]};
+
 	//判断是否初始化
 	if (m_IfInit == 0)
 	{
@@ -104,7 +148,30 @@ int CDisToPos::DoDisToPos(int dis_count, double *dis_list, POSITION_3D *pos)
 		return ERROR_ANCHOR_COUNT;
 	}
 
-	//调用matlab函数处理
+	//给输入 mxArray 对象赋值
+	x1.SetData(nu1,1);
+	x2.SetData(nu2,1);
+	x3.SetData(nu3,1);
+	x4.SetData(nu4,1);
+	x5.SetData(nu5,1);
+	x6.SetData(nu6,1);
+	x7.SetData(nu7,1);
+	x8.SetData(nu8,1);
+	x9.SetData(nu9,1);
+	x10.SetData(nu10,1);
+	x11.SetData(nu11,1);
+	x12.SetData(nu12,1);
+	da.SetData(nuda,1);
+	db.SetData(nudb,1);
+	dc.SetData(nudc,1);
+	dd.SetData(nudd,1);
+
+	//调用DLL函数
+	dis_to_pos_matlab(1,xyz,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,da,db,dc,dd);
+
+	pos->x = xyz.Get(1,1);
+	pos->y = xyz.Get(1,2);
+	pos->z = xyz.Get(1,3);
 
 
 	return 0;
@@ -161,7 +228,7 @@ int CDisToPos::UpdateAnchorPos()
 			TcharToChar(temp_anchor_pos_T, temp_anchor_pos);
 			m_AnchorPosList[i].x = atof(temp_anchor_pos);
 
-			sprintf_s(temp_anchor_name, "A_%d_X", i);
+			sprintf_s(temp_anchor_name, "A_%d_Y", i);
 			CharToTchar(temp_anchor_name, temp_anchor_name_T);
 			GetPrivateProfileString(TEXT("Anchor_Pos"), temp_anchor_name_T, _TEXT("NA"), temp_anchor_pos_T, 128, _TEXT(TRANS_CONF_FILE_PATH));
 			if (_tcscmp(temp_anchor_pos_T, _TEXT("NA")) == 0)
@@ -202,7 +269,7 @@ int CDisToPos::UpdateAnchorPos()
 			TcharToChar(temp_anchor_pos_T, temp_anchor_pos);
 			m_AnchorPosList[i].x = atof(temp_anchor_pos);
 
-			sprintf_s(temp_anchor_name, "A_%d_X", i);
+			sprintf_s(temp_anchor_name, "A_%d_Y", i);
 			CharToTchar(temp_anchor_name, temp_anchor_name_T);
 			GetPrivateProfileString(TEXT("Anchor_Pos"), temp_anchor_name_T, _TEXT("NA"), temp_anchor_pos_T, 128, _TEXT(TRANS_CONF_FILE_PATH));
 			if (_tcscmp(temp_anchor_pos_T, _TEXT("NA")) == 0)
@@ -292,8 +359,8 @@ int CDisToPos::GetAnchorInfo(ANCHOR_INFO *info)
 void CDisToPos::CharToTchar(const char * _char, TCHAR * tchar)
 {
 	int iLength;
-	iLength = MultiByteToWideChar(CP_ACP, 0, _char, strlen(_char) + 1, NULL, 0);
-	MultiByteToWideChar(CP_ACP, 0, _char, strlen(_char) + 1, tchar, iLength);
+	iLength = MultiByteToWideChar(CP_ACP, 0, _char, (int)strlen(_char) + 1, NULL, 0);
+	MultiByteToWideChar(CP_ACP, 0, _char, (int)strlen(_char) + 1, tchar, iLength);
 }
 
 void CDisToPos::TcharToChar(const TCHAR * tchar, char * _char)

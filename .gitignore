@@ -97,3 +97,36 @@ ENV/
 
 # mypy
 .mypy_cache/
+NBIOT_position_system/db.sqlite3
+dam_monitor_system/DisToPos/Debug/DisToPos.exe
+*.ilk
+*.pdb
+*.opensdf
+*.sdf
+*.tlog
+*.res
+*.lastbuildstate
+*.obj
+*.pch
+*.cache
+*.rc
+*.idb
+*.ipch
+*.ini
+*.suo
+*.suo
+*.sln
+*.sln
+*.sln
+*.sln
+*.suo
+*.unsuccessfulbuild
+*.vcxproj
+*.filters
+*.filters
+*.filters
+*.def
+*.exp
+*.exports
+*.txt
+*.sln
