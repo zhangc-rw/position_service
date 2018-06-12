@@ -16,15 +16,17 @@ class Order(models.Model):
 	def __str__(self):
 		return self.dam.dam_num
 		
-class Parameter(models.Model):
+class Dam_Parameter(models.Model):
 	#大坝编号
 	dam = models.ForeignKey(Dam,null=True)
 	#更新时间
 	update_time = models.DateTimeField(auto_now=True,null=True)
-	#指令类型
+	#参数
+	parameter_data  = models.IntegerField(null=True)
+	'''#参数类型
 	parameter_type = models.IntegerField(null=True)
-	#指令数据
-	parameter_data = models.IntegerField(null=True)
+	#参数数据
+	parameter_data = models.IntegerField(null=True)'''
 
 	def __str__(self):
 		return self.dam.dam_num

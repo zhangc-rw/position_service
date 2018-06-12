@@ -4,6 +4,7 @@ from Warning_management.models import WPast
 from django.http import HttpResponse
 from django.http import JsonResponse
 # Create your views here.
+#实时告警信息
 def WReal_management(request):
 	W_list = WReal.objects.all()
 	WReal_list = []
@@ -16,10 +17,10 @@ def WReal_management(request):
 	print(WReal_list)	
 	WReal.objects.all().delete()
 	return HttpResponse(json.dumps({'WReal_list':WReal_list}))
-	#return render(request,'label_management.html',{'WReal_list':WReal_list})
+	#return render(request,'label_detail.html',{'WReal_list':WReal_list})
 	#return HttpResponseRedirect('/XXX/XXX')
 	
-
+#历史告警信息
 def WPast_management(request):
 	WPast_list = WPast.objects.all()
 	return render(request,'XXX.html',{'WPast_list':WPast_list})
