@@ -15,7 +15,7 @@ class WReal(models.Model):
 
 
 	def __str__(self):
-		return self.device.dam.dam_num
+		return str(self.device.dam.dam_num)
 
 class WPast(models.Model):
 	#设备编号
@@ -30,4 +30,4 @@ class WPast(models.Model):
 	Logo = models.FloatField(null=True)
 	
 	def __str__(self):
-		return self.device.dam.dam_num
+		return str(self.device.dam.dam_num)

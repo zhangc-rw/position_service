@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-import Warning_management.views
+import Order_management.views
 
 urlpatterns = [
-    url(r'^WReal_management/$', Warning_management.views.WReal_management),
-    url(r'^WPast_management/$', Warning_management.views.WPast_management),
+    url(r'^XXX_management/$', Order_management.views.XXX_management),
+    url(r'^add_form_Order/$', Order_management.views.add_form_Order),
+    url(r'^add_form_Dam_Parameter/$', Order_management.views.add_form_Dam_Parameter),
 ]

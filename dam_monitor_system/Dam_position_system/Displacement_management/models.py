@@ -21,6 +21,10 @@ class DReal(models.Model):
 	d6 = models.FloatField(null=True)
 	d7 = models.FloatField(null=True)
 	d8 = models.FloatField(null=True)
+	#当前位置坐标
+	x = models.FloatField(null=True)
+	y = models.FloatField(null=True)
+	z = models.FloatField(null=True)
 	#位移
 	d  = models.FloatField(null=True,default=0)
 	dx = models.FloatField(null=True,default=0)
@@ -28,7 +32,7 @@ class DReal(models.Model):
 	dz = models.FloatField(null=True,default=0)
 
 	def __str__(self):
-		return self.device.dam.dam_num
+		return str(self.device.dam.dam_num)
 
 class DPast(models.Model):
 	#设备编号
@@ -61,4 +65,4 @@ class DPast(models.Model):
 	dz = models.FloatField(null=True,default=0)
 
 	def __str__(self):
-		return self.device.dam.dam_num
+		return str(self.device.dam.dam_num)

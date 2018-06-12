@@ -15,9 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-import Warning_management.views
+import Dam_Device_management.views
 
 urlpatterns = [
-    url(r'^WReal_management/$', Warning_management.views.WReal_management),
-    url(r'^WPast_management/$', Warning_management.views.WPast_management),
+    url(r'^XXX_management/$', Dam_Device_management.views.XXX_management),
+    url(r'^add_form_Dam/$', Dam_Device_management.views.add_form_Dam),
+    url(r'^add_form_Device/$', Dam_Device_management.views.add_form_Device),
+    url(r'^delete_form_Dam/$', Dam_Device_management.views.delete_form_Dam),
+    url(r'^delete_form_Device/$', Dam_Device_management.views.delete_form_Device),
+    url(r'^update_form_Dam/$', Dam_Device_management.views.update_form_Dam),
+    url(r'^update_form_Device/$', Dam_Device_management.views.update_form_Device),
 ]

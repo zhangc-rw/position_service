@@ -35,4 +35,4 @@ class Device(models.Model):
 	remark = models.TextField()
 
 	def __str__(self):
-		return self.dam.dam_num
+		return str(self.dam.dam_num)

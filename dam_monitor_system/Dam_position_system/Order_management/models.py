@@ -14,7 +14,7 @@ class Order(models.Model):
 	stationID = models.CharField(max_length=80,default= '-1',null=True)
 
 	def __str__(self):
-		return self.dam.dam_num
+		return str(self.dam.dam_num)
 		
 class Dam_Parameter(models.Model):
 	#大坝编号
@@ -29,4 +29,4 @@ class Dam_Parameter(models.Model):
 	parameter_data = models.IntegerField(null=True)'''
 
 	def __str__(self):
-		return self.dam.dam_num
+		return str(self.dam.dam_num)

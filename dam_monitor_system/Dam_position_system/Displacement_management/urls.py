@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-import Warning_management.views
+import Displacement_management.views
 
 urlpatterns = [
-    url(r'^WReal_management/$', Warning_management.views.WReal_management),
-    url(r'^WPast_management/$', Warning_management.views.WPast_management),
+    url(r'^DReal_management/$', Displacement_management.views.DReal_management),
+    url(r'^DPast_management/$', Displacement_management.views.DPast_management),
 ]
