@@ -23,7 +23,7 @@ def canvas_realTime(request):
     	Num_list  = request.POST.get('nums')
     	#print (Num_list)
     	Num_list = re.findall(r"\d+\.?\d*",Num_list)#从字符串中取出数字
-    	print (Num_list)
+    	#print (Num_list)
     	#print (Num_list[0])
     	target_list = []
     	for Num in Num_list:
@@ -37,7 +37,7 @@ def canvas_realTime(request):
 	    			target_list.append(target.coordinates)
 	    	else:
 	    		target_list.append("")'''
-    	print (target_list)
+    	#print (target_list)
 
     return HttpResponse(json.dumps({'target_list':target_list}))
 

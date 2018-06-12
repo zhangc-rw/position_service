@@ -7,23 +7,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-  <title>国民教育学校定位系统</title>
+  <title>大坝位移监测系统</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="static/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../static/css/font-awesome.min.css">
+  <link rel="stylesheet" href="static/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="../../static/css/ionicons.min.css">
+  <link rel="stylesheet" href="static/css/ionicons.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../../static/css/dataTables.bootstrap.min.css">
+  <link rel="stylesheet" href="static/css/dataTables.bootstrap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../static/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="static/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
-  <link rel="stylesheet" href="../../static/css/skin-blue.min.css">
-  <link rel="stylesheet" href="../../static/css/_all-skins.min.css">
+  <link rel="stylesheet" href="static/css/skin-blue.min.css">
+  <link rel="stylesheet" href="static/css/_all-skins.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -45,11 +45,6 @@ body, html {
 }
 #r-result {
 	width: 100%;
-}
-</style>
-  <style>
-#dataList {
-	cursor: pointer;
 }
 </style>
   <!-- Google Font -->
@@ -85,9 +80,9 @@ desired effect
     <!-- Logo --> 
     <a href="#" class="logo"> 
       <!-- mini logo for sidebar mini 50x50 pixels --> 
-      <span class="logo-mini">定位系统</span> 
+      <span class="logo-mini">监测系统</span> 
       <!-- logo for regular state and mobile devices --> 
-      <span class="logo-lg">国民教育学校定位系统</span> </a> 
+      <span class="logo-lg">大坝位移监测系统</span> </a> 
     
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation"> 
@@ -101,12 +96,12 @@ desired effect
             <!-- Menu Toggle Button --> 
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
               <!-- The user image in the navbar--> 
-              <img src="../../static/img/user2-160x160.jpg" class="user-image" alt="User Image"> 
+              <img src="static/img/user2-160x160.jpg" class="user-image" alt="User Image"> 
               <!-- hidden-xs hides the username on small devices so only the image appears. --> 
               <span class="hidden-xs">Alexander Pierce</span> </a>
             <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
-                <li class="user-header"> <img src="../../static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <li class="user-header"> <img src="static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p> Alexander Pierce - Web Developer <small>Member since Nov. 2012</small> </p>
               </li>
                 <!-- Menu Body -->
@@ -137,15 +132,8 @@ desired effect
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
         <!-- Optionally, you can add icons to the links -->
-        <li><a href="/real_time_monitoring/real_time_monitoring"><i class="fa fa-link"></i> <span>实时监控</span></a></li>
-        <li><a href="/real_time_monitoring/track_the_playback"><i class="fa fa-link"></i> <span>轨迹回放</span></a></li>
-        <li class="active"><a href="/carrier_management/PandG_management"><i class="fa fa-link"></i> <span>人员及枪支管理</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>报警管理</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>区域管理</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>设备管理</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>地图管理</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>对外接口</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>系统管理</span></a></li>
+        <li class="active"><a href="/DandL_management"><i class="fa fa-link"></i><span>主页</span></a></li>
+        <li><a href="#"><i class="fa fa-link"></i> <span>其他</span></a></li>
       </ul>
         <!-- /.sidebar-menu --> 
       </section>
@@ -161,13 +149,11 @@ desired effect
             <!-- Custom Tabs (Pulled to the right) -->
             <div class="nav-tabs-custom">
             <ul class="nav nav-tabs pull-right">
-                <li><a href="#tab_gunManagement" data-toggle="tab">枪支管理</a></li>
-                <li class="active"><a href="#tab_personnelManagement" data-toggle="tab">人员管理</a></li>
-                <li class="pull-left header"><i class="fa fa-th"></i>人员及枪支管理</li>
+                <li class="active"><a href="#tab_labelManagement" data-toggle="tab">测试点设备列表</a></li>
+                <li><a href="#tab_damManagement" data-toggle="tab">大坝列表</a></li>
               </ul>
-            <div class="tab-content"> {% csrf_token %} 
-                <!--人员管理选项卡-->
-                <div class="tab-pane active" id="tab_personnelManagement"> 
+            <div class="tab-content"> {% csrf_token %}
+                <div class="tab-pane active" id="tab_labelManagement"> 
                 <!-- Main content -->
                 <section class="content">
                     <div class="row">
@@ -175,30 +161,18 @@ desired effect
                         <div class="box">
                         <div class="box-header with-border">
                             <h3 class="box-title">
-                            <button type="button" id="addBtn1" class="btn btn-info">添加人员信息</button>
+                            <button type="button" id="addBtn1" class="btn btn-info">添加测试点设备信息</button>
                           </h3>
                           </div>
-                        <div class="box-body"> 
-                            <!--<form id="sqlform" class="form-horizontal" method="post" target="formsubmit">
-                          <iframe name="formsubmit" style='display: none;'></iframe>
-                          姓名 <select name="carrier_name" input type="varchar" style="width:155px" class="text-input form-input" id="carrier_name" placeholder="姓名">
-                          <option></option>
-                          <option value="买买提">买买提</option>
-                          </select>
-                          性别 <select name="sex" input type="varchar" style="width:100px" class="text-input form-input" id="sex" placeholder="性别">
-                          <option value="男">男</option>
-                          <option value="女">女</option></select>
-                          <button type="submit" id="submit" class="btn btn-info submitBtn">搜索</button>
-                          </form>
-                          -->
+                        <div class="box-body">
                             <table id="dataList1" class="table table-bordered table-hover tabTable">
                             <thead>
                                 <tr>
-                                <th>编号</th>
-                                <th>姓名</th>
-                                <th>人员类型</th>
-                                <th>性别</th>
-                                <th>民族</th>
+                                <th>大坝名字</th>
+                                <th>设备编号</th>
+                                <th>设备型号</th>
+                                <th>电量</th>
+                                <th>状态</th>
                                 <th>操作</th>
                               </tr>
                               </thead>
@@ -206,14 +180,12 @@ desired effect
                               
                             {% for line in carrier_list_person %}
                             <tr name={{line.id}}>
-                                <td>{{line.carrier_num}}</td>
-                                <td>{{line.carrier_name}}</td>
-                                <td>{{line.carrier_type}}</td>
-                                <td>{{line.sex}}</td>
-                                <td>{{line.nationality}}</td>
-                                <td><!--<button type="button" id="delete" class="btn btn-info"><img src="static/img/cross.png"
-                                                                               alt="Delete"/></button>--> 
-                                <a href='../personnel_management_form_update/{{line.id}}' title="修改" class="update"><img src="../../static/img/pencil.png" alt="Update"/></a> <a href='../personnel_management_form/{{line.id}}/d' title="删除" class="delete" onclick="return confirm('确定将此记录删除?')"><img src="../../static/img/cross.png" alt="Delete"/></a></td>
+                                <td>{{line.dam_name}}</td>
+                                <td>{{line.device_num}}</td>
+                                <td>{{line.card_num}}</td>
+                                <td>{{line.power}}</td>
+                                <td>{{line.status}}</td>
+                                <td><a href='../label_management_form_update/{{line.id}}' title="修改" class="glyphicon glyphicon-pencil"></a> <a href='../label_management_form/{{line.id}}/d' title="删除" class="glyphicon glyphicon-remove" onclick="return confirm('确定将此记录删除?')"></a> <a href='../label_detail/{{line.id}}/c' title="实时状态" class="glyphicon glyphicon-play"></a> <a href='../label_detail/{{line.id}}/c' title="历史数据" class="glyphicon glyphicon-search"></a></td>
                                 {% endfor %} </tr>
                               </tbody>
                             
@@ -229,8 +201,7 @@ desired effect
                   </section>
                 <!-- /.content --> 
               </div>
-                <!--枪支管理选项卡-->
-                <div class="tab-pane" id="tab_gunManagement"> 
+                <div class="tab-pane" id="tab_damManagement"> 
                 <!-- Main content -->
                 <section class="content">
                     <div class="row">
@@ -238,33 +209,27 @@ desired effect
                         <div class="box">
                         <div class="box-header with-border">
                             <h3 class="box-title">
-                            <button type="button" id="addBtn2" class="btn btn-info">添加枪支信息</button>
+                            <button type="button" id="addBtn2" class="btn btn-info">添加大坝信息</button>
                           </h3>
                           </div>
                         <div class="box-body">
                             <table id="dataList2" class="table table-bordered table-hover tabTable">
                             <thead>
                                 <tr>
-                                <th>编号</th>
-                                <th>名称</th>
-                                <th>类型</th>
-                                <th>枪支编号</th>
-                                <th>生产日期</th>
+                                <th>大坝编号</th>
+                                <th>大坝名字</th>
+                                <th>大坝概况</th>
                                 <th>操作</th>
                               </tr>
                               </thead>
                             <tbody>
                               
-                            {% for line in carrier_list_gun %}
+                            {% for line in carrier_list_person %}
                             <tr name={{line.id}}>
-                                <td>{{line.carrier_num}}</td>
-                                <td>{{line.carrier_name}}</td>
-                                <td>{{line.carrier_type}}</td>
-                                <td>{{line.identity_num}}</td>
-                                <td>{{line.birthday|date:"Y-m-d"}}</td>
-                                <td><!--<button type="button" id="delete" class="btn btn-info"><img src="static/img/cross.png"
-                                                                               alt="Delete"/></button>--> 
-                                <a href='../gun_management_form_update/{{line.id}}' title="修改" class="update"><img src="../../static/img/pencil.png" alt="Update"/></a> <a href='../gun_management_form/{{line.id}}/d' title="删除" class="delete" onclick="return confirm('确定将此记录删除?')"><img src="../../static/img/cross.png" alt="Delete"/></a></td>
+                                <td>{{line.dam_num}}</td>
+                                <td>{{line.dam_name}}</td>
+                                <td>{{line.dam_status}}</td>
+                                <td><a href='../dam_management_form_update/{{line.id}}' title="修改" class="update"><img src="static/img/pencil.png" alt="Update"/></a> <a href='../dam_management_form/{{line.id}}/d' title="删除" class="delete" onclick="return confirm('确定将此记录删除?')"><img src="static/img/cross.png" alt="Delete"/></a></td>
                                 {% endfor %} </tr>
                               </tbody>
                             
@@ -363,42 +328,32 @@ desired effect
 <!-- REQUIRED JS SCRIPTS --> 
 
 <!-- jQuery 3 --> 
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ry5Rs1651cU9c7mbAvdsfQP4VS7XnMYG"></script> 
-<script src="../../static/js/jquery.min.js"></script> 
+<script src="static/js/jquery.min.js"></script> 
 <!-- Bootstrap 3.3.7 --> 
-<script src="../../static/js/bootstrap.min.js"></script> 
+<script src="static/js/bootstrap.min.js"></script> 
 <!-- DataTables --> 
-<script src="../../static/js/jquery.dataTables.min.js"></script> 
-<script src="../../static/js/dataTables.bootstrap.min.js"></script> 
+<script src="static/js/jquery.dataTables.min.js"></script> 
+<script src="static/js/dataTables.bootstrap.min.js"></script> 
 <!-- AdminLTE App --> 
-<script src="../../static/js/adminlte.min.js"></script> 
+<script src="static/js/adminlte.min.js"></script> 
 <!-- vue --> 
-<script src="../../static/js/vue.js"></script> 
-<script src="../../static/js/csrf.js"></script> 
-<script src="../../static/js/fastclick.js"></script> 
+<script src="static/js/vue.js"></script> 
+<script src="static/js/csrf.js"></script> 
+<script src="static/js/fastclick.js"></script> 
 <!-- AdminLTE for demo purposes --> 
-<script src="../../static/js/demo.js"></script> 
+<script src="static/js/demo.js"></script> 
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. --> 
 <script>
   $(document).ready(function(){
-	  <!--$("#dataList tr").bind("dblclick",function(){
-		  //window.location.href = "personnel_management_form_update?id="+$(this).attr("name");
-		  //});-->
 	  $("#addBtn1").bind("click",function(){
-		  window.location.href = '/carrier_management/personnel_management_form';
+		  window.location.href = '/carrier_management/label_management_form';
 		  });
 	  $("#addBtn2").bind("click",function(){
-		  window.location.href = '/carrier_management/gun_management_form';
+		  window.location.href = '/carrier_management/dam_management_form';
 		  });
-	  <!--$("#delete").bind("click",function(){
-	
-		  <!--if(confirm("确认删除?")){
-			  //alert("删除逻辑");
-			  //}-->
-		  //});
 	});
   </script> 
 <script>
@@ -411,6 +366,7 @@ desired effect
 	$(function () {
     $('#dataList1').DataTable({
 		'info'        : false,
+	  
 		language:{
 			"sLengthMenu": "显示_MENU_项结果",
 			"sInfo": "显示第_START_至_END_项结果，共_TOTAL_项",
@@ -423,7 +379,8 @@ desired effect
 			}
 			})
 	 $('#dataList2').DataTable({
-		 'info'        : false,
+		'info'        : false,
+		
 		language:{
 			"sLengthMenu": "显示_MENU_项结果",
 			"sInfo": "显示第_START_至_END_项结果，共_TOTAL_项",
@@ -435,15 +392,6 @@ desired effect
 				}
 			}
 			})
-	
-    $('#example2').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : false
-    })
   })
   </script>
 </body>

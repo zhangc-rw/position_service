@@ -15,8 +15,8 @@ def WReal_management(request):
 		WReal_list.append(i.Logo)
 	print(WReal_list)	
 	WReal.objects.all().delete()
-	return HttpResponse(json.dumps({'WReal_list':WReal_list}))
-	#return render(request,'label_management.html',{'WReal_list':WReal_list})
+	#return HttpResponse(json.dumps({'WReal_list':WReal_list}))
+	return render(request,'DandL_management.html',{'WReal_list':WReal_list})
 	#return HttpResponseRedirect('/XXX/XXX')
 	
 

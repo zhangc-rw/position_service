@@ -4,10 +4,9 @@ This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <html>
-
-<head>
+  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> 
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
   <title>国民教育学校定位系统</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -37,17 +36,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-  
+
   <style type="text/css">
-		body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
-		#allmap{height:500px;width:100%;}
-		#r-result{width:100%;}
-  </style>
-    
+body, html {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	font-family: "微软雅黑";
+}
+#allmap {
+	height: 500px;
+	width: 100%;
+}
+#r-result {
+	width: 100%;
+}
+</style>
+
   <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"> 
-</head>
-<!--
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  </head>
+  <!--
 BODY TAG OPTIONS:
 =================
 Apply one or more of the following classes to get the
@@ -68,380 +77,337 @@ desired effect
 |---------------------------------------------------------|
 -->
 
-<body class="hold-transition skin-blue sidebar-mini">
-  <div class="wrapper">
-
+  <body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper"> 
+    
     <!-- Main Header -->
-    <header class="main-header">
-
-      <!-- Logo -->
-      <a href="#" class="logo">
-        <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini">定位系统</span>
-        <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg">国民教育学校定位系统</span>
-      </a>
-
-      <!-- Header Navbar -->
-      <nav class="navbar navbar-static-top" role="navigation">
-        <!-- Sidebar toggle button-->
-        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
+    <header class="main-header"> 
+    
+    <!-- Logo --> 
+    <a href="#" class="logo"> 
+      <!-- mini logo for sidebar mini 50x50 pixels --> 
+      <span class="logo-mini">定位系统</span> 
+      <!-- logo for regular state and mobile devices --> 
+      <span class="logo-lg">国民教育学校定位系统</span> </a> 
+    
+    <!-- Header Navbar -->
+    <nav class="navbar navbar-static-top" role="navigation"> 
+        <!-- Sidebar toggle button--> 
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button"> <span class="sr-only">Toggle navigation</span> </a> 
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
-          <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav">
             <!-- User Account Menu -->
-            <li class="dropdown user user-menu">
-              <!-- Menu Toggle Button -->
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <!-- The user image in the navbar-->
-                 <img src="../../static/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                <span class="hidden-xs">Alexander Pierce</span>
-              </a>
-              <ul class="dropdown-menu">
+            <li class="dropdown user user-menu"> 
+            <!-- Menu Toggle Button --> 
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
+              <!-- The user image in the navbar--> 
+              <img src="../../static/img/user2-160x160.jpg" class="user-image" alt="User Image"> 
+              <!-- hidden-xs hides the username on small devices so only the image appears. --> 
+              <span class="hidden-xs">Alexander Pierce</span> </a>
+            <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
-                <li class="user-header">
-                  <img src="../../static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
-                  <p>
-                    Alexander Pierce - Web Developer
-                    <small>Member since Nov. 2012</small>
-                  </p>
-                </li>
+                <li class="user-header"> <img src="../../static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <p> Alexander Pierce - Web Developer <small>Member since Nov. 2012</small> </p>
+              </li>
                 <!-- Menu Body -->
                 <li class="user-body">
-                  <div class="row">
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Followers</a>
-                    </div>
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Sales</a>
-                    </div>
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Friends</a>
-                    </div>
+                <div class="row">
+                    <div class="col-xs-4 text-center"> <a href="#">Followers</a> </div>
+                    <div class="col-xs-4 text-center"> <a href="#">Sales</a> </div>
+                    <div class="col-xs-4 text-center"> <a href="#">Friends</a> </div>
                   </div>
-                  <!-- /.row -->
-                </li>
+                <!-- /.row --> 
+              </li>
                 <!-- Menu Footer-->
                 <li class="user-footer">
-                  <div class="pull-left">
-                    <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  </div>
-                  <div class="pull-right">
-                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                  </div>
-                </li>
+                <div class="pull-left"> <a href="#" class="btn btn-default btn-flat">Profile</a> </div>
+                <div class="pull-right"> <a href="#" class="btn btn-default btn-flat">Sign out</a> </div>
+              </li>
               </ul>
-            </li>
+          </li>
           </ul>
-        </div>
+      </div>
       </nav>
-    </header>
+  </header>
     <!-- Left side column. contains the logo and sidebar -->
-    <aside class="main-sidebar">
-
-      <!-- sidebar: style can be found in sidebar.less -->
-      <section class="sidebar">
+    <aside class="main-sidebar"> 
+    
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar"> 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
-          <!-- Optionally, you can add icons to the links -->
-          <li class="active"><a href="/real_time_monitoring/real_time_monitoring"><i class="fa fa-link"></i><span>实时监控</span></a></li>
-          <li><a href="/real_time_monitoring/track_the_playback"><i class="fa fa-link"></i> <span>轨迹回放</span></a></li>
-          <li><a href="/carrier_management/PandG_management"><i class="fa fa-link"></i> <span>人员及枪支管理</span></a></li>
-          <li><a href="#"><i class="fa fa-link"></i> <span>报警管理</span></a></li>
-          <li><a href="#"><i class="fa fa-link"></i> <span>区域管理</span></a></li>
-          <li><a href="#"><i class="fa fa-link"></i> <span>设备管理</span></a></li>
-          <li><a href="#"><i class="fa fa-link"></i> <span>地图管理</span></a></li>
-          <li><a href="#"><i class="fa fa-link"></i> <span>对外接口</span></a></li>
-          <li><a href="#"><i class="fa fa-link"></i> <span>系统管理</span></a></li>
-        </ul>
-        <!-- /.sidebar-menu -->
+        <!-- Optionally, you can add icons to the links -->
+        <li class="active"><a href="/real_time_monitoring/real_time_monitoring"><i class="fa fa-link"></i><span>实时监控</span></a></li>
+        <li><a href="/real_time_monitoring/track_the_playback"><i class="fa fa-link"></i> <span>轨迹回放</span></a></li>
+        <li><a href="/carrier_management/PandG_management"><i class="fa fa-link"></i> <span>人员及枪支管理</span></a></li>
+        <li><a href="#"><i class="fa fa-link"></i> <span>报警管理</span></a></li>
+        <li><a href="#"><i class="fa fa-link"></i> <span>区域管理</span></a></li>
+        <li><a href="#"><i class="fa fa-link"></i> <span>设备管理</span></a></li>
+        <li><a href="#"><i class="fa fa-link"></i> <span>地图管理</span></a></li>
+        <li><a href="#"><i class="fa fa-link"></i> <span>对外接口</span></a></li>
+        <li><a href="#"><i class="fa fa-link"></i> <span>系统管理</span></a></li>
+      </ul>
+        <!-- /.sidebar-menu --> 
       </section>
-      <!-- /.sidebar -->
-    </aside>
-
+    <!-- /.sidebar --> 
+  </aside>
+    
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-      <!-- Main content -->
-      <section class="content container-fluid">
-        <div class="row">
-          <div class="col-md-12">
-            <!-- Custom Tabs (Pulled to the right) -->
-            <div class="nav-tabs-custom">
-              <ul class="nav nav-tabs pull-right">
-                <li><a href="#tab_heatmap" data-toggle="tab">热力图</a></li>
-                <li><a href="#tab_regionalstatistics" data-toggle="tab">区域统计</a></li>
-                <li class="active"><a href="#tab_2dmapdisplay" data-toggle="tab">二维地图显示</a></li>
-                <li class="pull-left header"><i class="fa fa-th"></i>实时监控</li>
-              </ul>
-              <div class="tab-content">
-                <!--热力图选项卡-->
-                <div class="tab-pane" id="tab_heatmap">
-                  <!-- Main content -->
-                  <section class="content">
-                  {% csrf_token %}
-                    <div class="row">
-                      <div class="col-xs-12">
-                        <div class="box">
-                          <div class="box-body">
-                            <table class="table table-bordered table-hover tabTable">
-                              
-                            </table>
-                          </div>
-                          <!-- /.box-body -->
-                        </div>
-                        <!-- /.box -->
+    <div class="content-wrapper"> 
+    <!-- Main content -->
+    <section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12"> 
+        <!-- Custom Tabs (Pulled to the right) -->
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs pull-right">
+            <li><a href="#tab_heatmap" data-toggle="tab">热力图</a></li>
+            <li><a href="#tab_regionalstatistics" data-toggle="tab">区域统计</a></li>
+            <li class="active"><a href="#tab_2dmapdisplay" data-toggle="tab">二维地图显示</a></li>
+            <li class="pull-left header"><i class="fa fa-th"></i>实时监控</li>
+          </ul>
+            <div class="tab-content"> 
+            <!--热力图选项卡-->
+            <div class="tab-pane" id="tab_heatmap"> 
+                <!-- Main content -->
+                <section class="content"> {% csrf_token %}
+                <div class="row">
+                    <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-body">
+                          <table class="table table-bordered table-hover tabTable">
+                          </table>
                       </div>
-                      <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
-                  </section>
-                  <!-- /.content -->
-                </div>
-                <!--区域统计选项卡-->
-                <div class="tab-pane" id="tab_regionalstatistics">
-                  <!-- Main content -->
-                  <section class="content">
-                    <div class="row">
-                      <div class="col-xs-12">
-                        <div class="box">
-                          <div class="box-body">
-                            <table class="table table-bordered table-hover tabTable">
-                              <thead>
-                                <tr>
-                                  <th>区域名称</th>
-                                  <th>人数</th>
-                                  <th>男女比例</th>
-                                  <th>统计时间</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td>买买提大街</td>
-                                  <td>198</td>
-                                  <td>5:5</td>
-                                  <td>2018/01/03/18:30:56</td>
-                                </tr>
-                                <tr>
-                                  <td>买买提小区</td>
-                                  <td>2000</td>
-                                  <td>7:3</td>
-                                  <td>2018/02/18/20:34:01</td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                          <!-- /.box-body -->
-                        </div>
-                        <!-- /.box -->
+                        <!-- /.box-body --> 
                       </div>
-                      <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
-                  </section>
-                  <!-- /.content -->
-                </div>
-                 <!--二维地图显示选项卡-->
-                <div class="tab-pane active" id="tab_2dmapdisplay">
-                 <section class="content">
-                  <div class="row">
-                   <div class="col-md-9">
-                   <div id="allmap">
-                   <canvas id="map_canvas"></canvas>
-                   </div>
-                   <!--
-                    <iframe src="map_real_time_monitoring" width="100%" height="650" frameborder="0" scrolling="no"></iframe>
-                    -->
-                   </div>
-                   <!-- /.col -->
-                   <div class="col-md-3">
-                    <div class="box box-solid">
-                     <div class="box-header with-border">
-                      <h3 class="box-title">人员信息</h3>
-                       <div class="box-tools">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                        </button>
-                       </div>
-                       <!-- /.box-tools -->
-                       </div>
-                     <div class="box-body no-padding box-messages">
-                      <ul class="nav nav-pills nav-stacked">
-                      <!--<button type="button" class="btn btn-info" onclick='getCheck()'>查询</button>-->
-                      <table id="dataList" class="table table-bordered table-hover tabTable">
-                              <thead>
-                                <tr>
-                                 <th>
-                                 <!-- Check all button -->
-                                  <button type="button" class="btn btn-default btn-sm checkbox-toggle">
-                                  <i class="fa fa-square-o"></i></button>
-                                  </th>
-                                  <th>编号</th>
-                                  <th>名称</th>
-                                  <th>位置</th>
-                                </tr>
-                              </thead>
-
-                              <tbody>
-                                {% for line in carrier_list %}
-                                <tr name={{line.carrier_num}}>
-                                  <td><input type="checkbox" value="{{line.carrier_num}}={{line.carrier_type}}"></td>
-                                  <td style="word-break:break-all;" width="30px">{{line.carrier_num}}</td>
-                                  <td style="word-break:break-all;">{{line.carrier_name}}</td>
-                                  <td id="coor" style="word-break:break-all;" width="50px"></td>
-                                {% endfor %} 
-                                </tr>
-                              </tbody>
-                            </table>
-                       
-                      </ul> 
-                     </div>
-                     <!-- /.box-body -->
-                    </div>
-                    <!-- /. box -->
-                   </div> 
-                   <!-- /.col -->
+                    <!-- /.box --> 
                   </div>
-                  <!-- /.row -->
-                 </div>
-                 <!-- /.tab-content -->
-                </div> 
-                </div>
-               <!-- /.tab-content -->
-               </div>
-            <!-- nav-tabs-custom -->
+                    <!-- /.col --> 
+                  </div>
+                <!-- /.row --> 
+              </section>
+                <!-- /.content --> 
+              </div>
+            <!--区域统计选项卡-->
+            <div class="tab-pane" id="tab_regionalstatistics"> 
+                <!-- Main content -->
+                <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-body">
+                        <table class="table table-bordered table-hover tabTable">
+                            <thead>
+                            <tr>
+                                <th>区域名称</th>
+                                <th>人数</th>
+                                <th>男女比例</th>
+                                <th>统计时间</th>
+                              </tr>
+                          </thead>
+                            <tbody>
+                            <tr>
+                                <td>买买提大街</td>
+                                <td>198</td>
+                                <td>5:5</td>
+                                <td>2018/01/03/18:30:56</td>
+                              </tr>
+                            <tr>
+                                <td>买买提小区</td>
+                                <td>2000</td>
+                                <td>7:3</td>
+                                <td>2018/02/18/20:34:01</td>
+                              </tr>
+                          </tbody>
+                          </table>
+                      </div>
+                        <!-- /.box-body --> 
+                      </div>
+                    <!-- /.box --> 
+                  </div>
+                    <!-- /.col --> 
+                  </div>
+                <!-- /.row --> 
+              </section>
+                <!-- /.content --> 
+              </div>
+            <!--二维地图显示选项卡-->
+            <div class="tab-pane active" id="tab_2dmapdisplay">
+                <section class="content">
+                <div class="row">
+                <div class="col-md-9">
+                    <div id="allmap">
+                    <canvas id="map_canvas"></canvas>
+                  </div>
+                    <!--
+                    <iframe src="map_real_time_monitoring" width="100%" height="650" frameborder="0" scrolling="no"></iframe>
+                    --> 
+                  </div>
+                <!-- /.col -->
+                <div class="col-md-3">
+                    <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">人员信息</h3>
+                        <div class="box-tools">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i> </button>
+                      </div>
+                        <!-- /.box-tools --> 
+                      </div>
+                    <div class="box-body no-padding box-messages">
+                        <ul class="nav nav-pills nav-stacked">
+                        <!--<button type="button" class="btn btn-info" onclick='getCheck()'>查询</button>-->
+                        <table id="dataList" class="table table-bordered table-hover tabTable">
+                            <thead>
+                            <tr>
+                                <th> <!-- Check all button -->
+                                
+                                <button type="button" class="btn btn-default btn-sm checkbox-toggle"> <i class="fa fa-square-o"></i></button>
+                              </th>
+                                <th>编号</th>
+                                <th>名称</th>
+                                <th>位置</th>
+                              </tr>
+                          </thead>
+                            <tbody>
+                          
+                            {% for line in carrier_list %}
+                            <tr name={{line.carrier_num}}>
+                            <td><input type="checkbox" value="{{line.carrier_num}}={{line.carrier_type}}={{line.carrier_name}}={{line.sex}}={{line.birthday|date:"Y-m-d"}}={{line.nationality}}={{line.work_unit}}"></td>
+                            <td style="word-break:break-all;" width="30px">{{line.carrier_num}}</td>
+                            <td style="word-break:break-all;">{{line.carrier_name}}</td>
+                            <td id="coor" style="word-break:break-all;" width="50px"></td>
+                            {% endfor %} </tr>
+                              </tbody>
+                            
+                          </table>
+                      </ul>
+                      </div>
+                    <!-- /.box-body --> 
+                  </div>
+                    <!-- /. box --> 
+                  </div>
+                <!-- /.col --> 
+              </div>
+                <!-- /.row --> 
+              </div>
+            <!-- /.tab-content --> 
           </div>
-          <!-- /.col -->
-        </div>
-        <!-- /.row -->
-      </section>
-      <!-- /.content -->
+          </div>
+        <!-- /.tab-content --> 
+      </div>
+        <!-- nav-tabs-custom --> 
+      </div>
+    <!-- /.col --> 
   </div>
-  <!-- /.content-wrapper -->
+    <!-- /.row -->
+    </section>
+    <!-- /.content --> 
+  </div>
+<!-- /.content-wrapper --> 
 
-  <!-- Main Footer -->
-  <footer class="main-footer">
+<!-- Main Footer -->
+<footer class="main-footer"> 
     <!-- To the right -->
-    <div class="pull-right hidden-xs">
-      Anything you want
-    </div>
-    <!-- Default to the left -->
-    <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
-  </footer>
+    <div class="pull-right hidden-xs"> Anything you want </div>
+    <!-- Default to the left --> 
+    <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved. </footer>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark"> 
     <!-- Create the tabs -->
     <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-      <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-    </ul>
+    <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+    <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+  </ul>
     <!-- Tab panes -->
-    <div class="tab-content">
-      <!-- Home tab content -->
-      <div class="tab-pane active" id="control-sidebar-home-tab">
+    <div class="tab-content"> 
+    <!-- Home tab content -->
+    <div class="tab-pane active" id="control-sidebar-home-tab">
         <h3 class="control-sidebar-heading">Recent Activity</h3>
         <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:;">
-              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-                <p>Will be 23 on April 24th</p>
-              </div>
-            </a>
-          </li>
-        </ul>
+        <li> <a href="javascript:;"> <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+          <div class="menu-info">
+            <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+            <p>Will be 23 on April 24th</p>
+          </div>
+          </a> </li>
+      </ul>
         <!-- /.control-sidebar-menu -->
-
+        
         <h3 class="control-sidebar-heading">Tasks Progress</h3>
         <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:;">
-              <h4 class="control-sidebar-subheading">
-                Custom Template Design
-                <span class="pull-right-container">
-                    <span class="label label-danger pull-right">70%</span>
-                </span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <!-- /.control-sidebar-menu -->
-
+        <li> <a href="javascript:;">
+          <h4 class="control-sidebar-subheading"> Custom Template Design <span class="pull-right-container"> <span class="label label-danger pull-right">70%</span> </span> </h4>
+          <div class="progress progress-xxs">
+            <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+          </div>
+          </a> </li>
+      </ul>
+        <!-- /.control-sidebar-menu --> 
+        
       </div>
-      <!-- /.tab-pane -->
-      <!-- Stats tab content -->
-      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-      <!-- /.tab-pane -->
-      <!-- Settings tab content -->
-      <div class="tab-pane" id="control-sidebar-settings-tab">
+    <!-- /.tab-pane --> 
+    <!-- Stats tab content -->
+    <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+    <!-- /.tab-pane --> 
+    <!-- Settings tab content -->
+    <div class="tab-pane" id="control-sidebar-settings-tab">
         <form method="post">
-          <h3 class="control-sidebar-heading">General Settings</h3>
-
-          <div class="form-group">
-          <!--
+        <h3 class="control-sidebar-heading">General Settings</h3>
+        <div class="form-group"> 
+            <!--
             <label class="control-sidebar-subheading">
               Report panel usage
               <input type="checkbox" class="pull-right" checked>
             </label>
             -->
-
-            <p>
-              Some information about this general settings option
-            </p>
+            
+            <p> Some information about this general settings option </p>
           </div>
-          <!-- /.form-group -->
-        </form>
+        <!-- /.form-group -->
+      </form>
       </div>
-      <!-- /.tab-pane -->
-    </div>
-  </aside>
-  <!-- /.control-sidebar -->
-  <!-- Add the sidebar's background. This div must be placed
-  immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
+    <!-- /.tab-pane --> 
   </div>
-  <!-- ./wrapper -->
+  </aside>
+<!-- /.control-sidebar --> 
+<!-- Add the sidebar's background. This div must be placed
+  immediately after the control sidebar -->
+<div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper --> 
 
-  <!-- REQUIRED JS SCRIPTS -->
+<!-- REQUIRED JS SCRIPTS --> 
 
-  <!-- jQuery 3 -->
-  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ry5Rs1651cU9c7mbAvdsfQP4VS7XnMYG"></script>
-  <script src="../../static/js/jquery.min.js"></script>
-  <!-- Bootstrap 3.3.7 -->
-  <script src="../../static/js/bootstrap.min.js"></script>
-  <!-- DataTables -->
-  <script src="../../static/js/jquery.dataTables.min.js"></script>
-  <script src="../../static/js/dataTables.bootstrap.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="../../static/js/adminlte.min.js"></script>
-  <!-- vue -->
-  <script src="../../static/js/vue.js"></script>
-  <!-- FastClick -->
-  <script src="../../static/js/fastclick.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="../../static/js/demo.js"></script>
-  <!-- Select2 -->
-  <script src="../../static/js/select2.full.min.js"></script>
-  <!-- iCheck 1.0.1 -->
-  <script src="../../static/js/icheck.min.js"></script>
-  <!-- Slimscroll -->
-  <script src="../../static/js/jquery.slimscroll.min.js"></script>
-  <script src="../../static/js/csrf.js"></script>
+<!-- jQuery 3 --> 
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ry5Rs1651cU9c7mbAvdsfQP4VS7XnMYG"></script> 
+<script src="../../static/js/jquery.min.js"></script> 
+<!-- Bootstrap 3.3.7 --> 
+<script src="../../static/js/bootstrap.min.js"></script> 
+<!-- DataTables --> 
+<script src="../../static/js/jquery.dataTables.min.js"></script> 
+<script src="../../static/js/dataTables.bootstrap.min.js"></script> 
+<!-- AdminLTE App --> 
+<script src="../../static/js/adminlte.min.js"></script> 
+<!-- vue --> 
+<script src="../../static/js/vue.js"></script> 
+<!-- FastClick --> 
+<script src="../../static/js/fastclick.js"></script> 
+<!-- AdminLTE for demo purposes --> 
+<script src="../../static/js/demo.js"></script> 
+<!-- Select2 --> 
+<script src="../../static/js/select2.full.min.js"></script> 
+<!-- iCheck 1.0.1 --> 
+<script src="../../static/js/icheck.min.js"></script> 
+<!-- Slimscroll --> 
+<script src="../../static/js/jquery.slimscroll.min.js"></script> 
+<script src="../../static/js/csrf.js"></script> 
 
-  <!-- Optionally, you can add Slimscroll and FastClick plugins.
+<!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
-     user experience. -->
-  <script> 
+     user experience. --> 
+<script> 
     var map = new BMap.Map("allmap");
 	map.enableScrollWheelZoom();//滑动滚轮进行缩放
 	map.centerAndZoom(new BMap.Point(116.404,39.915), 13);//设置中心点，此处默认为天安门广场
@@ -505,27 +471,7 @@ desired effect
             } 
 		//console.log(type_ori)
 		return type;
-		};
-		
-	//识别页面打钩项，获取所需信息，实现气泡弹窗功能
-	function getCheck_nums(){
-		var arr=[];
-		var nums_ori=[];
-		//获取状态为checked的value
-		$("input[type='checkbox']:checked").each(function(){ 
-		//$("input[type='checkbox']:checked").each(function(i.e){ 
-		//console.log(e)
-		arr.push(this.value);//将value通过push方法放入arr数组
-		})
-		//console.log(arr)
-		for(var k=0;k<arr.length;k++){
-			var numstype = arr[k].split("=");//通过设置的“=”进行拆分
-			//console.log(numstype)
-			nums_ori[k] = numstype[0];//第一项是carrier_num
-            //console.log(nums_ori)
-            } 
-		return nums_ori;
-		};
+		}; 
 
     //定时器，每隔一段时间遍历列表
 	setInterval(function postID(){
@@ -616,11 +562,10 @@ desired effect
 			 })
 	 }
     ,5000);	
-  </script>
-  
-  <!--<script>
-    //双击列表，显示到当前对应点，待测试
-	alert 
+  </script> 
+
+<!--<script>
+    //双击列表，显示到当前对应点，待测试 
     $("#dataList tr").bind("dblclick",function(){
 	    //map.centerAndZoom(P0["name"], 13);
 	    //P0.set(Nums[j],P1[j]);//将P1[j]赋值给P0(Nums[j])
@@ -628,9 +573,55 @@ desired effect
 	    map.centerAndZoom(P1["name"], 13);
 	  });
   </script>
-  -->
-  
-  <script>
+  --> 
+
+<!--<script> 
+	//识别页面打钩项，获取所需信息，实现气泡弹窗功能,待测试
+	function getCheck_all(){
+		var message = new Object; //JS中定义类（工厂方式）
+		//获取状态为checked的value
+		var arr=[];
+		$("input[type='checkbox']:checked").each(function(){ 
+		//$("input[type='checkbox']:checked").each(function(i.e){ 
+		//console.log(e)
+		arr.push(this.value);//将value通过push方法放入arr数组
+		})
+		//console.log(arr)
+		message.num=[];
+		message.name=[];
+		message.sex=[];
+		message.birthday=[];
+		message.nationality=[];
+		message.work_unit=[];
+		for(var k=0;k<arr.length;k++){
+			var al = arr[k].split("=");//通过设置的“=”进行拆分
+			//console.log(al)
+			message.num[k] = al[0];//第一项是carrier_num
+            //console.log(message.num)
+			message.name[k] = al[2];
+			message.sex[k] = al[3];
+			message.birthday[k] = al[4];
+			//console.log(message.birthday)
+			message.nationality[k] = al[5];
+			message.work_unit[k] = al[6];
+            } 
+		return message;
+		};
+		
+		//气泡弹窗
+	var opts = {
+	  width : 200,     // 信息窗口宽度
+	  height: 100,     // 信息窗口高度
+	  //title : "海底捞王府井店" , // 信息窗口标题
+	  //enableMessage:true,//设置允许信息窗发送短息
+	}
+	var infoWindow = new BMap.InfoWindow("地址：北京市东城区王府井大街88号乐天银泰百货八层", opts);  // 创建信息窗口对象 
+	marker.addEventListener("click", function(){          
+		map.openInfoWindow(infoWindow,point); //开启信息窗口
+	});
+  </script>
+  --> 
+<script>
     //设置列表的样式，将模板中的英文翻译为中文
     $('#dataList').DataTable({
 	  'paging'      : false,

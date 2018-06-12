@@ -8,26 +8,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-  <title>国民教育学校定位系统</title>
+  <title>大坝位移监测系统</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="../../../static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="static/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../../static/css/font-awesome.min.css">
+  <link rel="stylesheet" href="static/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="../../../static/css/ionicons.min.css">
+  <link rel="stylesheet" href="static/css/ionicons.min.css">
   <!-- bootstrap datepicker -->
-  <link rel="stylesheet" href="../../../static/css/bootstrap-datepicker.min.css">
+  <link rel="stylesheet" href="static/css/bootstrap-datepicker.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../../../static/css/dataTables.bootstrap.min.css">
+  <link rel="stylesheet" href="static/css/dataTables.bootstrap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../../static/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="static/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
-  <link rel="stylesheet" href="../../../static/css/skin-blue.min.css">
-  <link rel="stylesheet" href="../../../static/css/form.css">
-  <link rel="stylesheet" href="../../../static/css/_all-skins.min.css">
+  <link rel="stylesheet" href="static/css/skin-blue.min.css">
+  <link rel="stylesheet" href="static/css/form.css">
+  <link rel="stylesheet" href="static/css/_all-skins.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -51,12 +51,6 @@ body, html {
 	width: 100%;
 }
 </style>
-  <style>
-#dataList {
-	cursor: pointer;
-}
-</style>
-
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   </head>
@@ -90,9 +84,9 @@ desired effect
     <!-- Logo --> 
     <a href="#" class="logo"> 
       <!-- mini logo for sidebar mini 50x50 pixels --> 
-      <span class="logo-mini">定位系统</span> 
+      <span class="logo-mini">监测系统</span> 
       <!-- logo for regular state and mobile devices --> 
-      <span class="logo-lg">国民教育学校定位系统</span> </a> 
+      <span class="logo-lg">大坝位移监测系统</span> </a> 
     
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation"> 
@@ -106,12 +100,12 @@ desired effect
             <!-- Menu Toggle Button --> 
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
               <!-- The user image in the navbar--> 
-              <img src="../../../static/img/user2-160x160.jpg" class="user-image" alt="User Image"> 
+              <img src="static/img/user2-160x160.jpg" class="user-image" alt="User Image"> 
               <!-- hidden-xs hides the username on small devices so only the image appears. --> 
               <span class="hidden-xs">Alexander Pierce</span> </a>
             <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
-                <li class="user-header"> <img src="../../../static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <li class="user-header"> <img src="static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p> Alexander Pierce - Web Developer <small>Member since Nov. 2012</small> </p>
               </li>
                 <!-- Menu Body -->
@@ -142,15 +136,8 @@ desired effect
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
         <!-- Optionally, you can add icons to the links -->
-        <li><a href="/real_time_monitoring/real_time_monitoring"><i class="fa fa-link"></i> <span>实时监控</span></a></li>
-        <li><a href="/real_time_monitoring/track_the_playback"><i class="fa fa-link"></i> <span>轨迹回放</span></a></li>
-        <li class="active"><a href="/carrier_management/PandG_management"><i class="fa fa-link"></i> <span>人员及枪支管理</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>报警管理</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>区域管理</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>设备管理</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>地图管理</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>对外接口</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>系统管理</span></a></li>
+        <li class="active"><a href="/DandL_management"><i class="fa fa-link"></i><span>主页</span></a></li>
+        <li><a href="#"><i class="fa fa-link"></i> <span>其他</span></a></li>
       </ul>
         <!-- /.sidebar-menu --> 
       </section>
@@ -169,67 +156,58 @@ desired effect
         <div class="box box-info"> 
         <!-- form start -->
         
-        <form class="form-horizontal" action="/carrier_management/personnel_management_form_update/{{carrier_list_person.id}}/u/" onsubmit="return check(this)" method="post">
+        <form class="form-horizontal" action="/carrier_management/label_management_form_update/{{carrier_list_person.id}}/u/" onsubmit="return check(this)" method="post">
             {% csrf_token %}
             <div class="box-body">
             <div class="col-xs-6">
                 <div class="form-group">
-                <label for="carrier_num" class="col-sm-3 control-label">编号</label>
+                <label for="dam_num" class="col-sm-3 control-label">大坝编号</label>
                 <div class="col-sm-9">
-                    <input type="varchar" class="form-control" name="carrier_num" id="carrier_num" value="{{carrier_list_person.carrier_num}}">
+                    <input type="varchar" class="form-control" name="dam_num" id="dam_num" placeholder="{{carrier_list_person.dam_num}}">
                   </div>
               </div>
                 <div class="form-group">
-                <label for="carrier_name" class="col-sm-3 control-label">姓名</label>
+                <label for="device_num" class="col-sm-3 control-label">设备编号</label>
                 <div class="col-sm-9">
-                    <input type="varchar" class="form-control" name="carrier_name" id="carrier_name" value="{{carrier_list_person.carrier_name}}">
+                    <input type="varchar" class="form-control" name="device_num" id="device_num" placeholder="设备编号">
                   </div>
               </div>
                 <div class="form-group">
-                <label for="carrier_type" class="col-sm-3 control-label">人员分类</label>
+                <label for="card_num" class="col-sm-3 control-label">设备型号</label>
                 <div class="col-sm-9">
-                    <input type="varchar" class="form-control" name="carrier_type" id="carrier_type" value="{{carrier_list_person.carrier_type}}">
+                    <input type="varchar" class="form-control" name="card_num" id="card_num" placeholder="设备型号">
                   </div>
               </div>
-                <div class="form-group">
-                <label for="identity_num" class="col-sm-3 control-label">身份编号</label>
-                <div class="col-sm-9">
-                    <input type="varchar" class="form-control" name="identity_num" id="identity_num" value="{{carrier_list_person.identity_num}}">
+                <!--<div class="form-group">
+                  <label for="power" class="col-sm-3 control-label">电池电量</label>
+                  <div class="col-sm-9">
+                    <input type="varchar" class="form-control" name="power" id="power" placeholder="电池电量">
                   </div>
-              </div>
+                </div>-->
                 <div class="form-group">
-                <label for="sex" class="col-sm-3 control-label">性别</label>
+                <label for="remark" class="col-sm-3 control-label">备注</label>
                 <div class="col-sm-9">
-                    <input type="varchar" class="form-control" name="sex" id="sex" value="{{carrier_list_person.sex}}">
-                  </div>
-              </div>
-                <div class="form-group">
-                <label for="birthday" class="col-sm-3 control-label">出生日期</label>
-                <div class="col-sm-9">
-                    <div class="input-group">
-                    <input type="varchar" class="form-control myDatepicker" name="birthday" id="birthday" data-date-format="yyyy-mm-dd" value="{{carrier_list_person.birthday|date:"Y-m-d"}}">
-                    <div class="input-group-addon"> <i class="fa fa-calendar"></i> </div>
-                  </div>
+                    <input type="varchar" class="form-control" name="remark" id="remark" placeholder="备注">
                   </div>
               </div>
               </div>
             <div class="col-xs-6">
                 <div class="form-group">
-                <label for="nationality" class="col-sm-3 control-label">民族</label>
+                <label for="x" class="col-sm-3 control-label">初始位置X</label>
                 <div class="col-sm-9">
-                    <input type="varchar" class="form-control" name="nationality" id="nationality" value="{{carrier_list_person.nationality}}">
+                    <input type="varchar" class="form-control" name="x" id="x" placeholder="初始位置X">
                   </div>
               </div>
                 <div class="form-group">
-                <label for="work_unit" class="col-sm-3 control-label">工作单位</label>
+                <label for="y" class="col-sm-3 control-label">初始位置Y</label>
                 <div class="col-sm-9">
-                    <input type="varchar" class="form-control" name="work_unit" id="work_unit" value="{{carrier_list_person.work_unit}}">
+                    <input type="varchar" class="form-control" name="y" id="y" placeholder="初始位置Y">
                   </div>
               </div>
                 <div class="form-group">
-                <label for="remarks" class="col-sm-3 control-label">备注</label>
+                <label for="z" class="col-sm-3 control-label">初始位置Z</label>
                 <div class="col-sm-9">
-                    <input type="varchar" class="form-control" name="remarks" id="remarks" value="{{carrier_list_person.remarks}}">
+                    <input type="varchar" class="form-control" name="z" id="z" placeholder="初始位置Z">
                   </div>
               </div>
               </div>
@@ -328,23 +306,23 @@ desired effect
 <!-- REQUIRED JS SCRIPTS --> 
 
 <!-- jQuery 3 --> 
-<script src="../../../static/js/jquery.min.js"></script> 
+<script src="static/js/jquery.min.js"></script> 
 <!-- Bootstrap 3.3.7 --> 
-<script src="../../../static/js/bootstrap.min.js"></script> 
+<script src="static/js/bootstrap.min.js"></script> 
 <!-- DataTables --> 
-<script src="../../../static/js/jquery.dataTables.min.js"></script> 
-<script src="../../../static/js/dataTables.bootstrap.min.js"></script> 
+<script src="static/js/jquery.dataTables.min.js"></script> 
+<script src="static/js/dataTables.bootstrap.min.js"></script> 
 <!-- bootstrap datepicker --> 
-<script src="../../../static/js/bootstrap-datepicker.min.js"></script> 
+<script src="static/js/bootstrap-datepicker.min.js"></script> 
 <!-- AdminLTE App --> 
-<script src="../../../static/js/adminlte.min.js"></script> 
-<script src="../../../static/js/form.js"></script> 
+<script src="static/js/adminlte.min.js"></script> 
+<script src="static/js/form.js"></script> 
 <!-- vue --> 
-<script src="../../../static/js/vue.js"></script> 
-<script src="../../../static/js/csrf.js"></script> 
-<script src="../../../static/js/fastclick.js"></script> 
+<script src="static/js/vue.js"></script> 
+<script src="static/js/csrf.js"></script> 
+<script src="static/js/fastclick.js"></script> 
 <!-- AdminLTE for demo purposes --> 
-<script src="../../../static/js/demo.js"></script> 
+<script src="static/js/demo.js"></script> 
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
@@ -365,28 +343,40 @@ desired effect
 <script>
   function check(f)  //检测函数
   {
-    if((f.carrier_num.value==""))
+    if((f.dam_num.value==""))
     {
-      alert("请输入编号！");
-      f.carrier_num.focus();
+      alert("请输入大坝编号！");
+      f.dam_num.focus();
       return false;
     }
-    if((f.carrier_name.value==""))
+	if((f.device_num.value==""))
     {
-      alert("请输入姓名！");
-      f.carrier_name.focus();
+      alert("请输入设备编号！");
+      f.device_num.focus();
       return false;
     }
-    if((f.carrier_type.value==""))
+    if((f.card_num.value==""))
     {
-      alert("请输入人员分类！");
-      f.carrier_type.focus();
+      alert("请输入设备型号！");
+      f.card_num.focus();
       return false;
     }
-    if((f.birthday.value==""))
+    if((f.x.value==""))
     {
-      alert("请输入出生日期！");
-      f.birthday.focus();
+      alert("请输入初始位置X！");
+      f.x.focus();
+      return false;
+    }
+    if((f.y.value==""))
+    {
+      alert("请输入初始位置Y！");
+      f.y.focus();
+      return false;
+    }
+	if((f.z.value==""))
+    {
+      alert("请输入初始位置Z！");
+      f.z.focus();
       return false;
     }
   } 
