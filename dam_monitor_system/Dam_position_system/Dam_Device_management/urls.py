@@ -18,11 +18,19 @@ from django.contrib import admin
 import Dam_Device_management.views
 
 urlpatterns = [
-    url(r'^XXX_management/$', Dam_Device_management.views.XXX_management),
+    url(r'^DandL_management/$', Dam_Device_management.views.DandL_management),
+    url(r'^dam_management_form/$', Dam_Device_management.views.dam_management_form),
+    url(r'^device_management_form/$', Dam_Device_management.views.device_management_form),
+
+#大坝增删改查
     url(r'^add_form_Dam/$', Dam_Device_management.views.add_form_Dam),
+    url(r'^dam_management_form/(?P<aid>\d+)/d/$', Dam_Device_management.views.delete_form_Dam),
+    url(r'^dam_management_form_update/(?P<aid>\d+)/$', Dam_Device_management.views.dam_management_form_update),
+    url(r'^dam_management_form_update/(?P<aid>\d+)/u/$', Dam_Device_management.views.update_form_Dam),
+
+#设备增删改查
     url(r'^add_form_Device/$', Dam_Device_management.views.add_form_Device),
-    url(r'^delete_form_Dam/$', Dam_Device_management.views.delete_form_Dam),
-    url(r'^delete_form_Device/$', Dam_Device_management.views.delete_form_Device),
-    url(r'^update_form_Dam/$', Dam_Device_management.views.update_form_Dam),
-    url(r'^update_form_Device/$', Dam_Device_management.views.update_form_Device),
+    url(r'^device_management_form/(?P<aid>\d+)/d/$', Dam_Device_management.views.delete_form_Device),
+    url(r'^device_management_form_update/(?P<aid>\d+)/$', Dam_Device_management.views.device_management_form_update),
+    url(r'^device_management_form_update/(?P<aid>\d+)/u/$', Dam_Device_management.views.update_form_Device),
 ]

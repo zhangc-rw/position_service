@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url,include
 from django.contrib import admin
-import Warning_management.views
+import Dam_Device_management.views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', Warning_management.views.WReal_management),
+    url(r'^$', Dam_Device_management.views.DandL_management),
     url(r'^Warning_management/', include('Warning_management.urls')),
+    url(r'^Displacement_management/', include('Displacement_management.urls')),
+    url(r'^Dam_Device_management/', include('Dam_Device_management.urls')),
+    url(r'^Order_management/', include('Order_management.urls')),
 ]
