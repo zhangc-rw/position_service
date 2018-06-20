@@ -10,25 +10,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <title>大坝位移监测系统</title>
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-<link rel="stylesheet" href="static/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../../../static/css/bootstrap.min.css">
 <!-- Font Awesome -->
-<link rel="stylesheet" href="static/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../../../static/css/font-awesome.min.css">
 <!-- Ionicons -->
-<link rel="stylesheet" href="static/css/ionicons.min.css">
+<link rel="stylesheet" href="../../../../static/css/ionicons.min.css">
 <!-- daterange picker -->
-<link rel="stylesheet" href="static/css/daterangepicker.css">
+<link rel="stylesheet" href="../../../../static/css/daterangepicker.css">
 <!-- bootstrap datepicker -->
-<link rel="stylesheet" href="static/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet" href="../../../../static/css/bootstrap-datepicker.min.css">
 <!-- DataTables -->
-<link rel="stylesheet" href="static/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="../../../../static/css/dataTables.bootstrap.min.css">
 <!-- Theme style -->
-<link rel="stylesheet" href="static/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../../../static/css/AdminLTE.min.css">
 <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
-<link rel="stylesheet" href="static/css/skin-blue.min.css">
-<link rel="stylesheet" href="static/css/form.css">
-<link rel="stylesheet" href="static/css/_all-skins.min.css">
+<link rel="stylesheet" href="../../../../static/css/skin-blue.min.css">
+<link rel="stylesheet" href="../../../../static/css/form.css">
+<link rel="stylesheet" href="../../../../static/css/_all-skins.min.css">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -90,7 +90,7 @@ desired effect
     <span class="logo-lg">大坝位移监测系统</span> </a> 
     
     <!-- Header Navbar -->
-    <nav class="navbar navbar-static-top" role="navigation"> 
+    <nav class="navbar navbar-../../../static-top" role="navigation"> 
       <!-- Sidebar toggle button--> 
       <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button"> <span class="sr-only">Toggle navigation</span> </a> 
       <!-- Navbar Right Menu -->
@@ -101,12 +101,12 @@ desired effect
             <!-- Menu Toggle Button --> 
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
             <!-- The user image in the navbar--> 
-            <img src="static/img/user2-160x160.jpg" class="user-image" alt="User Image"> 
+            <img src="../../../../static/img/user2-160x160.jpg" class="user-image" alt="User Image"> 
             <!-- hidden-xs hides the username on small devices so only the image appears. --> 
             <span class="hidden-xs">Alexander Pierce</span> </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
-              <li class="user-header"> <img src="static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+              <li class="user-header"> <img src="../../../../static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p> Alexander Pierce - Web Developer <small>Member since Nov. 2012</small> </p>
               </li>
               <!-- Menu Body -->
@@ -156,23 +156,25 @@ desired effect
             <ul class="nav nav-tabs pull-right">
               <li class="active"><a href="#tab_history_select" data-toggle="tab">历史数据</a></li>
             </ul>
-            <div class="tab-content"> {% csrf_token %}
+            <div class="tab-content"> 
               <div class="tab-pane active" id="tab_history_select"> 
                 <!-- Main content -->
                 <section class="content container-fluid">
                   <div class="box box-default">
+                    {% for line in device_list  %}
                     <div class="box-header with-border">
-                      <h3 class="box-title">请选择时间</h3>
+                      <h3 class="box-title">请选择{{line.dam.dam_num}}号大坝{{line.device_num}}号设备的时间</h3>
                     </div>
                     <!-- form start -->
-                    <form class="form-horizontal" id="form_label" action="/carrier_management/add_form_lable/"  onsubmit="return check(this)" method="post">
+                    <form class="form-horizontal" id="form_label" action="/Displacement_management/label_detail_history/{{line.dam.dam_num}}/{{line.device_num}}/"  onsubmit="return check(this)" method="post">
+                      {% csrf_token %}
                       <div class="box-body">
                         <div class="row">
                           <div class="col-md-6"> 
                             <!-- Date and time range -->
                             <div class="input-group">
                               <div class="input-group-addon"> <i class="fa fa-clock-o"></i> </div>
-                              <input type="text" class="form-control pull-right" id="reservationtime">
+                              <input type="text" class="form-control pull-right" id="reservationtime" name="reservationtime">
                             </div>
                             <!-- /.input group --> 
                           </div>
@@ -187,6 +189,7 @@ desired effect
                       </div>
                       <!-- /.box-footer -->
                     </form>
+                    {% endfor %}
                   </div>
                 </section>
                 <!-- /.content --> 
@@ -274,34 +277,34 @@ desired effect
 <!-- REQUIRED JS SCRIPTS --> 
 
 <!-- jQuery 3 --> 
-<script src="static/js/jquery.min.js"></script> 
+<script src="../../../../static/js/jquery.min.js"></script> 
 <!-- Bootstrap 3.3.7 --> 
-<script src="static/js/bootstrap.min.js"></script> 
+<script src="../../../../static/js/bootstrap.min.js"></script> 
 <!-- DataTables --> 
-<script src="static/js/jquery.dataTables.min.js"></script> 
-<script src="static/js/dataTables.bootstrap.min.js"></script> 
+<script src="../../../../static/js/jquery.dataTables.min.js"></script> 
+<script src="../../../../static/js/dataTables.bootstrap.min.js"></script> 
 <!-- date-range-picker --> 
-<script src="static/js/moment.min.js"></script> 
-<script src="static/js/daterangepicker.js"></script> 
+<script src="../../../../static/js/moment.min.js"></script> 
+<script src="../../../../static/js/daterangepicker.js"></script> 
 <!-- bootstrap datepicker --> 
-<script src="static/js/bootstrap-datepicker.min.js"></script> 
+<script src="../../../../static/js/bootstrap-datepicker.min.js"></script> 
 <!-- AdminLTE App --> 
-<script src="static/js/adminlte.min.js"></script> 
-<script src="static/js/form.js"></script> 
+<script src="../../../../static/js/adminlte.min.js"></script> 
+<script src="../../../../static/js/form.js"></script> 
 <!-- vue --> 
-<script src="static/js/vue.js"></script> 
-<script src="static/js/csrf.js"></script> 
-<script src="static/js/fastclick.js"></script> 
+<script src="../../../../static/js/vue.js"></script> 
+<script src="../../../../static/js/csrf.js"></script> 
+<script src="../../../../static/js/fastclick.js"></script> 
 <!-- AdminLTE for demo purposes --> 
-<script src="static/js/demo.js"></script> 
+<script src="../../../../static/js/demo.js"></script> 
 <!-- FLOT CHARTS --> 
-<script src="static/js/jquery.flot.js"></script> 
+<script src="../../../../static/js/jquery.flot.js"></script> 
 <!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized --> 
-<script src="static/js/jquery.flot.resize.js"></script> 
+<script src="../../../../static/js/jquery.flot.resize.js"></script> 
 <!-- FLOT PIE PLUGIN - also used to draw donut charts --> 
-<script src="static/js/jquery.flot.pie.js"></script> 
+<script src="../../../../static/js/jquery.flot.pie.js"></script> 
 <!-- FLOT CATEGORIES PLUGIN - Used to draw bar charts --> 
-<script src="static/js/jquery.flot.categories.js"></script> 
+<script src="../../../../static/js/jquery.flot.categories.js"></script> 
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
