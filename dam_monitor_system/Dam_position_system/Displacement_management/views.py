@@ -276,3 +276,5 @@ def label_history_select(request,aid,bid):
 	dam_list = Dam.objects.get(dam_num = aid)
 	device_list = Device.objects.filter(device_num = bid,dam = dam_list)
 	return render(request,'label_history_select.html',{'device_list':device_list})
+def history_search(request):
+	return render(request,'history_search.html')
