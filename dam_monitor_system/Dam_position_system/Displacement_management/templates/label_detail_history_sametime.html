@@ -195,9 +195,13 @@ desired effect
 	
 	var Num_list = {{Num_list|safe}};//数量列表，第一个数规定画线的数量，第二个数至最后一个数表示每一条线的数据个数
 	//console.log(Num_list);
+	//var min_Num_list = Math.min.apply(null, Num_list);//取出最小值，以此数量作为line_time和line_data的个数  放弃
+	//console.log(min_Num_list)
+	
 	//按Num_list中的个数，循环定义数组变量
 	for (var i = 0; i < Num_list.length; i++) {
 		window["line_time"+i] = [];//画图用的line_time
+		window["line_time_show"+i] = [];//标签显示用的line_time_show
 		window["line_data"+i] = [];//画图用的line_data
 		window["line_array"+i] = [];//存放line_time和line_data，生成二维坐标
 		window["line_draw"+i] = {};//存放line_array和颜色等...
@@ -206,38 +210,83 @@ desired effect
 	}
 	//console.log(line_time1)
 	
-	var Time_list = {{Time_list|safe}};//时间列表
-	console.log(Time_list)
+	var Time_list_past = {{Time_list|safe}};//从后台传回的时间列表
+	//console.log(Time_list_past)
+	//console.log(Time_list.length)
+	var Time_list_YMD = [];//拆分出年月日
+	var Time_list_YMD_past = [];//拆分出年月日,作为显示label使用
+	//var Time_list_ymd = [];//转为数值数组
+	//var Time_list_d = [];//方便取出最后一个元素
+	var Time_list_HM = [];//拆分出小时分钟
+	for(var k=0;k<Time_list_past.length;k++){
+		Time_list_YMD.push(Time_list_past[k].split(" ")[0]);//通过设置的“ ”进行拆分，取第一个元素（年月日）放在一个数组中
+		Time_list_YMD_past.push(Time_list_past[k].split(" ")[0]);//通过设置的“ ”进行拆分，取第一个元素（年月日）放在一个数组中
+		Time_list_HM.push(Time_list_past[k].split(" ")[1]);//通过设置的“ ”进行拆分，取第二个元素（小时分钟）放在一个数组中
+		//Time_list_ymd = String(Time_list_YMD);//转为数值数组，"-"也是元素了！
+		//Time_list_d = Time_list_ymd[Time_list_ymd.length-1];
+           } 
+		//console.log(Time_list_YMD)
+		//console.log(Time_list_ymd)
+		//console.log(Time_list_d)
+		//console.log(Time_list_HM)
+		
+	//统一换成同一天时间
+	for(var i=0;i<Time_list_YMD.length;i++){
+		Time_list_YMD[i] = Time_list_YMD[0];
+	}
+		//console.log(Time_list_YMD)
+		
+	//合并数组
+	var Time_list = [];//拼接后最终使用的时间
+	for(var i=0;i<Time_list_YMD.length;i++){
+		Time_list.push(Time_list_YMD[i]+" "+Time_list_HM[i]);
+	}
+	//console.log(Time_list)
+		
 	
 	//转化时间为中国标准时间格式
+	//var time_list_YMD = [], time_list_HM = [];
 	var time_list = [];
 	for (var k = 0; k < Time_list.length; k++) {
 		time_list.push(new Date (Time_list[k]));
+		//time_list_YMD.push(new Date (time_list_YMD[k]));
+		//time_list_HM.push(new Date (Time_list_HM[k]));
 	}
+	//console.log(time_list_YMD)
+	//console.log(time_list_HM)
 	//console.log(time_list)
 	
+	//由于要把所有时间段的年月日统一起来，在此处单独写line_time的赋值  
+	//for (var k = 0; k < Num_list.length; k++) {
+		//window["line_time"+k] = time_list.slice(0,Num_list[k]);
+		//console.log(window["line_time"+k])
+	//}	
+	//console.log(line_time0)
+	//console.log((window["line_time"+1])[0])
+	
 	var Data_list = {{Data_list|safe}};//距离列表，存放具体数据
-	//console.log(Data_list);
+	console.log(Data_list);
 	
 	var Name_list = {{Name_list|safe}};//明确具体标签、基站、处理前数据1、处理后数据2
-	//console.log(Name_list);
+	console.log(Name_list);
 	//按Num_list中的个数，取出Name_list
 	//console.log(Name_list.length)
 	for (var n = 0; n < Name_list.length; n++) {
 		window["line_Name"+n].push(Name_list[n]);
-		window["line_name"+n] = String(window["line_Name"+n]);//转为数组，逗号也是元素了！
+		window["line_name"+n] = String(window["line_Name"+n]);//转为数值数组，逗号也是元素了！
 		//console.log(window["line_name"+n])
 	}
 	//console.log(line_name1[1])
-	//按Num_list中的个数，取出time_list,Data_list（第一个）方法不同
+	
+	//按Num_list中的个数，取出Time_list_YMD_past,time_list,Data_list（第一个）方法不同
 	for (var s = 0; s < Num_list[0]; s++) {
+		window["line_time_show"+0].push(Time_list_YMD_past[s]);
 		window["line_time"+0].push(time_list[s]);
 		window["line_data"+0].push(Data_list[s]);
 	}
-	//console.log(line_time0)
 	//console.log(line_data0)
 	
-	//按Num_list中的个数，取出time_list,Data_list（从第二个开始）
+	//按Num_list中的个数，取出Time_list_YMD_past,time_list,Data_list（从第二个开始）
 	var isFirst = 1;//只执行一次
 	var start;
 	for (var j = 1; j < Num_list.length;j++) {
@@ -245,31 +294,31 @@ desired effect
 			start = Num_list[j-1];
 			isFirst = 0;
 		}
+		window["line_time_show"+j] = Time_list_YMD_past.slice(start,start + Num_list[j]);
 		window["line_time"+j] = time_list.slice(start,start + Num_list[j]);
 		window["line_data"+j] = Data_list.slice(start,start + Num_list[j]);
 		start = start + Num_list[j];
-		//console.log(window["line_time"+j])
+		//console.log(window["line_data"+j])
 	}
-	//console.log((window["line_time"+1])[0])
-	//console.log((window["line_data"+1]))
-	
+	//console.log((window["line_data"+3]))
+	//console.log((window["line_time_show"+1]))
 	
 	//将已获得的line_time和line_data放入line_array中，确立横纵坐标，以画图
     for (var t = 0; t < Num_list.length; t += 1) {
-		for (var w = 0; w < window["line_time"+t].length; w += 1) {
-			window["line_array"+t].push([(window["line_time"+t][w]), (window["line_data"+t][w])])//由于window是数组，因此要把元素取出来再push
+		for (var w = 0; w < window["line_time"+0].length; w += 1) {
+			window["line_array"+t].push([(window["line_time"+t][w]), (window["line_data"+t][w])])//由于window是数组，因此要把元素取出来再push；同理，此处指pushline_time0
 		}
 		//console.log(window["line_array"+t])
     }
 
 	//确定线的数据和颜色
 	var happy_distance = [], happy_temperature = [];
-	var color_choose = ['#3c8dbc','#00c0ef','#00a65a','#f39c12','#f56954','#d2d6de','#001F3F','#39CCCC','#605ca8','#ff851b','#D81B60','#111111'];
+	var color_choose = ['#A52A2A','#00c0ef','#00a65a','#f39c12','#f56954','#8A2BE2','#001F3F','#0000FF','#605ca8','#ff851b','#D81B60','#111111'];
 	for (var h = 0; h < Num_list.length; h += 1) {
 		window["line_draw"+h] = {
 			data : window["line_array"+h],
 			color: color_choose[h],
-			label: "标签" + ":" + window["line_name"+h][0] + " " + "基站" + ":" + window["line_name"+h][2],
+			label: window["line_time_show"+h][0] + " " + "标签" + ":" + window["line_name"+h][0] + " " + "基站" + ":" + window["line_name"+h][2],
 		}
 	//console.log(window["line_draw"+h])
 	if (window["line_name"+h][4] == 3) {
@@ -306,15 +355,19 @@ desired effect
       yaxis : {
         show: true
       },
-      xaxis : {
+       xaxis : {
         show: true,
 		mode:'time',
-		tickFormatter:function(val,axis){
-			var d = new Date(val);
-			if (d.getHours < 10 && d.getMinutes < 10) {
-				return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' +  '0' + d.getHours();}
-				else {
-					return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours();}
+		tickFormatter:function(e){
+			var d = new Date(e);
+			if (d.getHours() < 10 && d.getMinutes() < 10) {
+					return  '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
+					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+						return '0' + d.getHours() + ':' + d.getMinutes();} 
+					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+						return d.getHours() + ':' + '0' + d.getMinutes();}
+					else {
+						return d.getHours() + ':' + d.getMinutes();}
 		}
       }
     })
@@ -333,13 +386,13 @@ desired effect
             	y = item.datapoint[1].toFixed(4) //设定精度
 				d = new Date(x);
 				if (d.getHours() < 10 && d.getMinutes() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
+					timeStr = d.getHours() + ':' + '0' + d.getMinutes();} 
 					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
+						timeStr = d.getHours() + ':' + d.getMinutes();} 
 					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
+						timeStr = d.getHours() + ':' + '0' + d.getMinutes();}
 					else {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+						timeStr = d.getHours() + ':' + d.getMinutes();}
 						
 				$('#line-chart-tooltip-1').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
 				.css({ top: item.pageY + 5, left: item.pageX + 5 })
@@ -374,15 +427,19 @@ desired effect
       yaxis : {
         show: true
       },
-      xaxis : {
+     xaxis : {
         show: true,
 		mode:'time',
-		tickFormatter:function(val,axis){
-			var d = new Date(val);
-			if (d.getHours < 10 && d.getMinutes < 10) {
-				return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' +  '0' + d.getHours();}
-				else {
-					return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours();}
+		tickFormatter:function(e){
+			var d = new Date(e);
+			if (d.getHours() < 10 && d.getMinutes() < 10) {
+					return  '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
+					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+						return '0' + d.getHours() + ':' + d.getMinutes();} 
+					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+						return d.getHours() + ':' + '0' + d.getMinutes();}
+					else {
+						return d.getHours() + ':' + d.getMinutes();}
 		}
       }
     })
@@ -401,13 +458,13 @@ desired effect
             	y = item.datapoint[1].toFixed(4) //设定精度
 				d = new Date(x);
 				if (d.getHours() < 10 && d.getMinutes() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
+					timeStr = d.getHours() + ':' + '0' + d.getMinutes();} 
 					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
+						timeStr = d.getHours() + ':' + d.getMinutes();} 
 					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
+						timeStr = d.getHours() + ':' + '0' + d.getMinutes();}
 					else {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+						timeStr = d.getHours() + ':' + d.getMinutes();}
 						
 				$('#line-chart-tooltip-2').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 温度 ' + ':' + y + ' 摄氏度 ')
 				.css({ top: item.pageY + 5, left: item.pageX + 5 })

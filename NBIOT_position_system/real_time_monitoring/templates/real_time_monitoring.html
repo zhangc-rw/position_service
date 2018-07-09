@@ -551,10 +551,10 @@ desired effect
              success: function (result) {//成功时弹出view传回来的结果即后端处理函数中HttpResponse的返回值</span>
 	
 				for(var j=0;j<result.target_list.length;j++){
-					//alert(result.target_list.length)
-					//alert(String(result.target_list[i]))
+					//console.log(result.target_list)
+					
 					data[j] = String(result.target_list[j]);//将传回的list转为字符串
-					//alert(data[j]);
+					//console.log(data[j])
 					
 					var arr = data[j].split(",");//通过设置的","进行拆分，获得经纬度
 					//alert(arr[0])
