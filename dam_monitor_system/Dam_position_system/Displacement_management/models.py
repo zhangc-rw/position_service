@@ -1,11 +1,14 @@
 from django.db import models
 from Dam_Device_management.models import Device
+from Dam_Device_management.models import Dam
 # Create your models here.
 class DReal(models.Model):
+	#大坝编号
+	dam = models.ForeignKey(Dam,null=True)
 	#设备编号
 	device = models.ForeignKey(Device,null=True)
 	#基站ID
-	stationID = models.CharField(max_length=60,null=True)
+	stationID = models.IntegerField(null=True)
 	#更新时间
 	dreal_update_time = models.DateTimeField(auto_now=True,null=True)
 	#温度
@@ -35,10 +38,12 @@ class DReal(models.Model):
 		return str(self.device.dam.dam_num)
 
 class DPast(models.Model):
+	#大坝编号
+	dam = models.ForeignKey(Dam,null=True)
 	#设备编号
 	device = models.ForeignKey(Device,null=True)
 	#基站ID
-	stationID = models.CharField(max_length=60,null=True)
+	stationID = models.IntegerField(null=True)
 	#更新时间
 	dreal_update_time = models.DateTimeField(auto_now=True,null=True)
 	#温度
@@ -63,6 +68,72 @@ class DPast(models.Model):
 	dx = models.FloatField(null=True,default=0)
 	dy = models.FloatField(null=True,default=0)
 	dz = models.FloatField(null=True,default=0)
+
+	def __str__(self):
+		return str(self.device.dam.dam_num)
+
+class Raw_data(models.Model):
+	#大坝编号
+	dam = models.ForeignKey(Dam,null=True)
+	#设备编号
+	device = models.ForeignKey(Device,null=True)
+	#基站ID
+	stationID = models.IntegerField(null=True)
+	#基站编号
+	station_num = models.CharField(max_length=60,null=True)
+	#更新时间
+	dreal_update_time = models.DateTimeField(auto_now=True,null=True)
+	#温度
+	temperature = models.FloatField(null=True)
+	#电压
+	voltage = models.FloatField(null=True)
+	#距离
+	d1 = models.FloatField(null=True)
+	d2 = models.FloatField(null=True)
+	d3 = models.FloatField(null=True)
+	d4 = models.FloatField(null=True)
+
+	def __str__(self):
+		return str(self.device.dam.dam_num)
+
+class Processing_data(models.Model):
+	#大坝编号
+	dam = models.ForeignKey(Dam,null=True)
+	#设备编号
+	device = models.ForeignKey(Device,null=True)
+	#基站ID
+	stationID = models.IntegerField(null=True)
+	#基站编号
+	station_num = models.CharField(max_length=60,null=True)
+	#更新时间
+	dreal_update_time = models.DateTimeField(auto_now=True,null=True)
+	#温度
+	temperature = models.FloatField(null=True)
+	#电压
+	voltage = models.FloatField(null=True)
+	#距离
+	d = models.FloatField(null=True)
+
+	def __str__(self):
+		return str(self.device.dam.dam_num)
+
+class Average_data(models.Model):
+	#大坝编号
+	dam = models.ForeignKey(Dam,null=True)
+	#设备编号
+	device = models.ForeignKey(Device,null=True)
+	#基站ID
+	stationID = models.IntegerField(null=True)
+	#基站编号
+	station_num = models.CharField(max_length=60,null=True)
+	#更新时间
+	dreal_update_time = models.DateTimeField(auto_now=True,null=True)
+	#温度
+	temperature = models.FloatField(null=True)
+	#电压
+	voltage = models.FloatField(null=True)
+	#距离
+	d = models.FloatField(null=True)
 
 	def __str__(self):
 		return str(self.device.dam.dam_num)

@@ -23,5 +23,8 @@ urlpatterns = [
 
     url(r'^label_detail_realtime/(?P<aid>\d+)/(?P<bid>\d+)/$', Displacement_management.views.DReal_management),
     url(r'^label_history_select/(?P<aid>\d+)/(?P<bid>\d+)/$', Displacement_management.views.label_history_select),
-    url(r'^label_detail_history/(?P<aid>\d+)/(?P<bid>\d+)/$', Displacement_management.views.DPast_management),
+    #url(r'^label_detail_history/(?P<aid>\d+)/(?P<bid>\d+)/$', Displacement_management.views.DPast_management),
+
+    url(r'^label_detail_history/$', Displacement_management.views.DPast_management),
+    url(r'^label_detail_history_sametime/$', Displacement_management.views.DPast_management_sametime),
 ]

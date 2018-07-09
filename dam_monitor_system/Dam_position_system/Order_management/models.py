@@ -9,7 +9,7 @@ class Order(models.Model):
 	#指令类型
 	order_type = models.IntegerField(null=True)
 	#指令数据
-	order_data = models.IntegerField(null=True)
+	order_data = models.CharField(max_length=80,null=True)
 	#基站ID
 	stationID = models.CharField(max_length=80,default= '-1',null=True)
 
