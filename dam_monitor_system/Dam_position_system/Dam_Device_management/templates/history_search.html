@@ -180,9 +180,10 @@ desired effect
                               <th>标签编号T</th>
                               <th>基站编号A</th>
                               <th>时间范围</th>
-                              <th>修正前数据曲线</th>
-                              <th>修正后数据曲线</th>
                               <th>温度曲线</th>
+                              <th>平均曲线</th>
+                              <th>收敛曲线</th>
+                              <th>平滑曲线</th>
                             </tr>
                             <tr>
                               <td><select input type="varchar" class="form-control form-input" name="device_num[]" id="device_num" style="width: 100%;">
@@ -198,6 +199,10 @@ desired effect
                                   <option>3</option>
                                 </select></td>
                               <td><input type="varchar" class="form-control form-input reservationtime" name="reservationtime[]" id="" style="width: 300px"></td>
+                              <td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">
+                                  <option>是</option>
+                                  <option>否</option>
+                                </select></td>
                               <td><select input type="varchar" class="form-control form-input" name="d1_num[]" id="d1_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
@@ -206,10 +211,11 @@ desired effect
                                   <option>是</option>
                                   <option>否</option>
                                 </select></td>
-                              <td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">
+                              <td><select input type="varchar" class="form-control form-input" name="d3_num[]" id="d3_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
                                 </select></td>
+                              
                             </tr>
                           </table>
                         </div>
@@ -245,9 +251,10 @@ desired effect
                               <th>标签编号T</th>
                               <th>基站编号A</th>
                               <th>时间范围</th>
-                              <th>修正前数据曲线</th>
-                              <th>修正后数据曲线</th>
                               <th>温度曲线</th>
+                              <th>平均曲线</th>
+                              <th>收敛曲线</th>
+                              <th>平滑曲线</th>
                             </tr>
                             <tr>
                               <td><select input type="varchar" class="form-control form-input" name="device_num[]" id="device_num" style="width: 100%;">
@@ -263,6 +270,10 @@ desired effect
                                   <option>3</option>
                                 </select></td>
                               <td><input type="varchar" class="form-control form-input reservationtime" name="reservationtime[]" id="" style="width: 300px"></td>
+                              <td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">
+                                  <option>是</option>
+                                  <option>否</option>
+                                </select></td>
                               <td><select input type="varchar" class="form-control form-input" name="d1_num[]" id="d1_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
@@ -271,7 +282,7 @@ desired effect
                                   <option>是</option>
                                   <option>否</option>
                                 </select></td>
-                              <td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">
+                              <td><select input type="varchar" class="form-control form-input" name="d3_num[]" id="d3_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
                                 </select></td>
@@ -370,7 +381,11 @@ desired effect
                             '<option>2</option>' +
                             '<option>3</option>' +
                           '</select></td>'+
-						  '<td><input type="varchar" class="form-control form-input reservationtime" name="reservationtime[]" id="" style="width: 300px"></td>'+
+						'<td><input type="varchar" class="form-control form-input reservationtime" name="reservationtime[]" id="" style="width: 300px"></td>'+
+						'<td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">' +
+                            '<option>是</option>' +
+                            '<option>否</option>' +
+                          '</select></td>'+
                         '<td><select input type="varchar" class="form-control form-input" name="d1_num[]" id="d1_num" style="width: 100%;">' +
                             '<option>是</option>' +
                             '<option>否</option>' +
@@ -379,10 +394,11 @@ desired effect
                             '<option>是</option>' +
                             '<option>否</option>' +
                           '</select></td>'+
-                        '<td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">' +
+						'<td><select input type="varchar" class="form-control form-input" name="d3_num[]" id="d3_num" style="width: 100%;">' +
                             '<option>是</option>' +
                             '<option>否</option>' +
                           '</select></td>'+
+                        
                       ' </tr>');
                       $('#DandL_1 tr:last-child .reservationtime').daterangepicker({
 				  timePicker: true,
@@ -414,7 +430,11 @@ desired effect
                             '<option>2</option>' +
                             '<option>3</option>' +
                           '</select></td>'+
-						  '<td><input type="varchar" class="form-control form-input reservationtime" name="reservationtime[]" id="" style="width: 300px"></td>'+
+						'<td><input type="varchar" class="form-control form-input reservationtime" name="reservationtime[]" id="" style="width: 300px"></td>'+
+						'<td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">' +
+                            '<option>是</option>' +
+                            '<option>否</option>' +
+                          '</select></td>'+
                         '<td><select input type="varchar" class="form-control form-input" name="d1_num[]" id="d1_num" style="width: 100%;">' +
                             '<option>是</option>' +
                             '<option>否</option>' +
@@ -423,7 +443,7 @@ desired effect
                             '<option>是</option>' +
                             '<option>否</option>' +
                           '</select></td>'+
-                        '<td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">' +
+                        '<td><select input type="varchar" class="form-control form-input" name="d3_num[]" id="d3_num" style="width: 100%;">' +
                             '<option>是</option>' +
                             '<option>否</option>' +
                           '</select></td>'+

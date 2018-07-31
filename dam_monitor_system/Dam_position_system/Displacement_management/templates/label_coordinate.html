@@ -248,7 +248,7 @@ desired effect
 	//console.log(line_time1)
 	
 	var Time_list = {{Time_list|safe}};//时间列表
-	//console.log(Time_list)
+	console.log(Time_list)
 	
 	//转化时间为中国标准时间格式
 	var time_list = [];
@@ -260,7 +260,7 @@ desired effect
 	var Data_list = {{Data_list|safe}};//距离列表，存放具体数据
 	//console.log(Data_list);
 	
-	var Name_list = {{Name_list|safe}};//明确具体标签，基站，温度，数据1、2、3
+	var Name_list = {{Name_list|safe}};//明确具体标签、基站、处理前数据1、处理后数据2
 	//console.log(Name_list);
 	//按Num_list中的个数，取出Name_list
 	//console.log(Name_list.length)
@@ -313,7 +313,7 @@ desired effect
 			label: "标签" + ":" + window["line_name"+h][0] + " " + "基站" + ":" + window["line_name"+h][2],
 		}
 	//console.log(window["line_draw"+h])
-	if (window["line_name"+h][4] == 4) {
+	if (window["line_name"+h][4] == 3) {
 		happy_temperature.push(window["line_draw"+h])//存放的温度曲线
 		}else{
 			happy_distance.push(window["line_draw"+h])//存放的位移曲线
