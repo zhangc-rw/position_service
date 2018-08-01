@@ -2,6 +2,7 @@ from django.shortcuts import render
 # Create your views here.
 from Displacement_management.models import DReal
 from Displacement_management.models import DPast
+from Displacement_management.models import Dping
 from Displacement_management.models import Average_data
 from Dam_Device_management.models import Device
 from Dam_Device_management.models import Dam
@@ -48,6 +49,7 @@ def DPast_management_sametime(request):
 		device_num = request.POST.getlist('device_num[]')
 		qian = request.POST.getlist('d1_num[]')
 		hou = request.POST.getlist('d2_num[]')
+		ping = request.POST.getlist('d3_num[]')
 		temperature = request.POST.getlist('temperature_num[]')
 		num = len(dam_num)
 		Data_list = []
