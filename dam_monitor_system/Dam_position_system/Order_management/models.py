@@ -12,7 +12,6 @@ class Order(models.Model):
 	order_data = models.CharField(max_length=80,null=True)
 	#基站ID
 	stationID = models.CharField(max_length=80,default= '-1',null=True)
-
 	def __str__(self):
 		return str(self.dam.dam_num)
 		
@@ -21,12 +20,10 @@ class Dam_Parameter(models.Model):
 	dam = models.ForeignKey(Dam,null=True)
 	#更新时间
 	update_time = models.DateTimeField(auto_now=True,null=True)
-	#参数
-	parameter_data  = models.IntegerField(null=True)
-	'''#参数类型
+	#参数类型
 	parameter_type = models.IntegerField(null=True)
 	#参数数据
-	parameter_data = models.IntegerField(null=True)'''
+	parameter_data = models.CharField(max_length=80,null=True)
 
 	def __str__(self):
 		return str(self.dam.dam_num)

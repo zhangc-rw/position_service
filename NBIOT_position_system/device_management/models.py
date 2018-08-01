@@ -19,7 +19,7 @@ class Device(models.Model):
     remark = models.TextField()
 
     def __str__(self):
-        return self.device_num
+        return str(self.device_num)
 
 class DeviceStatus(models.Model):
     #设备
@@ -40,4 +40,4 @@ class DeviceStatus(models.Model):
     device_state = models.CharField(max_length=80)
 
     def __str__(self):
-        return self.device.device_num
+        return str(self.device.device_num)

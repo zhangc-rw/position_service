@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'real_time_monitoring',
     'device_management',
     'carrier_management',
+    #'accounts',
 ]
 
 MIDDLEWARE = [

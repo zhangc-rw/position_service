@@ -22,4 +22,5 @@ class Carrier(models.Model):
     remarks = models.TextField(null=True)
 
     def __str__(self):
-        return self.carrier_num
+        return str(self.carrier_num)
+
