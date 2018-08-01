@@ -156,12 +156,11 @@ desired effect
             <ul class="nav nav-tabs pull-right">
               <li class="active"><a href="#tab_history_select" data-toggle="tab">历史数据</a></li>
             </ul>
-            <div class="tab-content"> 
+            <div class="tab-content">
               <div class="tab-pane active" id="tab_history_select"> 
                 <!-- Main content -->
                 <section class="content container-fluid">
-                  <div class="box box-default">
-                    {% for line in device_list  %}
+                  <div class="box box-default"> {% for line in device_list  %}
                     <div class="box-header with-border">
                       <h3 class="box-title">请选择{{line.dam.dam_num}}号大坝{{line.device_num}}号设备的时间</h3>
                     </div>
@@ -189,8 +188,7 @@ desired effect
                       </div>
                       <!-- /.box-footer -->
                     </form>
-                    {% endfor %}
-                  </div>
+                    {% endfor %} </div>
                 </section>
                 <!-- /.content --> 
               </div>
