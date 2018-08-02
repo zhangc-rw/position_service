@@ -158,7 +158,7 @@ def DPast_management_sametime(request):
 				#Num_list.append(num)
 			if ping[index] =="是":
 				d4_list = []
-				for d in D_list:
+				for d in DP_list:
 					if dam_num[index] == "0":
 						d4_list.append(d.d1)
 						Data_list.append(d.d1)
@@ -303,7 +303,7 @@ def DPast_management(request):
 				#Num_list.append(num)
 			if ping[index] =="是":
 				d4_list = []
-				for d in D_list:
+				for d in DP_list:
 					if dam_num[index] == "0":
 						d4_list.append(d.d1)
 						Data_list.append(d.d1)
