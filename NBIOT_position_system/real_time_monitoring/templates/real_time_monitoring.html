@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<title>国民教育学校定位系统</title>
+<title>室内定位系统</title>
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
@@ -88,7 +88,7 @@ desired effect
     <!-- mini logo for sidebar mini 50x50 pixels --> 
     <span class="logo-mini">定位系统</span> 
     <!-- logo for regular state and mobile devices --> 
-    <span class="logo-lg">国民教育学校定位系统</span> </a> 
+    <span class="logo-lg">室内定位系统</span> </a> 
     
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation"> 
@@ -143,7 +143,7 @@ desired effect
         <li><a href="/carrier_management/PandG_management"><i class="fa fa-link"></i> <span>人员及枪支管理</span></a></li>
         <li><a href="#"><i class="fa fa-link"></i> <span>报警管理</span></a></li>
         <li><a href="#"><i class="fa fa-link"></i> <span>区域管理</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>设备管理</span></a></li>
+        <li><a href="#"><i class="fa fa-link"></i> <span>枪支管理</span></a></li>
         <li><a href="#"><i class="fa fa-link"></i> <span>地图管理</span></a></li>
         <li><a href="#"><i class="fa fa-link"></i> <span>对外接口</span></a></li>
         <li><a href="#"><i class="fa fa-link"></i> <span>系统管理</span></a></li>
@@ -432,6 +432,8 @@ desired effect
 		//console.log(P0.get(7))
 	var P1 = [];//终止点的经纬度
 	var isFirst = 1;//加载页面时，以第一个勾选的点为中心显示，只执行一次
+	//var setInterval_num = []; //给setInterval计数
+	var polyline = [];//存放线段
 		
 	$(document).ready(function(){
               $.ajaxSetup({  
@@ -535,6 +537,9 @@ desired effect
 					//console.log(P1)
 					//console.log(P0.get(j))
 					//console.log(P0.get(nums[j]))
+					
+					//setInterval_num.push(1);//可以通过计数1的个数，得知setInterval运行了多少次
+					//console.log(setInterval_num)
 							
 					if(((P0.get(Nums[j])).lng == P.lng) && ((P0.get(Nums[j])).lat == P.lat)){//get获取值，判断坐标是否为空
 						P0.set(Nums[j],P1[j]);//将P1[j]赋值给P0(Nums[j])，作为起点
@@ -555,30 +560,47 @@ desired effect
 					}else{
 						map.removeOverlay(marker.get(Nums[j]));//去点
 						//区分打点样式和画线颜色
-						var polyline = new Map();
 						if((type[j] >= 1) && (type[j] <= 100)){
 							marker.set(Nums[j],new BMap.Marker(P1[j]));
 							map.addOverlay(marker.get(Nums[j]));//打点
-							//设置线的样式
-							polyline.set(Nums[j], new BMap.Polyline([P0.get(Nums[j]),P1[j]], {
-								strokeColor: "red",//设置颜色，人为红色
-            					strokeWeight: 3, //宽度
-            					strokeOpacity: 0.5 //透明度
-								}));
-								//console.log(polyline)
+							//设置线的样式，数据结构（可以存放每次的线段，也便于查找）
+							polyline.push(
+							{
+								linkId:Nums[j], //关联的编号
+								lineArray:new BMap.Polyline([P0.get(Nums[j]),P1[j]], {
+									strokeColor: "red",//设置颜色，人为红色
+            						strokeWeight: 3, //宽度
+            						strokeOpacity: 0.5 //透明度
+									})
+							}) 
+							//console.log(polyline)
+							//console.log(polyline.lineArray)
+							//console.log(polyline.length)
 						}else if((type[j] > 100) && (type[j] <= 200)){
 							marker.set(Nums[j],new BMap.Marker(P1[j]));
 							map.addOverlay(marker.get(Nums[j]));//打点
-							polyline.set(Nums[j], new BMap.Polyline([P0.get(Nums[j]),P1[j]], {
-								strokeColor: "blue",//设置颜色，人为红色
-            					strokeWeight: 3, //宽度
-            					strokeOpacity: 0.5 //透明度
-								}));
+							polyline.push(
+							{
+								linkId:Nums[j], //关联的编号
+								lineArray:new BMap.Polyline([P0.get(Nums[j]),P1[j]], {
+									strokeColor: "blue",//设置颜色，人为红色
+            						strokeWeight: 3, //宽度
+            						strokeOpacity: 0.5 //透明度
+									})
+							})
+							//console.log(polyline)
+						}
+						//判断打钩编号和polyline中的linkId是否相同，然后画线
+						for(var i = 0;i < polyline.length; i ++){
+							if(polyline[i].linkId == Nums[j]){
+								map.addOverlay(polyline[i].lineArray);//画线
 							}
-							map.addOverlay(polyline.get(Nums[j]));//画线
-							P0.set(Nums[j],P1[j]);//将P1[j]赋值给P0(Nums[j])
-						  }	
+						}
+						P0.set(Nums[j],P1[j]);//将P1[j]赋值给P0(Nums[j])
+							}//大if	
 						}//for循环
+						//console.log(polyline)
+						
 						
 		//取消之前打钩项，将该项的数据清零，点击放大镜不定位，去点去线
 						var uncheckedArr = $('input[class=checkOne]').not("input:checked"); //未被选中的checkbox组成的数组 通过使用class进行筛选 
@@ -592,7 +614,14 @@ desired effect
 						var uncheckednum = JSON.parse('[' + uncheckedNum + ']');
 						//console.log(uncheckednum)
 						for(var j = 0;j < uncheckednum.length;j ++){
-							//map.removeOverlay(polyline.get(uncheckednum[j]));//在地图上去线
+							
+							//判断未打钩编号和polyline中的linkId是否相同，然后去线
+							for(var i = 0;i < polyline.length; i ++){
+								if(polyline[i].linkId == uncheckednum[j]){
+								map.removeOverlay(polyline[i].lineArray);//去线
+								}
+							}
+						
 							map.removeOverlay(marker.get(uncheckednum[j]));//在地图上去点
 							P0.set(uncheckednum[j],P);///把未勾选的赋值为P，即0，实现点击放大镜不定位的功能
 						}
@@ -616,6 +645,7 @@ desired effect
 								}
 							
 							})
+							
 							
 		//返回坐标到打钩处
 						//console.log(result.target_list)
@@ -646,6 +676,8 @@ desired effect
 									}
 							}
 						}
+						
+						
 		//在此处实现将取消打钩项的坐标隐藏起来
 						//console.log(uncheckedArr) 
 						var dataSource_unchecked = [];

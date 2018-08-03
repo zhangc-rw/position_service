@@ -234,7 +234,7 @@ desired effect
      */
     //LINE randomly generated data
 	
-	var Num_list = {{Num_list|safe}};//数量列表，第一个数规定画线的数量，第二个数至最后一个数表示每一条线的数据个数
+	var Num_list = {{Num_list|safe}};//数量列表，每个元素都规定每一条线的数据个数
 	//console.log(Num_list);
 	//var min_Num_list = Math.min.apply(null, Num_list);//取出最小值，以此数量作为line_time和line_data的个数  放弃
 	//console.log(min_Num_list)
@@ -362,7 +362,7 @@ desired effect
 			label: window["line_time_show"+h][0] + " " + "标签" + ":" + window["line_name"+h][0] + " " + "基站" + ":" + window["line_name"+h][2],
 		}
 	//console.log(window["line_draw"+h])
-	if (window["line_name"+h][4] == 4) {
+	if (window["line_name"+h][4] == 1) {
 		happy_temperature.push(window["line_draw"+h])//存放的温度曲线
 		}else{
 			happy_distance.push(window["line_draw"+h])//存放的位移曲线
