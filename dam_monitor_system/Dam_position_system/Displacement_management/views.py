@@ -350,7 +350,7 @@ def Raw_data_management(request):
 		print(Data_list)
 		print(Time_list)
 
-	return render(request, 'label_detail_history.html', {'Data_list': json.dumps(Data_list)})
+	return render(request, 'realTime_Raw_data.html', {'Data_list': json.dumps(Data_list)}, {'Time_list': json.dumps(Time_list)})
 		
 
 def label_detail_realtime(request):
