@@ -4,10 +4,14 @@ from Displacement_management.models import DReal
 from Displacement_management.models import DPast
 from Displacement_management.models import Dping
 from Displacement_management.models import Average_data
+from Displacement_management.models import Raw_data
 from Dam_Device_management.models import Device
 from Dam_Device_management.models import Dam
+
+
 import datetime
 import json
+import re
 from django.shortcuts import HttpResponseRedirect
 from django.http import HttpResponse
 #实时位移查看
@@ -71,22 +75,7 @@ def DPast_management_sametime(request):
 			D_list = DPast.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list)
 			DP_list = Dping.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list)
 			Data3_list = Average_data.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list,station_num = dam_num[index])
-			'''if dam_num[index] == "0":
-				device_list = Device.objects.filter(device_num = device_num[index])
-				D_list = DPast.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list)
-				Data3_list = Average_data.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list,station_num = dam_num[index])	
-			elif dam_num[index] == "1":
-				device_list = Device.objects.filter(device_num = device_num[index])
-				D_list = DPast.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list)
-				Data3_list = Average_data.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list,station_num = dam_num[index])
-			elif dam_num[index] == "2":
-				device_list = Device.objects.filter(device_num = device_num[index])
-				D_list = DPast.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list)
-				Data3_list = Average_data.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list,station_num = dam_num[index])
-			elif dam_num[index] == "3":
-				device_list = Device.objects.filter(device_num = device_num[index])
-				D_list = DPast.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list)
-				Data3_list = Average_data.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list,station_num = dam_num[index])'''
+			
 			Name1_list = [] 
 			Name2_list = [] 
 			Name3_list = [] 
@@ -214,22 +203,6 @@ def DPast_management(request):
 			D_list = DPast.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list)
 			DP_list = Dping.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list)
 			Data3_list = Average_data.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list,station_num = dam_num[index])
-			'''if dam_num[index] == "0":
-				device_list = Device.objects.filter(device_num = device_num[index])
-				D_list = DPast.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list)
-				Data3_list = Average_data.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list,station_num = dam_num[index])	
-			elif dam_num[index] == "1":
-				device_list = Device.objects.filter(device_num = device_num[index])
-				D_list = DPast.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list)
-				Data3_list = Average_data.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list,station_num = dam_num[index])
-			elif dam_num[index] == "2":
-				device_list = Device.objects.filter(device_num = device_num[index])
-				D_list = DPast.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list)
-				Data3_list = Average_data.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list,station_num = dam_num[index])
-			elif dam_num[index] == "3":
-				device_list = Device.objects.filter(device_num = device_num[index])
-				D_list = DPast.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list)
-				Data3_list = Average_data.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list,station_num = dam_num[index])'''
 			Name1_list = [] 
 			Name2_list = [] 
 			Name3_list = []
@@ -343,6 +316,43 @@ def DPast_management(request):
 	#return render(request,'label_detail_history.html')'''
 
 
+def Raw_data_management(request):
+	if request.method == "POST":
+		dam_num_list = request.POST.get('dam_num')
+		dam_num_list = re.findall(r"\d+\.?\d*",dam_num_list)#从字符串中取出数字
+		print (dam_num_list)
+		device_num_list = request.POST.get('device_num')
+		device_num_list = re.findall(r"\d+\.?\d*",device_num_list)#从字符串中取出数字
+		print (device_num_list)
+		num = len(dam_num_list)
+		Data_list = []
+		Time_list = []
+		for index in range(num):
+
+
+		#判断锚点编号
+			device_list = Device.objects.filter(device_num = device_num_list[index])
+			#通过最大的ID查询
+			D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:1]
+			#D_list = D_list.reverse()[:1]
+
+			for d in D_list :
+				if dam_num_list[index] == "0":
+					Data_list.append(d.d1)
+				elif dam_num_list[index] == "1":
+					Data_list.append(d.d2)
+				elif dam_num_list[index] == "2":
+					Data_list.append(d.d3)
+				elif dam_num_list[index] == "3":
+					Data_list.append(d.d4)
+				Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M"))
+			
+		print(Data_list)
+		print(Time_list)
+
+	return render(request, 'label_detail_history.html', {'Data_list': json.dumps(Data_list)})
+		
+
 def label_detail_realtime(request):
 	return render(request,'label_detail_realtime.html') 
 def label_history_select(request,aid,bid):
@@ -351,3 +361,5 @@ def label_history_select(request,aid,bid):
 	return render(request,'label_history_select.html',{'device_list':device_list})
 def history_search(request):
 	return render(request,'history_search.html')
+def realTime_search(request):
+	return render(request,'realTime_Raw_data.html')

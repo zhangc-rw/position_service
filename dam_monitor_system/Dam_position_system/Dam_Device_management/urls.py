@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^dam_management_form/$', Dam_Device_management.views.dam_management_form),
     url(r'^device_management_form/$', Dam_Device_management.views.device_management_form),
     url(r'^history_search/$', Displacement_management.views.history_search),
+    url(r'^realTime_search/$', Displacement_management.views.realTime_search),
 
 #大坝增删改查
     url(r'^add_form_Dam/$', Dam_Device_management.views.add_form_Dam),
