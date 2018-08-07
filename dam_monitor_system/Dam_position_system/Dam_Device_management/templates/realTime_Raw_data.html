@@ -15,12 +15,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <link rel="stylesheet" href="../../../../static/css/font-awesome.min.css">
 <!-- Ionicons -->
 <link rel="stylesheet" href="../../../../static/css/ionicons.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="../../../../static/css/dataTables.bootstrap.min.css">
 <!-- daterange picker -->
 <link rel="stylesheet" href="../../../../static/css/daterangepicker.css">
 <!-- bootstrap datepicker -->
 <link rel="stylesheet" href="../../../../static/css/bootstrap-datepicker.min.css">
-<!-- DataTables -->
-<link rel="stylesheet" href="../../../../static/css/dataTables.bootstrap.min.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="../../../../static/css/AdminLTE.min.css">
 <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
@@ -29,6 +29,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <link rel="stylesheet" href="../../../../static/css/skin-blue.min.css">
 <link rel="stylesheet" href="../../../../static/css/form.css">
 <link rel="stylesheet" href="../../../../static/css/_all-skins.min.css">
+<!-- iCheck for checkboxes and radio inputs -->
+<link rel="stylesheet" href="../../../../static/css/all.css">
+<!-- Select2 -->
+<link rel="stylesheet" href="../../../../static/css/select2.min.css">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -101,12 +105,12 @@ desired effect
             <!-- Menu Toggle Button --> 
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
             <!-- The user image in the navbar--> 
-            <img src="../../../../static/img/user2-160x160.jpg" class="user-image" alt="User Image"> 
+            <img src="../../../static/img/user2-160x160.jpg" class="user-image" alt="User Image"> 
             <!-- hidden-xs hides the username on small devices so only the image appears. --> 
             <span class="hidden-xs">Alexander Pierce</span> </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
-              <li class="user-header"> <img src="../../../../static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+              <li class="user-header"> <img src="../../../static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p> Alexander Pierce - Web Developer <small>Member since Nov. 2012</small> </p>
               </li>
               <!-- Menu Body -->
@@ -137,9 +141,9 @@ desired effect
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
         <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="/Dam_Device_management/DandL_management"><i class="fa fa-link"></i><span>设备管理</span></a></li>
+        <li><a href="/Dam_Device_management/DandL_management"><i class="fa fa-link"></i><span>设备管理</span></a></li>
         <li><a href="/Dam_Device_management/history_search"><i class="fa fa-link"></i><span>历史查看</span></a></li>
-        <li><a href="/Dam_Device_management/realTime_search"><i class="fa fa-link"></i><span>实时查看</span></a></li>
+        <li class="active"><a href="/Dam_Device_management/realTime_search"><i class="fa fa-link"></i><span>实时查看</span></a></li>
       </ul>
       <!-- /.sidebar-menu --> 
     </section>
@@ -150,125 +154,106 @@ desired effect
   <div class="content-wrapper"> 
     <!-- Main content -->
     <section class="content container-fluid">
-      <div class="row">
-        <div class="col-md-12"> 
-          <!-- Custom Tabs (Pulled to the right) -->
-          <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs pull-right">
-              <li class="active"><a href="#tab_realtime" data-toggle="tab">实时数据</a></li>
-            </ul>
-            <div class="tab-content"> {% csrf_token %}
-              <div class="tab-pane active" id="tab_realtime"> 
-                <!-- Main content -->
-                <section class="content">
-                  <div class="row">
-                    <div class="col-xs-12"> 
-                      <!-- interactive chart -->
-                      <div class="box box-primary">
-                        <div class="box-header with-border">
-                          <h3 class="box-title">测试点设备X方向实时位移</h3>
-                          <div class="box-tools pull-right"> 实时
-                            <div class="btn-group" id="realtime" data-toggle="btn-toggle">
-                              <button type="button" class="btn btn-default btn-xs active" data-toggle="on">开始</button>
-                              <button type="button" class="btn btn-default btn-xs" data-toggle="off">停止</button>
-                            </div>
-                          </div>
+    <div class="row">
+      <div class="col-md-12"> 
+        <!-- Custom Tabs (Pulled to the right) -->
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs pull-right">
+            <li class="active"><a href="#tab_realTime" data-toggle="tab">实时查看</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tab_realTime"> 
+              <!-- Main content -->
+              <section class="content">
+              <div class="row">
+                <div class="col-md-9">
+                  <div class="box box-primary">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">实时位移</h3>
+                      <!--
+                      <div class="box-tools pull-right">
+                        <div class="btn-group" id="realtime" data-toggle="btn-toggle">
+                          <button type="button" class="btn btn-default btn-xs active" data-toggle="on">开始</button>
+                          <button type="button" class="btn btn-default btn-xs" data-toggle="off">停止</button>
                         </div>
-                        <div class="box-body">
-                          <div id="interactive" style="height: 300px;"></div>
-                        </div>
-                        <!-- /.box-body-->
-                        <div class="box-footer">
-                          <button type="button" class="btn btn-info pull-right submitBtn" onClick="JavaScript:window.history.back();">返回</button>
-                        </div>
-                        <!-- /.box-footer --> 
                       </div>
-                      <!-- /.box --> 
+                      -->
                     </div>
-                    <!-- /.col --> 
+                    <div class="box-body">
+                      <div id="interactive" style="height: 300px;"></div>
+                    </div>
+                    <!-- /.box-body-->
                   </div>
-                  <!-- /.row --> 
-                </section>
-                <!-- /.content --> 
+                  <!-- /.box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-3">
+                  <div class="box box-solid">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">基站-标签列表信息</h3>
+                      <!--
+                      <div class="box-tools">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i> </button>
+                      </div>
+                      <!-- /.box-tools --> 
+                    </div>
+                    <div class="box-body no-padding box-messages">
+                      <ul class="nav nav-pills nav-stacked">
+                        <table id="dataList" class="table table-bordered table-hover tabTable">
+                          <thead>
+                            <tr>
+                              <th> <!-- Check all button --> </th>
+                              <th>基站编号A</th>
+                              <th>标签编号T</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td width="35px"><input type="checkbox" class="checkOne" value="2=2"></td>
+                              <td>2</td>
+                              <td>2</td>
+                            </tr>
+                            <tr>
+                              <td width="35px"><input type="checkbox" class="checkOne" value="2=3"></td>
+                              <td>2</td>
+                              <td>3</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </ul>
+                    </div>
+                    <!-- /.box-body --> 
+                  </div>
+                  <!-- /. box --> 
+                </div>
+                <!-- /.col --> 
               </div>
-              <!-- /.tab_realtime --> 
+              <!-- /.row --> 
             </div>
             <!-- /.tab-content --> 
           </div>
-          <!-- nav-tabs-custom --> 
         </div>
-        <!-- /.col --> 
+        <!-- /.tab-content --> 
       </div>
-    </section>
-    <!-- /.content --> 
-  </div>
-  <!-- /.content-wrapper --> 
-  
-  <!-- Main Footer -->
-  <footer class="main-footer"> 
-    <!-- To the right -->
-    <div class="pull-right hidden-xs"> Anything you want </div>
-    <!-- Default to the left --> 
-    <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved. </footer>
-  
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark"> 
-    <!-- Create the tabs -->
-    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-      <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-    </ul>
-    <!-- Tab panes -->
-    <div class="tab-content"> 
-      <!-- Home tab content -->
-      <div class="tab-pane active" id="control-sidebar-home-tab">
-        <h3 class="control-sidebar-heading">Recent Activity</h3>
-        <ul class="control-sidebar-menu">
-          <li> <a href="javascript:;"> <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-            <div class="menu-info">
-              <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-              <p>Will be 23 on April 24th</p>
-            </div>
-            </a> </li>
-        </ul>
-        <!-- /.control-sidebar-menu -->
-        
-        <h3 class="control-sidebar-heading">Tasks Progress</h3>
-        <ul class="control-sidebar-menu">
-          <li> <a href="javascript:;">
-            <h4 class="control-sidebar-subheading"> Custom Template Design <span class="pull-right-container"> <span class="label label-danger pull-right">70%</span> </span> </h4>
-            <div class="progress progress-xxs">
-              <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-            </div>
-            </a> </li>
-        </ul>
-        <!-- /.control-sidebar-menu --> 
-        
-      </div>
-      <!-- /.tab-pane --> 
-      <!-- Stats tab content -->
-      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-      <!-- /.tab-pane --> 
-      <!-- Settings tab content -->
-      <div class="tab-pane" id="control-sidebar-settings-tab">
-        <form method="post">
-          <h3 class="control-sidebar-heading">General Settings</h3>
-          <div class="form-group">
-            <label class="control-sidebar-subheading"> Report panel usage
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-            <p> Some information about this general settings option </p>
-          </div>
-          <!-- /.form-group -->
-        </form>
-      </div>
-      <!-- /.tab-pane --> 
+      <!-- nav-tabs-custom --> 
     </div>
-  </aside>
-  <!-- /.control-sidebar --> 
-  <!-- Add the sidebar's background. This div must be placed
-  immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
+    <!-- /.col --> 
+  </div>
+  <!-- /.row -->
+  </section>
+  <!-- /.content --> 
+</div>
+</div>
+<!-- /.tab-content -->
+</div>
+<!-- nav-tabs-custom -->
+</div>
+<!-- /.col -->
+</div>
+</section>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
 </div>
 <!-- ./wrapper --> 
 
@@ -295,6 +280,8 @@ desired effect
 <script src="../../../../static/js/fastclick.js"></script> 
 <!-- AdminLTE for demo purposes --> 
 <script src="../../../../static/js/demo.js"></script> 
+<!-- Select2 --> 
+<script src="../../../../static/js/select2.full.min.js"></script> 
 <!-- FLOT CHARTS --> 
 <script src="../../../../static/js/jquery.flot.js"></script> 
 <!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized --> 
@@ -308,17 +295,107 @@ desired effect
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. --> 
+
 <script>
  $(document).ready(function(){
               $.ajaxSetup({  
                    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
-              }); 
+              });  
+			  
+	//识别页面打钩项，获取dam_num 基站编号 
+	function getCheck_dam_num(){
+		var arr=[];
+		var dam_num_ori=[];
+		//获取状态为checked的value
+		$("input[type='checkbox']:checked").each(function(){ 
+		//$("input[type='checkbox']:checked").each(function(i.e){ 
+		//console.log(e)
+		arr.push(this.value);//将value通过push方法放入arr数组
+		})
+		//console.log(arr)
+		for(var k=0;k<arr.length;k++){
+			var numstype = arr[k].split("=");//通过设置的“=”进行拆分
+			//console.log(numstype)
+			dam_num_ori[k] = numstype[0];//第一项是carrier_num
+            //console.log(dam_num_ori)
+            } 
+		return dam_num_ori;
+		};
+		
+	//识别页面打钩项，获取device_num 标签编号
+	function getCheck_device_num(){
+		var arr=[];
+		var device_num_ori=[];
+		//获取状态为checked的value
+		$("input[type='checkbox']:checked").each(function(){ 
+		//$("input[type='checkbox']:checked").each(function(i.e){ 
+		//console.log(e)
+		arr.push(this.value);//将value通过push方法放入arr数组
+		})
+		//console.log(arr)
+		for(var k=0;k<arr.length;k++){
+			var numstype = arr[k].split("=");//通过设置的“=”进行拆分
+			//console.log(numstype)
+			device_num_ori[k] = numstype[1];//第一项是carrier_num
+            //console.log(device_num_ori)
+            } 
+		return device_num_ori;
+		};
+		
+	//定时器，每隔一段时间遍历列表
+	setInterval(function postID(){
+		
+		var dam_num_ori = getCheck_dam_num();//获取通过getCheck_dam_num()得到的dam_num_ori
+		//console.log(dam_num_ori);
+		var dam_num = JSON.stringify(dam_num_ori);//数组转换成json，这样使用ajax传递
+		//console.log(dam_num)
+		var device_num_ori = getCheck_device_num();//获取通过getCheck_device_num()得到的device_num_ori
+		//console.log(device_num_ori);
+		var device_num = JSON.stringify(device_num_ori);//数组转换成json，这样使用ajax传递
+		//console.log(device_num)
+		
+		//ajax方法实现前后端交互
+		$.ajax({
+             type: "POST",
+             url: "http://127.0.0.1:8000/Dam_Device_management/canvas_realTime/", //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致,或者直接写http地址
+             dataType: "JSON",
+             data: {"dam_num":dam_num,"device_num":device_num},
+			 traditional: true,
+			 //async:false,
+             //cache: false,
+             success: function (result) {//成功时弹出view传回来的结果即后端处理函数中HttpResponse的返回值</span>
+	
+				for(var j=0;j<result.data_list.length;j++){
+					//console.log(result.target_list)
+					
+					//data[j] = String(result.target_list[j]);//将传回的list转为字符串 将数据存在data中，导致取消勾选后，原数据依旧存在，故弃用
+					//console.log(data[j])
+					//console.log(data)
+					
+					//var arr = data[j].split(",");//通过设置的","进行拆分，获得经纬度
+					var arr = result.target_list[j].split(",");
+					//console.log(arr[0])
+					
+						
+						}//for循环
+						//console.log(polyline)
+					
+						
+						
+					},//success
+					
+			 error: function (res) {
+				 console.log('error');//请求失败回调
+					}
+			 })
+	 }
+    ,5000);	
+			
+				  
     /*
      * Flot Interactive Chart
      * -----------------------
      */
-    // We use an inline data source in the example, usually data would
-    // be fetched from a server
     var data = [], totalPoints = 100
 
     function getRandomData() {
@@ -350,16 +427,17 @@ desired effect
       return res
     }
 	
-	  var  w = [];
-      for (var i = 0; i < 100; i += 1) {
-		  w.push([i, Math.abs(40)])
-    }
-    var line_data1 = {
-      data : w,
-      color: '#00c0ef'
-    }
+	//var  w = [];
+//    for (var i = 0; i < 100; i += 1) {
+//		w.push([i, Math.abs(40)])
+//    }
+//    var line_data1 = {
+//      data : w,
+//      color: '#00c0ef'
+//    }
 
-    var interactive_plot = $.plot('#interactive', [getRandomData(),line_data1], {
+    //var interactive_plot = $.plot('#interactive', [getRandomData(),line_data1], {
+	var interactive_plot = $.plot('#interactive', [getRandomData()], {
       grid  : {
 		hoverable  : true,
         borderColor: '#f3f3f3',
@@ -378,7 +456,7 @@ desired effect
       },
       lines : {
         fill : false, //Converts the line chart to area chart
-        color: ['#f56954','#00c0ef']
+        color: ['#f56954']
       },
       yaxis : {
         min : 0,
@@ -394,7 +472,8 @@ desired effect
     var realtime       = 'on' //If == to on then fetch data every x seconds. else stop fetching
     function update() {
 
-      interactive_plot.setData([getRandomData(),line_data1])
+      //interactive_plot.setData([getRandomData(),line_data1])
+	  interactive_plot.setData([getRandomData()])
 
       // Since the axes don't change, we don't need to call plot.setupGrid()
       interactive_plot.draw()
@@ -406,16 +485,16 @@ desired effect
     if (realtime === 'on') {
       update()
     }
-    //REALTIME TOGGLE
-    $('#realtime .btn').click(function () {
-      if ($(this).data('toggle') === 'on') {
-        realtime = 'on'
-      }
-      else {
-        realtime = 'off'
-      }
-      update()
-    })
+    ////REALTIME TOGGLE
+//    $('#realtime .btn').click(function () {
+//      if ($(this).data('toggle') === 'on') {
+//        realtime = 'on'
+//      }
+//      else {
+//        realtime = 'off'
+//      }
+//      update()
+//    })
 	
 	//Initialize tooltip on hover
     $('<div class="tooltip-inner" id="line-chart-tooltip"></div>').css({
@@ -440,7 +519,48 @@ desired effect
     /*
      * END INTERACTIVE CHART
      */ 
-  })
-  </script>
+  })	
+	
+</script> 
+<script>
+//设置列表的样式，将模板中的英文翻译为中文
+    $('#dataList').DataTable({
+	  'paging'      : false,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : false,
+      'info'        : false,
+      "scrollY"     : "370px",
+	  "scrollCollapse": true,
+	  "sDom":'<"top"f<"clear">>t<"bottom"<"clear">>',
+	  
+		language:{
+			"sLengthMenu": "显示_MENU_项结果",
+			"sInfo": "显示第_START_至_END_项结果，共_TOTAL_项",
+			"sSearch": "搜索",
+			"sZeroRecords" : "对不起，没有匹配的数据",
+			"sInfoFiltered" : "(数据表中共 _MAX_ 条记录)", 
+			"oPaginate":{
+				"sPrevious": "上一页",
+				"sNext":"下一页"
+				}
+			}
+			})
+	
+//checkBox中的选择、全选、全不选功能
+    $(".checkbox-toggle").click(function () {
+      var clicks = $(this).data('clicks');
+      if (clicks) {
+        //Uncheck all checkboxes
+        $(".box-messages input[type='checkbox']").iCheck("uncheck");
+        $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+      } else {
+        //Check all checkboxes
+        $(".box-messages input[type='checkbox']").iCheck("check");
+        $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+      }
+      $(this).data("clicks", !clicks);
+    })
+</script>
 </body>
 </html>
