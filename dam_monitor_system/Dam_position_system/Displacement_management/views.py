@@ -386,4 +386,3 @@ def realTime_search(request):
 	#station_num_list = station_num_list.distinct()
 	print (station_num_list)
 	return render(request,'realTime_Raw_data.html',{'device_num_list':device_num_list,'station_num_list':station_num_list})
-	return render(request,'realTime_Raw_data.html')
