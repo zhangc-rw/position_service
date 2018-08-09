@@ -36,3 +36,14 @@ class Device(models.Model):
 
 	def __str__(self):
 		return str(self.dam.dam_num)
+
+class Station(models.Model):
+	#大坝
+	device = models.ForeignKey(Device)
+	#设备编号
+	station_num = models.IntegerField(null=True)
+	#设备型号
+	card_num = models.CharField(max_length=60,null=True)
+	
+	def __str__(self):
+		return str(self.device.dam.dam_num)

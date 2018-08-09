@@ -7,6 +7,7 @@ from Displacement_management.models import Average_data
 from Displacement_management.models import Raw_data
 from Dam_Device_management.models import Device
 from Dam_Device_management.models import Dam
+from Dam_Device_management.models import Station
 
 
 import datetime
@@ -349,8 +350,8 @@ def Raw_data_management(request):
 			
 		print(Data_list)
 		print(Time_list)
-
-	return render(request, 'realTime_Raw_data.html', {'Data_list': json.dumps(Data_list)}, {'Time_list': json.dumps(Time_list)})
+	return HttpResponse(json.dumps({'Data_list':Data_list,'Time_list':Time_list}))
+	#return render(request, 'realTime_Raw_data.html', {'Data_list': json.dumps(Data_list)}, {'Time_list': json.dumps(Time_list)})
 		
 
 def label_detail_realtime(request):
@@ -360,6 +361,29 @@ def label_history_select(request,aid,bid):
 	device_list = Device.objects.filter(device_num = bid,dam = dam_list)
 	return render(request,'label_history_select.html',{'device_list':device_list})
 def history_search(request):
-	return render(request,'history_search.html')
+	device_list = Device.objects.all()
+	device_num_list= []
+	for d in device_list:
+		device_num_list.append(d.device_num)
+	print (device_num_list)	
+	station_list = Station.objects.all()
+	station_num_list = []
+	for s in station_list:
+		station_num_list.append(s.station_num)
+	#station_num_list = station_num_list.distinct()
+	print (station_num_list)
+	return render(request,'history_search.html',{'device_num_list':device_num_list,'station_num_list':station_num_list})
 def realTime_search(request):
+	device_list = Device.objects.all()
+	device_num_list= []
+	for d in device_list:
+		device_num_list.append(d.device_num)
+	print (device_num_list)	
+	station_list = Station.objects.all()
+	station_num_list = []
+	for s in station_list:
+		station_num_list.append(s.station_num)
+	#station_num_list = station_num_list.distinct()
+	print (station_num_list)
+	return render(request,'realTime_Raw_data.html',{'device_num_list':device_num_list,'station_num_list':station_num_list})
 	return render(request,'realTime_Raw_data.html')
