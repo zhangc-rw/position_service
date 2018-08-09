@@ -16,7 +16,7 @@ class Dam(models.Model):
 	#域名
 	domain_name = models.CharField(max_length=100,null=True)
 	def __str__(self):
-		return str(self.dam_num)
+		return self.dam_name
 
 class Device(models.Model):
 	#大坝
@@ -35,7 +35,7 @@ class Device(models.Model):
 	remark = models.TextField()
 
 	def __str__(self):
-		return str(self.dam.dam_num)
+		return self.dam.dam_name + " 的 " + str(self.device_num) + " 待测点"
 
 class Station(models.Model):
 	#大坝
@@ -46,4 +46,4 @@ class Station(models.Model):
 	card_num = models.CharField(max_length=60,null=True)
 	
 	def __str__(self):
-		return str(self.device.dam.dam_num)
+		return self.dam.dam_name + " 的 " + str(self.station_num) + " 锚点"

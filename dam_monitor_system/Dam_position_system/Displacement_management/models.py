@@ -36,7 +36,7 @@ class DReal(models.Model):
 	dz = models.FloatField(null=True,default=0)
 
 	def __str__(self):
-		return str(self.device.dam.dam_num)
+		return self.device.dam.dam_name + " 的 " + str(self.device.device_num) + " 待测点的实时数据" 
 #历史数据
 class DPast(models.Model):
 	#大坝编号
@@ -71,9 +71,9 @@ class DPast(models.Model):
 	dz = models.FloatField(null=True,default=0)
 
 	def __str__(self):
-		return str(self.device.dam.dam_num)
+		return str(self.id) + " 流水号 " + self.device.dam.dam_name + " 的 " + str(self.device.device_num) + " 待测点的数据 "
 
-#平滑数据实时显示
+#平滑数据实时显示 
 class Drping(models.Model):
 	#大坝编号
 	#dam = models.ForeignKey(Dam,null=True)
@@ -107,7 +107,7 @@ class Drping(models.Model):
 	dz = models.FloatField(null=True,default=0)
 
 	def __str__(self):
-		return str(self.device.dam.dam_num)
+		return self.device.dam.dam_name + " 的 " + str(self.device.device_num) + " 待测点的实时数据" 
 #平滑数据历史显示
 class Dping(models.Model):
 	#大坝编号
@@ -142,7 +142,7 @@ class Dping(models.Model):
 	dz = models.FloatField(null=True,default=0)
 
 	def __str__(self):
-		return str(self.device.dam.dam_num)
+		return str(self.id) + " 流水号 " + self.device.dam.dam_name + " 的 " + str(self.device.device_num) + " 待测点的数据 "
 #原始数据
 class Raw_data(models.Model):
 	#大坝编号
@@ -166,7 +166,7 @@ class Raw_data(models.Model):
 	d4 = models.FloatField(null=True)
 
 	def __str__(self):
-		return str(self.device.dam.dam_num)
+		return str(self.id) + " 流水号 " + self.device.dam.dam_name + " 的 " + str(self.device.device_num) + " 待测点与 " + str(self.stationID) + " 锚点间的数据"
 #处理数据
 class Processing_data(models.Model):
 	#大坝编号
@@ -187,7 +187,7 @@ class Processing_data(models.Model):
 	d = models.FloatField(null=True)
 
 	def __str__(self):
-		return str(self.device.dam.dam_num)
+		return str(self.id) + " 流水号 " + self.device.dam.dam_name + " 的 " + str(self.device.device_num) + " 待测点与 " + str(self.stationID) + " 锚点间的数据"
 #平均数据
 class Average_data(models.Model):
 	#大坝编号
@@ -208,7 +208,7 @@ class Average_data(models.Model):
 	d = models.FloatField(null=True)
 
 	def __str__(self):
-		return str(self.device.dam.dam_num)
+		return str(self.id) + " 流水号 " + self.device.dam.dam_name + " 的 " + str(self.device.device_num) + " 待测点与 " + str(self.stationID) + " 锚点间的数据"
 #集合数据
 class Convergence_data(models.Model):
 	#设备编号
@@ -227,7 +227,7 @@ class Convergence_data(models.Model):
 	d = models.FloatField(null=True)
 
 	def __str__(self):
-		return str(self.device.dam.dam_num)
+		return str(self.id) + " 流水号 " + self.device.dam.dam_name + " 的 " + str(self.device.device_num) + " 待测点与 " + str(self.stationID) + " 锚点间的数据"
 
 #平滑数据
 class Smooth_data(models.Model):
@@ -247,4 +247,4 @@ class Smooth_data(models.Model):
 	d = models.FloatField(null=True)
 
 	def __str__(self):
-		return str(self.device.dam.dam_num)
+		return str(self.id) + " 流水号 " + self.device.dam.dam_name + " 的 " + str(self.device.device_num) + " 待测点与 " + str(self.stationID) + " 锚点间的数据"
