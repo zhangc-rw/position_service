@@ -319,40 +319,92 @@ def DPast_management(request):
 
 def Raw_data_management(request):
 	if request.method == "POST":
-		station_num_list = request.POST.get('dam_num')
-		station_num_list = re.findall(r"\d+\.?\d*",station_num_list)#从字符串中取出数字
+		station_num_list = request.POST.getlist('station_num[]')
+		#station_num_list = re.findall(r"\d+\.?\d*",station_num_list)#从字符串中取出数字
 		print (station_num_list)
-		device_num_list = request.POST.get('device_num')
-		device_num_list = re.findall(r"\d+\.?\d*",device_num_list)#从字符串中取出数字
+		device_num_list = request.POST.getlist('device_num[]')
+		#device_num_list = re.findall(r"\d+\.?\d*",device_num_list)#从字符串中取出数字
 		print (device_num_list)
+		raw = request.POST.getlist('d3_num[]')
+		print (raw)
 		num = len(station_num_list)
 		Data_list = []
 		Time_list = []
+		
+		Name_list = []
 		for index in range(num):
-
+			Num_list = []
+			
+			Num_list.append(station_num_list[index])
+			Num_list.append(device_num_list[index])
+			Num_list=','.join(Num_list)
+			Name_list.append(Num_list)
 
 		#判断锚点编号
 			device_list = Device.objects.filter(device_num = device_num_list[index])
 			#通过最大的ID查询
 			D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:1]
 			#D_list = D_list.reverse()[:1]
-
-			for d in D_list :
-				if station_num_list[index] == "0":
-					Data_list.append(d.d1)
-				elif station_num_list[index] == "1":
-					Data_list.append(d.d2)
-				elif station_num_list[index] == "2":
-					Data_list.append(d.d3)
-				elif station_num_list[index] == "3":
-					Data_list.append(d.d4)
-				Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M"))
-			
+			if raw[index] =="是":
+				for d in D_list :
+					if station_num_list[index] == "0":
+						Data_list.append(d.d1)
+					elif station_num_list[index] == "1":
+						Data_list.append(d.d2)
+					elif station_num_list[index] == "2":
+						Data_list.append(d.d3)
+					elif station_num_list[index] == "3":
+						Data_list.append(d.d4)
+					Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M"))
+				
 		print(Data_list)
 		print(Time_list)
-	return HttpResponse(json.dumps({'Data_list':Data_list,'Time_list':Time_list}))
-	#return render(request, 'realTime_Raw_data.html', {'Data_list': json.dumps(Data_list)}, {'Time_list': json.dumps(Time_list)})
+		print(Name_list)
+	return  render(request, 'label_detail_realTime_Raw.html',{'Data_list': json.dumps(Data_list),'Time_list': json.dumps(Time_list),'Name_list': json.dumps(Name_list)})
 		
+def Raw_data_management_real(request):
+	if request.method == "POST":
+		station_num_list = request.POST.get('station_num')
+		#station_num_list = re.findall(r"\d+\.?\d*",station_num_list)#从字符串中取出数字
+		print (station_num_list)
+		device_num_list = request.POST.get('device_num')
+		#device_num_list = re.findall(r"\d+\.?\d*",device_num_list)#从字符串中取出数字
+		print (device_num_list)
+
+		num = len(station_num_list)
+		Data_list = []
+		Time_list = []
+		
+		Name_list = []
+		for index in range(num):
+			Num_list = []
+			Num_list.append(station_num_list[index])
+			Num_list.append(device_num_list[index])
+			Num_list=','.join(Num_list)
+			Name_list.append(Num_list)
+
+		#判断锚点编号
+			device_list = Device.objects.filter(device_num = device_num_list)
+			#通过最大的ID查询
+			D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:1]
+			#D_list = D_list.reverse()[:1]
+
+			for d in D_list :
+				if station_num_list == "0":
+					Data_list.append(d.d1)
+				elif station_num_list == "1":
+					Data_list.append(d.d2)
+				elif station_num_list == "2":
+					Data_list.append(d.d3)
+				elif station_num_list == "3":
+					Data_list.append(d.d4)
+				Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M"))
+				
+		print(Data_list)
+		print(Time_list)
+		print(Name_list)
+	return HttpResponse(json.dumps({'Data_list':Data_list,'Time_list':Time_list,'Name_list':Name_list}))
+
 
 def label_detail_realtime(request):
 	return render(request,'label_detail_realtime.html') 
