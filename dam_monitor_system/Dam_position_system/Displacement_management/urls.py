@@ -27,7 +27,5 @@ urlpatterns = [
 
     url(r'^label_detail_history/$', Displacement_management.views.DPast_management),
     url(r'^label_detail_history_sametime/$', Displacement_management.views.DPast_management_sametime),
-    
-    url(r'^label_detail_realTime/$', Displacement_management.views.Raw_data_management),
-    url(r'^label_detail_realTime_real/$', Displacement_management.views.Raw_data_management_real),
+    url(r'^realTime_search/$', Displacement_management.views.Raw_data_management),
 ]
