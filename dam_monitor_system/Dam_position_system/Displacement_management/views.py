@@ -7,7 +7,7 @@ from Displacement_management.models import Average_data
 from Displacement_management.models import Raw_data
 from Dam_Device_management.models import Device
 from Dam_Device_management.models import Dam
-from Dam_Device_management.models import Station
+from Dam_Device_management.models import Station_data
 
 
 import datetime
@@ -319,13 +319,13 @@ def DPast_management(request):
 
 def Raw_data_management(request):
 	if request.method == "POST":
-		dam_num_list = request.POST.get('dam_num')
-		dam_num_list = re.findall(r"\d+\.?\d*",dam_num_list)#从字符串中取出数字
-		print (dam_num_list)
+		station_num_list = request.POST.get('dam_num')
+		station_num_list = re.findall(r"\d+\.?\d*",station_num_list)#从字符串中取出数字
+		print (station_num_list)
 		device_num_list = request.POST.get('device_num')
 		device_num_list = re.findall(r"\d+\.?\d*",device_num_list)#从字符串中取出数字
 		print (device_num_list)
-		num = len(dam_num_list)
+		num = len(station_num_list)
 		Data_list = []
 		Time_list = []
 		for index in range(num):
@@ -338,13 +338,13 @@ def Raw_data_management(request):
 			#D_list = D_list.reverse()[:1]
 
 			for d in D_list :
-				if dam_num_list[index] == "0":
+				if station_num_list[index] == "0":
 					Data_list.append(d.d1)
-				elif dam_num_list[index] == "1":
+				elif station_num_list[index] == "1":
 					Data_list.append(d.d2)
-				elif dam_num_list[index] == "2":
+				elif station_num_list[index] == "2":
 					Data_list.append(d.d3)
-				elif dam_num_list[index] == "3":
+				elif station_num_list[index] == "3":
 					Data_list.append(d.d4)
 				Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M"))
 			
@@ -366,7 +366,7 @@ def history_search(request):
 	for d in device_list:
 		device_num_list.append(d.device_num)
 	print (device_num_list)	
-	station_list = Station.objects.all()
+	station_list = Station_data.objects.all()
 	station_num_list = []
 	for s in station_list:
 		station_num_list.append(s.station_num)
@@ -379,10 +379,10 @@ def realTime_search(request):
 	for d in device_list:
 		device_num_list.append(d.device_num)
 	print (device_num_list)	
-	station_list = Station.objects.all()
+	station_list = Station_data.objects.all()
 	station_num_list = []
 	for s in station_list:
 		station_num_list.append(s.station_num)
 	#station_num_list = station_num_list.distinct()
 	print (station_num_list)
-	return render(request,'realTime_Raw_data.html',{'device_num_list':device_num_list,'station_num_list':station_num_list})
+	return render(request,'realTime_search.html',{'device_num_list':device_num_list,'station_num_list':station_num_list})

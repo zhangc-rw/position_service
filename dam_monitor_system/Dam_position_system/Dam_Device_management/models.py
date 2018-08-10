@@ -37,13 +37,24 @@ class Device(models.Model):
 	def __str__(self):
 		return self.dam.dam_name + " 的 " + str(self.device_num) + " 待测点"
 
-class Station(models.Model):
-	#大坝
-	device = models.ForeignKey(Device)
-	#设备编号
-	station_num = models.IntegerField(null=True)
-	#设备型号
-	card_num = models.CharField(max_length=60,null=True)
+class Station_data(models.Model):
+	#设备
+	device = models.ForeignKey(Device,null=True)
+	#基站ID
+	stationID = models.IntegerField(null=True)
+	#基站编号
+	station_num = models.CharField(max_length=60,null=True)
+	#更新时间
+	dreal_update_time = models.DateTimeField(auto_now=True,null=True)
+	#温度
+	temperature = models.FloatField(null=True)
+	#电压
+	voltage = models.FloatField(null=True)
+	#距离
+	d1 = models.FloatField(null=True)
+	d2 = models.FloatField(null=True)
+	d3 = models.FloatField(null=True)
+	d4 = models.FloatField(null=True)
 	
 	def __str__(self):
 		return self.dam.dam_name + " 的 " + str(self.station_num) + " 锚点"
