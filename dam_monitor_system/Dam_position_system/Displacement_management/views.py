@@ -7,7 +7,6 @@ from Displacement_management.models import Average_data
 from Displacement_management.models import Raw_data
 from Dam_Device_management.models import Device
 from Dam_Device_management.models import Dam
-from Dam_Device_management.models import Station_data
 
 
 import datetime
@@ -72,7 +71,7 @@ def DPast_management_sametime(request):
 			#start = start+' '+start1
 			#print(start)
 			#判断锚点编号
-			device_list = Device.objects.filter(device_num = device_num[index])
+			device_list = Device.objects.filter(device_num = device_num[index],at_tip =  1)
 			D_list = DPast.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list)
 			DP_list = Dping.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list)
 			Data3_list = Average_data.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list,station_num = dam_num[index])
@@ -200,7 +199,7 @@ def DPast_management(request):
 			start =time[index][0:16]
 			end = time[index][-16:]
 			#判断锚点编号
-			device_list = Device.objects.filter(device_num = device_num[index])
+			device_list = Device.objects.filter(device_num = device_num[index],at_tip =  1)
 			D_list = DPast.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list)
 			DP_list = Dping.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list)
 			Data3_list = Average_data.objects.filter(dreal_update_time__range=(start, end)).filter(device = device_list,station_num = dam_num[index])
@@ -341,7 +340,7 @@ def Raw_data_management(request):
 			Name_list.append(Num_list)
 
 		#判断锚点编号
-			device_list = Device.objects.filter(device_num = device_num_list[index])
+			device_list = Device.objects.filter(device_num = device_num_list[index],at_tip = 1)
 			#通过最大的ID查询
 			D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:1]
 			#D_list = D_list.reverse()[:1]
@@ -376,9 +375,10 @@ def Raw_data_management_real(request):
 		Time_list = []
 		for index in range(num):
 			#判断锚点编号
-			device_list = Device.objects.filter(device_num = device_num_list[index])
+			device_list = Device.objects.filter(device_num = device_num_list[index],at_tip = 1 )
 			#通过最大的ID查询
 			D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:1]
+
 
 			for d in D_list :
 				if station_num_list[index] == "0":
@@ -403,28 +403,28 @@ def label_history_select(request,aid,bid):
 	device_list = Device.objects.filter(device_num = bid,dam = dam_list)
 	return render(request,'label_history_select.html',{'device_list':device_list})
 def history_search(request):
-	device_list = Device.objects.all()
+	device_list = Device.objects.filter(at_tip =  1)
 	device_num_list= []
 	for d in device_list:
 		device_num_list.append(d.device_num)
 	print (device_num_list)	
-	station_list = Station_data.objects.all()
+	station_list = Device.objects.filter(at_tip =  0)
 	station_num_list = []
 	for s in station_list:
-		station_num_list.append(s.station_num)
+		station_num_list.append(s.device_num)
 	#station_num_list = station_num_list.distinct()
 	print (station_num_list)
 	return render(request,'history_search.html',{'device_num_list':device_num_list,'station_num_list':station_num_list})
 def realTime_search(request):
-	device_list = Device.objects.all()
+	device_list = Device.objects.filter(at_tip =  1)
 	device_num_list= []
 	for d in device_list:
 		device_num_list.append(d.device_num)
 	print (device_num_list)	
-	station_list = Station_data.objects.all()
+	station_list = Device.objects.filter(at_tip =  0)
 	station_num_list = []
 	for s in station_list:
-		station_num_list.append(s.station_num)
+		station_num_list.append(s.device_num)
 	#station_num_list = station_num_list.distinct()
 	print (station_num_list)
 	return render(request,'realTime_search.html',{'device_num_list':device_num_list,'station_num_list':station_num_list})

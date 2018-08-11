@@ -27,17 +27,24 @@ class Device(models.Model):
 	card_num = models.CharField(max_length=60,null=True)
 	#电池电量
 	power = models.FloatField(default=0)
+	#标签与设备标识
+	at_tip = models.IntegerField(null=True)
 	#初始位置坐标
 	x = models.FloatField(max_length=60,null=True)
 	y = models.FloatField(max_length=60,null=True)
 	z = models.FloatField(max_length=60,null=True)
+	#距离
+	d1 = models.FloatField(null=True)
+	d2 = models.FloatField(null=True)
+	d3 = models.FloatField(null=True)
+	d4 = models.FloatField(null=True)
 	#备注
 	remark = models.TextField()
 
 	def __str__(self):
 		return self.dam.dam_name + " 的 " + str(self.device_num) + " 待测点"
 
-class Station_data(models.Model):
+'''class Station_data(models.Model):
 	#设备
 	device = models.ForeignKey(Device,null=True)
 	#基站ID
@@ -57,4 +64,35 @@ class Station_data(models.Model):
 	d4 = models.FloatField(null=True)
 	
 	def __str__(self):
-		return self.dam.dam_name + " 的 " + str(self.station_num) + " 锚点"
+		return self.dam.dam_name + " 的 " + str(self.station_num) + " 锚点"'''
+
+
+class State_data(models.Model):
+	#设备
+	device = models.ForeignKey(Device,null=True)
+	#警告
+	warning = models.CharField(max_length=60,null=True)
+	#更新时间
+	dreal_update_time = models.DateTimeField(auto_now=True,null=True)
+	#温度
+	temperature = models.FloatField(null=True)
+	#电压
+	voltage = models.FloatField(null=True)
+	def __str__(self):
+		return self.dam.dam_name + " 的 " + str(self.device_num) + "实时待测点"
+
+
+class Stationr_data(models.Model):
+	#设备
+	device = models.ForeignKey(Device,null=True)
+	#警告
+	warning = models.CharField(max_length=60,null=True)
+	#更新时间
+	dreal_update_time = models.DateTimeField(auto_now=True,null=True)
+	#温度
+	temperature = models.FloatField(null=True)
+	#电压
+	voltage = models.FloatField(null=True)
+
+	def __str__(self):
+		return self.dam.dam_name + " 的 " + str(self.device_num) + " 历史待测点"
