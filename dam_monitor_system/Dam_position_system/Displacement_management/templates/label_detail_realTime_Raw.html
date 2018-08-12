@@ -103,11 +103,15 @@ desired effect
           <!-- User Account Menu -->
           <li class="dropdown user user-menu"> 
             <!-- Menu Toggle Button --> 
+            <!--
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
             <!-- The user image in the navbar--> 
+            <!--
             <img src="../../../static/img/user2-160x160.jpg" class="user-image" alt="User Image"> 
             <!-- hidden-xs hides the username on small devices so only the image appears. --> 
+            <!--
             <span class="hidden-xs">Alexander Pierce</span> </a>
+            -->
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header"> <img src="../../../static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
@@ -177,54 +181,39 @@ desired effect
                           <button type="button" class="btn btn-default btn-xs" data-toggle="off">停止</button>
                         </div>
                       </div>
-                      -->
+                      --> 
                     </div>
                     <div class="box-body">
                       <div id="interactive" style="height: 300px;"></div>
                     </div>
-                    <!-- /.box-body-->
+                    <!-- /.box-body--> 
                   </div>
-                  <!-- /.box -->
+                  <!-- /.box --> 
                 </div>
                 <!-- /.col -->
                 <div class="col-md-3">
-                  <div class="box box-solid">
                     <div class="box-header with-border">
                       <h3 class="box-title">基站-标签列表信息</h3>
-                      <!--
-                      <div class="box-tools">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i> </button>
-                      </div>
-                      <!-- /.box-tools --> 
                     </div>
                     <div class="box-body no-padding box-messages">
                       <ul class="nav nav-pills nav-stacked">
-                        <table id="dataList" class="table table-bordered table-hover tabTable">
+                        <table id="dataList" class="table table-bordered">
                           <thead>
                             <tr>
-                              <th> <!-- Check all button --> </th>
                               <th>基站编号A</th>
                               <th>标签编号T</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr>
-                              <td width="35px"><input type="checkbox" class="checkOne" value="2=2"></td>
-                              <td>2</td>
-                              <td>2</td>
-                            </tr>
-                            <tr>
-                              <td width="35px"><input type="checkbox" class="checkOne" value="2=3"></td>
-                              <td>2</td>
-                              <td>3</td>
+                              <td class="station" width="35px"></td>
+                              <td class="device" width="35px"></td>
                             </tr>
                           </tbody>
                         </table>
                       </ul>
                     </div>
                     <!-- /.box-body --> 
-                  </div>
-                  <!-- /. box --> 
                 </div>
                 <!-- /.col --> 
               </div>
@@ -302,199 +291,144 @@ desired effect
                    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
               });  
 			  
-	//识别页面打钩项，获取dam_num 基站编号 
-	function getCheck_dam_num(){
-		var arr=[];
-		var dam_num_ori=[];
-		//获取状态为checked的value
-		$("input[type='checkbox']:checked").each(function(){ 
-		//$("input[type='checkbox']:checked").each(function(i.e){ 
-		//console.log(e)
-		arr.push(this.value);//将value通过push方法放入arr数组
-		})
-		//console.log(arr)
-		for(var k=0;k<arr.length;k++){
-			var numstype = arr[k].split("=");//通过设置的“=”进行拆分
-			//console.log(numstype)
-			dam_num_ori[k] = numstype[0];//第一项是carrier_num
-            //console.log(dam_num_ori)
-            } 
-		return dam_num_ori;
-		};
+//从后台获得之前页面发送的基站和标签的编号，拆分回传至html相应位置
+//注意变量的的全局性，不要写在循环里面
+	var Name_list={{Name_list|safe}};
+	//console.log(Name_list)
+	var station_num_ori=[];
+	var device_num_ori=[];
+	var happy_distance = [];//存放画线数组
+	var color_choose = ['#3c8dbc','#00c0ef','#00a65a','#f39c12','#f56954','#d2d6de','#001F3F','#39CCCC','#605ca8','#ff851b','#D81B60','#111111'];	
+	var is=0;
+	var isFirst = Name_list.length;//限定执行次数，避免重复添加lable
+	//console.log(isFirst)
+	for(var k=0;k<Name_list.length;k++){
+		window["data_ori"+k]=[];//存放传回的坐标
+		window["time_ori"+k]=[];//存放转化后的时间，作为横坐标
+		//window["line_coor"+k]=[];//存放画线所需的横纵坐标
+		window["line_draw"+k] = {};//存放多组线的数据、颜色和标签
+		var type = Name_list[k].split(",");//通过设置的“,”进行拆分
+		station_num_ori[k] = type[0];//第一项是station_num_ori
+		device_num_ori[k] = type[1];//第二项是device_num_ori
+    } 
+	//console.log(station_num_ori)
+	//console.log(device_num_ori)
 		
-	//识别页面打钩项，获取device_num 标签编号
-	function getCheck_device_num(){
-		var arr=[];
-		var device_num_ori=[];
-		//获取状态为checked的value
-		$("input[type='checkbox']:checked").each(function(){ 
-		//$("input[type='checkbox']:checked").each(function(i.e){ 
-		//console.log(e)
-		arr.push(this.value);//将value通过push方法放入arr数组
-		})
-		//console.log(arr)
-		for(var k=0;k<arr.length;k++){
-			var numstype = arr[k].split("=");//通过设置的“=”进行拆分
-			//console.log(numstype)
-			device_num_ori[k] = numstype[1];//第一项是carrier_num
-            //console.log(device_num_ori)
-            } 
-		return device_num_ori;
-		};
-		
-	//定时器，每隔一段时间遍历列表
+	var station_Num = JSON.parse('[' + station_num_ori + ']');//将字符串数组转为数值数组，这样才能提取使用
+	var device_Num = JSON.parse('[' + device_num_ori + ']');//将字符串数组转为数值数组，这样才能提取使用		
+	//console.log(station_Num)
+	//console.log(device_Num)
+	//回传至html相应位置， parents是用来找父级，datalist已经在最外面了就不用了
+	$('#dataList').find(".station").html(station_Num.join('<br>'))
+	$('#dataList').find(".device").html(device_Num.join('<br>'))		
+//定时器，每隔一段时间遍历列表
 	setInterval(function postID(){
-		
-		var dam_num_ori = getCheck_dam_num();//获取通过getCheck_dam_num()得到的dam_num_ori
-		//console.log(dam_num_ori);
-		var dam_num = JSON.stringify(dam_num_ori);//数组转换成json，这样使用ajax传递
-		//console.log(dam_num)
-		var device_num_ori = getCheck_device_num();//获取通过getCheck_device_num()得到的device_num_ori
-		//console.log(device_num_ori);
+
+		//一定要转化一下
+		var station_num = JSON.stringify(station_num_ori);//数组转换成json，这样使用ajax传递
 		var device_num = JSON.stringify(device_num_ori);//数组转换成json，这样使用ajax传递
+		//console.log(station_num)	
 		//console.log(device_num)
-		
+	
 		//ajax方法实现前后端交互
 		$.ajax({
              type: "POST",
-             url: "http://127.0.0.1:8000/Dam_Device_management/canvas_realTime/", //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致,或者直接写http地址
+             url: "http://127.0.0.1:8000/Displacement_management/label_detail_realTime_real/", //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致,或者直接写http地址
              dataType: "JSON",
-             data: {"dam_num":dam_num,"device_num":device_num},
+             data: {"station_num":station_num,"device_num":device_num},
 			 traditional: true,
 			 //async:false,
              //cache: false,
              success: function (result) {//成功时弹出view传回来的结果即后端处理函数中HttpResponse的返回值</span>
-	
-				for(var j=0;j<result.data_list.length;j++){
-					//console.log(result.target_list)
-					
-					//data[j] = String(result.target_list[j]);//将传回的list转为字符串 将数据存在data中，导致取消勾选后，原数据依旧存在，故弃用
-					//console.log(data[j])
-					//console.log(data)
-					
-					//var arr = data[j].split(",");//通过设置的","进行拆分，获得经纬度
-					var arr = result.target_list[j].split(",");
-					//console.log(arr[0])
-					
+				
+				for(var j=0;j<result.Data_list.length;j++){
+					//console.log(result.Data_list)
+			
+					//将传回的数值push进time_ori和data_ori数组
+					window["time_ori"+j].push(new Date (result.Time_list[j])) //转化时间为中国标准时间格式
+					window["data_ori"+j].push(result.Data_list[j]);
+					//console.log(window["time_ori"+0])
+					//console.log(window["data_ori"+0])
+					//console.log(window["data_ori"+1])
+					//将已获得的time_ori和data_ori放入line_coor中，确立横纵坐标，以画图
+					window["line_coor"+j]=[];//存放画线所需的横纵坐标，放在里面，每次循环至此都为空，以避免重复添加
+					for (var w = 0; w < window["time_ori"+0].length; w += 1) {
+						window["line_coor"+j].push([(window["time_ori"+j][w]), (window["data_ori"+j][w])])//由于window是数组，因此要把元素取出来再push；同理，此处指pushline_time0
+					}
+					//console.log(window["line_coor"+0])
+					//console.log(window["line_coor"+1])
+					//限定执行次数，避免重复输出lable
+					if(is<isFirst){
+						window["line_draw"+j] = {
+							data : window["line_coor"+j],
+							color: color_choose[j],
+							label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j]
+						}
+						is=is+1;
+					}else{
+						window["line_draw"+j] = {
+							data : window["line_coor"+j],
+							color: color_choose[j],
+							//label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j]
+						}
+					}
 						
-						}//for循环
-						//console.log(polyline)
+					//console.log(window["line_draw"+j])
+					happy_distance.push(window["line_draw"+j])//存放的位移曲线
+					//console.log(happy_distance)
 					
-						
-						
-					},//success
+				}//for循环
+				
+			    var interactive_plot = $.plot('#interactive', happy_distance, {
+					grid  : {
+						hoverable  : true,
+        				borderColor: '#111111',
+        				borderWidth: 1,
+        				tickColor  : '#8E8E8E'
+      				},
+      				series: {
+        				shadowSize: 0, // Drawing is faster without shadows
+        				//color     : '#3c8dbc',
+						lines     : {
+          				show: true
+        				},
+        				points    : {
+          				show: true
+        				}
+      				},
+//      				lines : {
+//        				fill : false, //Converts the line chart to area chart
+//        				color: ['#f56954']
+//      				},
+      				yaxis : {
+//        				min : 0,
+//        				max : 100,
+        				show: true
+      				},
+      				xaxis : {
+        				show: true,
+						mode:'time',
+						tickFormatter:function(e){
+							var d = new Date(e);
+							if (d.getHours() < 10 && d.getMinutes() < 10) {
+									return  '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
+									else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+										return '0' + d.getHours() + ':' + d.getMinutes();} 
+									else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+										return d.getHours() + ':' + '0' + d.getMinutes();}
+									else {
+										return d.getHours() + ':' + d.getMinutes();}
+							}
+      					}
+    			})
+
+			 },//success
 					
 			 error: function (res) {
 				 console.log('error');//请求失败回调
 					}
-			 })
-	 }
-    ,5000);	
-			
-				  
-    /*
-     * Flot Interactive Chart
-     * -----------------------
-     */
-    var data = [], totalPoints = 100
-
-    function getRandomData() {
-
-      if (data.length > 0)
-        data = data.slice(1)
-
-      // Do a random walk
-      while (data.length < totalPoints) {
-
-        var prev = data.length > 0 ? data[data.length - 1] : 50,
-            y    = prev + Math.random() * 10 - 5
-
-        if (y < 0) {
-          y = 0
-        } else if (y > 100) {
-          y = 100
-        }
-
-        data.push(y)
-      }
-
-      // Zip the generated y values with the x values
-      var res = []
-      for (var i = 0; i < data.length; ++i) {
-        res.push([i, data[i]])
-      }
-
-      return res
-    }
-	
-	//var  w = [];
-//    for (var i = 0; i < 100; i += 1) {
-//		w.push([i, Math.abs(40)])
-//    }
-//    var line_data1 = {
-//      data : w,
-//      color: '#00c0ef'
-//    }
-
-    //var interactive_plot = $.plot('#interactive', [getRandomData(),line_data1], {
-	var interactive_plot = $.plot('#interactive', [getRandomData()], {
-      grid  : {
-		hoverable  : true,
-        borderColor: '#f3f3f3',
-        borderWidth: 1,
-        tickColor  : '#f3f3f3'
-      },
-      series: {
-        shadowSize: 0, // Drawing is faster without shadows
-        //color     : '#3c8dbc',
-		lines     : {
-          show: true
-        },
-        points    : {
-          show: true
-        }
-      },
-      lines : {
-        fill : false, //Converts the line chart to area chart
-        color: ['#f56954']
-      },
-      yaxis : {
-        min : 0,
-        max : 100,
-        show: true
-      },
-      xaxis : {
-        show: true
-      }
-    })
-
-    var updateInterval = 500 //Fetch data ever x milliseconds
-    var realtime       = 'on' //If == to on then fetch data every x seconds. else stop fetching
-    function update() {
-
-      //interactive_plot.setData([getRandomData(),line_data1])
-	  interactive_plot.setData([getRandomData()])
-
-      // Since the axes don't change, we don't need to call plot.setupGrid()
-      interactive_plot.draw()
-      if (realtime === 'on')
-        setTimeout(update, updateInterval)
-    }
-
-    //INITIALIZE REALTIME DATA FETCHING
-    if (realtime === 'on') {
-      update()
-    }
-    ////REALTIME TOGGLE
-//    $('#realtime .btn').click(function () {
-//      if ($(this).data('toggle') === 'on') {
-//        realtime = 'on'
-//      }
-//      else {
-//        realtime = 'off'
-//      }
-//      update()
-//    })
+		})
+	},5000);
 	
 	//Initialize tooltip on hover
     $('<div class="tooltip-inner" id="line-chart-tooltip"></div>').css({
@@ -502,65 +436,33 @@ desired effect
       display : 'none',
       opacity : 0.8
     }).appendTo('body')
+	
     $('#interactive').bind('plothover', function (event, pos, item) {
+		
+		if (item) {
+			var x = item.datapoint[0],
+            y = item.datapoint[1].toFixed(4) //设定精度
+			d = new Date(x);
+			if (d.getHours() < 10 && d.getMinutes() < 10) {
+				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
+				else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
+				else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
+				else {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes();}
 
-      if (item) {
-        var x = item.datapoint[0].toFixed(2),
-            y = item.datapoint[1].toFixed(2)
-
-        $('#line-chart-tooltip').html(' 时间 ' + x + ' ; ' + ' 位移 ' + y + ' 米 ')
-          .css({ top: item.pageY + 5, left: item.pageX + 5 })
-          .fadeIn(200)
-      } else {
-        $('#line-chart-tooltip').hide()
-      }
+        	$('#line-chart-tooltip').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
+          	.css({ top: item.pageY + 5, left: item.pageX + 5 })
+          	.fadeIn(200)
+        } else {
+			$('#line-chart-tooltip').hide()
+      	  }
 
     })
-    /*
-     * END INTERACTIVE CHART
-     */ 
+  
   })	
 	
 </script> 
-<script>
-//设置列表的样式，将模板中的英文翻译为中文
-    $('#dataList').DataTable({
-	  'paging'      : false,
-      'lengthChange': false,
-      'searching'   : true,
-      'ordering'    : false,
-      'info'        : false,
-      "scrollY"     : "370px",
-	  "scrollCollapse": true,
-	  "sDom":'<"top"f<"clear">>t<"bottom"<"clear">>',
-	  
-		language:{
-			"sLengthMenu": "显示_MENU_项结果",
-			"sInfo": "显示第_START_至_END_项结果，共_TOTAL_项",
-			"sSearch": "搜索",
-			"sZeroRecords" : "对不起，没有匹配的数据",
-			"sInfoFiltered" : "(数据表中共 _MAX_ 条记录)", 
-			"oPaginate":{
-				"sPrevious": "上一页",
-				"sNext":"下一页"
-				}
-			}
-			})
-	
-//checkBox中的选择、全选、全不选功能
-    $(".checkbox-toggle").click(function () {
-      var clicks = $(this).data('clicks');
-      if (clicks) {
-        //Uncheck all checkboxes
-        $(".box-messages input[type='checkbox']").iCheck("uncheck");
-        $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
-      } else {
-        //Check all checkboxes
-        $(".box-messages input[type='checkbox']").iCheck("check");
-        $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
-      }
-      $(this).data("clicks", !clicks);
-    })
-</script>
 </body>
 </html>
