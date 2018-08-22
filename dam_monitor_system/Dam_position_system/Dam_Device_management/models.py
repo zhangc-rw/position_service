@@ -71,7 +71,7 @@ class State_data(models.Model):
 	#设备
 	device = models.ForeignKey(Device,null=True)
 	#警告
-	warning = models.CharField(max_length=60,null=True)
+	warning = models.IntegerField(null=True)
 	#更新时间
 	dreal_update_time = models.DateTimeField(auto_now=True,null=True)
 	#温度
@@ -86,7 +86,7 @@ class Stationr_data(models.Model):
 	#设备
 	device = models.ForeignKey(Device,null=True)
 	#警告
-	warning = models.CharField(max_length=60,null=True)
+	warning = models.IntegerField(null=True)
 	#更新时间
 	dreal_update_time = models.DateTimeField(auto_now=True,null=True)
 	#温度

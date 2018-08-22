@@ -4,3 +4,5 @@ from django.contrib import admin
 from Dam_Device_management import models
 admin.site.register(models.Dam)
 admin.site.register(models.Device)
+admin.site.register(models.State_data)
+admin.site.register(models.Stationr_data)
