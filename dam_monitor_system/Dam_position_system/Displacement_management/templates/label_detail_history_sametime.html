@@ -164,12 +164,19 @@ desired effect
                       <!-- Line CHART -->
                       <div class="box box-primary">
                         <div class="box-header with-border">
-                          <h3 class="box-title">位移-温度曲线</h3>
                           <button type="button" class="btn btn-info pull-right submitBtn" onClick="JavaScript:window.history.back();">返回</button>
                         </div>
                         <div class="box-body">
+                          <h4 class="box-title">位移曲线</h4>
                           <div id="line-chart-1" style="width: 100%; height: 300px;"> </div>
+                          <h4 class="box-title">温度曲线</h4>
                           <div id="line-chart-2" style="width: 100%; height: 300px;"> </div>
+                          <h4 class="box-title">X坐标</h4>
+                          <div id="line-chart-3" style="width: 100%; height: 300px;"> </div>
+                          <h4 class="box-title">Y坐标</h4>
+                          <div id="line-chart-4" style="width: 100%; height: 300px;"> </div>
+                          <h4 class="box-title">Z坐标</h4>
+                          <div id="line-chart-5" style="width: 100%; height: 300px;"> </div>
                         </div>
                         <!-- /.box-body --> 
                       </div>
@@ -271,8 +278,7 @@ desired effect
 		//Time_list_d = Time_list_ymd[Time_list_ymd.length-1];
            } 
 		//console.log(Time_list_YMD)
-		//console.log(Time_list_ymd)
-		//console.log(Time_list_d)
+		//console.log(Time_list_YMD_past)
 		//console.log(Time_list_HM)
 		
 	//统一换成同一天时间
@@ -294,11 +300,7 @@ desired effect
 	var time_list = [];
 	for (var k = 0; k < Time_list.length; k++) {
 		time_list.push(new Date (Time_list[k]));
-		//time_list_YMD.push(new Date (time_list_YMD[k]));
-		//time_list_HM.push(new Date (Time_list_HM[k]));
 	}
-	//console.log(time_list_YMD)
-	//console.log(time_list_HM)
 	//console.log(time_list)
 	
 	//由于要把所有时间段的年月日统一起来，在此处单独写line_time的赋值  
@@ -324,12 +326,15 @@ desired effect
 	//console.log(line_name1[1])
 	
 	//按Num_list中的个数，取出Time_list_YMD_past,time_list,Data_list（第一个）方法不同
+	
+	
 	for (var s = 0; s < Num_list[0]; s++) {
 		window["line_time_show"+0].push(Time_list_YMD_past[s]);
 		window["line_time"+0].push(time_list[s]);
 		window["line_data"+0].push(Data_list[s]);
 	}
 	//console.log(line_data0)
+	//console.log(window["line_time_show"+0])
 	
 	//按Num_list中的个数，取出Time_list_YMD_past,time_list,Data_list（从第二个开始）
 	var isFirst = 1;//只执行一次
@@ -344,34 +349,91 @@ desired effect
 		window["line_data"+j] = Data_list.slice(start,start + Num_list[j]);
 		start = start + Num_list[j];
 		//console.log(window["line_data"+j])
+		//console.log(window["line_time_show"+j])
 	}
-	//console.log((window["line_data"+3]))
-	//console.log((window["line_time_show"+1]))
+	//console.log((window["line_data"+6]))
+	//console.log((window["line_time_show"+3]))
+	//console.log((window["line_time_show"+1]).length)
 	
 	//将已获得的line_time和line_data放入line_array中，确立横纵坐标，以画图
     for (var t = 0; t < Num_list.length; t += 1) {
-		for (var w = 0; w < window["line_time"+0].length; w += 1) {
+		for (var w = 0; w < window["line_time"+t].length; w += 1) {
 			window["line_array"+t].push([(window["line_time"+t][w]), (window["line_data"+t][w])])//由于window是数组，因此要把元素取出来再push；同理，此处指pushline_time0
 		}
 		//console.log(window["line_array"+t])
     }
 
 	//确定线的数据和颜色
-	var happy_distance = [], happy_temperature = [];
+	var happy_distance = [], happy_temperature = [], happy_X = [], happy_Y = [], happy_Z = [];
 	var color_choose = ['#A52A2A','#00c0ef','#00a65a','#f39c12','#f56954','#8A2BE2','#001F3F','#0000FF','#605ca8','#ff851b','#D81B60','#111111'];
 	for (var h = 0; h < Num_list.length; h += 1) {
-		window["line_draw"+h] = {
-			data : window["line_array"+h],
-			color: color_choose[h],
-			label: window["line_time_show"+h][0] + " " + "标签" + ":" + window["line_name"+h][0] + " " + "基站" + ":" + window["line_name"+h][2],
-		}
-	//console.log(window["line_draw"+h])
-	if (window["line_name"+h][4] == 1) {
-		happy_temperature.push(window["line_draw"+h])//存放的温度曲线
-		}else{
-			happy_distance.push(window["line_draw"+h])//存放的位移曲线
+		//判断时间为空，不显示undefined
+		if(window["line_time_show"+h].length==0){
+			window["line_draw"+h] = {
+				data : window["line_array"+h],
+				color: color_choose[h],
+				label: "该时间段没有数据" + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4],
 			}
-	}
+		//明确数据类型
+		}else{
+			if(window["line_name"+h][6]==1){
+				window["line_draw"+h] = {
+					data : window["line_array"+h],
+					color: color_choose[h],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4],
+				}
+			}else if(window["line_name"+h][6]==3){
+				window["line_draw"+h] = {
+					data : window["line_array"+h],
+					color: color_choose[h],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4] + " " + "平均数据",
+				}	
+			}else if(window["line_name"+h][6]==4){
+				window["line_draw"+h] = {
+					data : window["line_array"+h],
+					color: color_choose[h],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4] + " " + "收敛数据",
+				}
+			}else if(window["line_name"+h][6]==5){
+				window["line_draw"+h] = {
+					data : window["line_array"+h],
+					color: color_choose[h],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4] + " " + "平滑数据",
+				}
+			}else if(window["line_name"+h][6]==6){
+				window["line_draw"+h] = {
+					data : window["line_array"+h],
+					color: color_choose[h],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4],
+				}	
+			}else if(window["line_name"+h][6]==7){
+				window["line_draw"+h] = {
+					data : window["line_array"+h],
+					color: color_choose[h],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4],
+				}	
+			}else if(window["line_name"+h][6]==8){
+				window["line_draw"+h] = {
+					data : window["line_array"+h],
+					color: color_choose[h],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4],
+				}	
+			}
+		}	
+		
+	//console.log(window["line_draw"+h])
+	    if (window["line_name"+h][6] == 1) {
+		    happy_temperature.push(window["line_draw"+h])//存放的温度曲线
+	    }else if(window["line_name"+h][6] == 6){
+		    happy_X.push(window["line_draw"+h])
+	    }else if(window["line_name"+h][6] == 7){
+		    happy_Y.push(window["line_draw"+h])
+	    }else if(window["line_name"+h][6] == 8){
+		    happy_Z.push(window["line_draw"+h])
+	    }else{
+		    happy_distance.push(window["line_draw"+h])//存放的位移曲线
+	    }
+	}// end for
 	//console.log(happy_distance)
 	//console.log(happy_temperature)
 	
@@ -516,6 +578,222 @@ desired effect
         		.fadeIn(200)
 				} else {
 					$('#line-chart-tooltip-2').hide()
+					}
+				
+	})
+	
+	//开始画线——X
+    $.plot('#line-chart-3', happy_X, {
+      grid  : {
+        hoverable  : true,
+        borderColor: '#111111',
+        borderWidth: 1,
+        tickColor  : '#8E8E8E'
+      },
+      series: {
+        shadowSize: 0,
+        lines     : {
+          show: true
+        },
+        points    : {
+          show: false
+        }
+      },
+      //lines : {
+        //fill : false,
+        //color: ['#3c8dbc']
+      //},
+      yaxis : {
+        show: true
+      },
+       xaxis : {
+        show: true,
+		mode:'time',
+		tickFormatter:function(e){
+			var d = new Date(e);
+			if (d.getHours() < 10 && d.getMinutes() < 10) {
+					return  '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
+					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+						return '0' + d.getHours() + ':' + d.getMinutes();} 
+					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+						return d.getHours() + ':' + '0' + d.getMinutes();}
+					else {
+						return d.getHours() + ':' + d.getMinutes();}
+		}
+      }
+    })
+	
+	//Initialize tooltip on hover
+    $('<div class="tooltip-inner" id="line-chart-tooltip-3"></div>').css({
+      position: 'absolute',
+      display : 'none',
+      opacity : 0.8
+    }).appendTo('body')
+	//格式 根据line_name第三个数区分是位移还是温度
+    $('#line-chart-3').bind('plothover', function (event, pos, item) {
+		
+			if (item) {
+				var x = item.datapoint[0],
+            	y = item.datapoint[1].toFixed(4) //设定精度
+				d = new Date(x);
+				if (d.getHours() < 10 && d.getMinutes() < 10) {
+					timeStr = '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
+					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+						timeStr = '0' + d.getHours() + ':' + d.getMinutes();} 
+					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+						timeStr = d.getHours() + ':' + '0' + d.getMinutes();}
+					else {
+						timeStr = d.getHours() + ':' + d.getMinutes();}
+						
+				$('#line-chart-tooltip-3').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
+				.css({ top: item.pageY + 5, left: item.pageX + 5 })
+        		.fadeIn(200)
+				} else {
+					$('#line-chart-tooltip-3').hide()
+					}
+				
+	})
+	
+	//开始画线——Y
+    $.plot('#line-chart-4', happy_Y, {
+      grid  : {
+        hoverable  : true,
+        borderColor: '#111111',
+        borderWidth: 1,
+        tickColor  : '#8E8E8E'
+      },
+      series: {
+        shadowSize: 0,
+        lines     : {
+          show: true
+        },
+        points    : {
+          show: false
+        }
+      },
+      //lines : {
+        //fill : false,
+        //color: ['#3c8dbc']
+      //},
+      yaxis : {
+        show: true
+      },
+       xaxis : {
+        show: true,
+		mode:'time',
+		tickFormatter:function(e){
+			var d = new Date(e);
+			if (d.getHours() < 10 && d.getMinutes() < 10) {
+					return  '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
+					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+						return '0' + d.getHours() + ':' + d.getMinutes();} 
+					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+						return d.getHours() + ':' + '0' + d.getMinutes();}
+					else {
+						return d.getHours() + ':' + d.getMinutes();}
+		}
+      }
+    })
+	
+	//Initialize tooltip on hover
+    $('<div class="tooltip-inner" id="line-chart-tooltip-4"></div>').css({
+      position: 'absolute',
+      display : 'none',
+      opacity : 0.8
+    }).appendTo('body')
+	//格式 根据line_name第三个数区分是位移还是温度
+    $('#line-chart-4').bind('plothover', function (event, pos, item) {
+		
+			if (item) {
+				var x = item.datapoint[0],
+            	y = item.datapoint[1].toFixed(4) //设定精度
+				d = new Date(x);
+				if (d.getHours() < 10 && d.getMinutes() < 10) {
+					timeStr = '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
+					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+						timeStr = '0' + d.getHours() + ':' + d.getMinutes();} 
+					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+						timeStr = d.getHours() + ':' + '0' + d.getMinutes();}
+					else {
+						timeStr = d.getHours() + ':' + d.getMinutes();}
+						
+				$('#line-chart-tooltip-4').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
+				.css({ top: item.pageY + 5, left: item.pageX + 5 })
+        		.fadeIn(200)
+				} else {
+					$('#line-chart-tooltip-4').hide()
+					}
+				
+	})
+	
+	//开始画线——Z
+    $.plot('#line-chart-5', happy_Z, {
+      grid  : {
+        hoverable  : true,
+        borderColor: '#111111',
+        borderWidth: 1,
+        tickColor  : '#8E8E8E'
+      },
+      series: {
+        shadowSize: 0,
+        lines     : {
+          show: true
+        },
+        points    : {
+          show: false
+        }
+      },
+      //lines : {
+        //fill : false,
+        //color: ['#3c8dbc']
+      //},
+      yaxis : {
+        show: true
+      },
+       xaxis : {
+        show: true,
+		mode:'time',
+		tickFormatter:function(e){
+			var d = new Date(e);
+			if (d.getHours() < 10 && d.getMinutes() < 10) {
+					return  '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
+					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+						return '0' + d.getHours() + ':' + d.getMinutes();} 
+					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+						return d.getHours() + ':' + '0' + d.getMinutes();}
+					else {
+						return d.getHours() + ':' + d.getMinutes();}
+		}
+      }
+    })
+	
+	//Initialize tooltip on hover
+    $('<div class="tooltip-inner" id="line-chart-tooltip-5"></div>').css({
+      position: 'absolute',
+      display : 'none',
+      opacity : 0.8
+    }).appendTo('body')
+	//格式 根据line_name第三个数区分是位移还是温度
+    $('#line-chart-5').bind('plothover', function (event, pos, item) {
+		
+			if (item) {
+				var x = item.datapoint[0],
+            	y = item.datapoint[1].toFixed(4) //设定精度
+				d = new Date(x);
+				if (d.getHours() < 10 && d.getMinutes() < 10) {
+					timeStr = '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
+					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+						timeStr = '0' + d.getHours() + ':' + d.getMinutes();} 
+					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+						timeStr = d.getHours() + ':' + '0' + d.getMinutes();}
+					else {
+						timeStr = d.getHours() + ':' + d.getMinutes();}
+						
+				$('#line-chart-tooltip-5').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
+				.css({ top: item.pageY + 5, left: item.pageX + 5 })
+        		.fadeIn(200)
+				} else {
+					$('#line-chart-tooltip-5').hide()
 					}
 				
 	})
