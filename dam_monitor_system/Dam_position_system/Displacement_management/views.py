@@ -60,7 +60,7 @@ def DPast_management_sametime(request):
 		smooth = request.POST.getlist('d3_num[]')
 		XYZ = request.POST.getlist('coor_num[]')
 		temperature = request.POST.getlist('temperature_num[]')
-		print(dam_num)
+		#print(dam_num)
 		print(time_hms_start)
 		print(time_hms_end)
 		num = len(station_num)
@@ -92,7 +92,6 @@ def DPast_management_sametime(request):
 				end_1=' '.join(time_list_start)
 				print(end_1)
 
-
 				dam_list = Dam.objects.get(dam_num = dam_num)
 				device_list = Device.objects.filter(device_num = device_num[index],at_tip =  1,dam = dam_list)
 				DPast_list = DPast.objects.filter(dreal_update_time__range=(start_1, end_1)).filter(device = device_list)
@@ -104,12 +103,15 @@ def DPast_management_sametime(request):
 				Name4_list = []
 				Name5_list = []
 				Name6_list = []
+				Name7_list = []
+				Name8_list = []
 
 				if temperature[index] == "是":
 					temperature_list = []
 					for t in DPast_list:
 						temperature_list.append(t.temperature)
 						Data_list.append(t.temperature)
+						Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 					print(temperature_list)
 					num = len(temperature_list)
 					Num_list.append(num)
@@ -120,11 +122,8 @@ def DPast_management_sametime(request):
 					Name1_list=','.join(Name1_list)
 					Name_list.append(Name1_list)
 					time1_list = []
-					for t in DPast_list:
-						time1_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-						Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-					#num3 = len(time1_list)
-					#Num_list.append(num)
+						
+
 				#平均
 				if average[index] =="是":
 					d3_list = []
@@ -141,14 +140,12 @@ def DPast_management_sametime(request):
 					Name_list.append(Name3_list)
 					time1_list = []
 					for t in DPast_list:
-						time1_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 						Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-					#num1 = len(time1_list)
-					#Num_list.append(num)
 				#收敛
 				if convergence[index] =="是":
 					d4_list = []
 					for d in DPast_list:
+						Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 						if station_num[index] == "0":
 							d4_list.append(d.d1)
 							Data_list.append(d.d1)
@@ -169,12 +166,8 @@ def DPast_management_sametime(request):
 					Name4_list.append('4')
 					Name4_list=','.join(Name4_list)
 					Name_list.append(Name4_list)
-					time1_list = []
-					for t in DPast_list:
-						time1_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-						Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-					#num2 = len(time1_list)
-					#Num_list.append(num)
+
+						
 				#平滑
 				if smooth[index] =="是":
 					d5_list = []
@@ -199,27 +192,31 @@ def DPast_management_sametime(request):
 					Name5_list.append('5')
 					Name5_list=','.join(Name5_list)
 					Name_list.append(Name5_list)
-					time1_list = []
 					for t in DPast_list:
-						time1_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 						Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-					#num2 = len(time1_list)
-					#Num_list.append(num)
+
 				#坐标
 				if XYZ[index] == "是":				
 					d6_list = []
+					d7_list = []
+					d8_list = []
 					for t in DPast_list:
-						XYZ_list = []
-						XYZ_list.append(t.x)
-						XYZ_list.append(t.y)
-						XYZ_list.append(t.z)
-						for i in range(len(XYZ_list)):
+						Data_list.append(t.x)
+						d6_list.append(t.x)
+						Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
+					for t in DPast_list:
+						Data_list.append(t.y)
+						d7_list.append(t.y)
+						Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
+					for t in DPast_list:
+						Data_list.append(t.z)
+						d8_list.append(t.z)
+						Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
+						'''for i in range(len(XYZ_list)):
 							XYZ_list[i] = str(XYZ_list[i])
 						XYZ_list=','.join(XYZ_list)
 						d6_list.append(XYZ_list)	
-					Data_list = Data_list + d6_list
-					#print(XYZ_list)
-					#print(Data_list)
+					Data_list = Data_list + d6_list'''
 					num = len(d6_list)
 					Num_list.append(num)
 					Name6_list.append(dam_num)
@@ -228,12 +225,23 @@ def DPast_management_sametime(request):
 					Name6_list.append('6')
 					Name6_list=','.join(Name6_list)
 					Name_list.append(Name6_list)
-					time1_list = []
-					for t in DPast_list:
-						time1_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-						Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-					#num3 = len(time1_list)
-					#Num_list.append(num)
+					num = len(d7_list)
+					Num_list.append(num)
+					Name7_list.append(dam_num)
+					Name7_list.append(device_num[index])
+					Name7_list.append(station_num[index])
+					Name7_list.append('7')
+					Name7_list=','.join(Name7_list)
+					Name_list.append(Name7_list)
+					num = len(d8_list)
+					Num_list.append(num)
+					Name8_list.append(dam_num)
+					Name8_list.append(device_num[index])
+					Name8_list.append(station_num[index])
+					Name8_list.append('8')
+					Name8_list=','.join(Name8_list)
+					Name_list.append(Name8_list)
+						
 			print(Data_list)
 			print(Time_list)
 			print(Name_list)
@@ -276,13 +284,16 @@ def DPast_management(request):
 			Name4_list = []
 			Name5_list = []
 			Name6_list = []
+			Name7_list = []
+			Name8_list = []
 
 			if temperature[index] == "是":
 				temperature_list = []
 				for t in DPast_list:
 					temperature_list.append(t.temperature)
 					Data_list.append(t.temperature)
-				print(temperature_list)
+					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
+				#print(temperature_list)
 				num = len(temperature_list)
 				Num_list.append(num)
 				Name1_list.append(dam_num)
@@ -291,12 +302,7 @@ def DPast_management(request):
 				Name1_list.append('1')
 				Name1_list=','.join(Name1_list)
 				Name_list.append(Name1_list)
-				time1_list = []
-				for t in DPast_list:
-					time1_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-				#num3 = len(time1_list)
-				#Num_list.append(num)
+
 			#平均
 			if average[index] =="是":
 				d3_list = []
@@ -311,12 +317,9 @@ def DPast_management(request):
 				Name3_list.append('3')
 				Name3_list=','.join(Name3_list)#合并字符串	
 				Name_list.append(Name3_list)
-				time1_list = []
 				for t in DPast_list:
-					time1_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-				#num1 = len(time1_list)
-				#Num_list.append(num)
+
 			#收敛
 			if convergence[index] =="是":
 				d4_list = []
@@ -341,12 +344,9 @@ def DPast_management(request):
 				Name4_list.append('4')
 				Name4_list=','.join(Name4_list)
 				Name_list.append(Name4_list)
-				time1_list = []
 				for t in DPast_list:
-					time1_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-				#num2 = len(time1_list)
-				#Num_list.append(num)
+
 			#平滑
 			if smooth[index] =="是":
 				d5_list = []
@@ -373,25 +373,25 @@ def DPast_management(request):
 				Name_list.append(Name5_list)
 				time1_list = []
 				for t in DPast_list:
-					time1_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-				#num2 = len(time1_list)
-				#Num_list.append(num)
+
 			#坐标
 			if XYZ[index] == "是":				
 				d6_list = []
+				d7_list = []
+				d8_list = []
 				for t in DPast_list:
-					XYZ_list = []
-					XYZ_list.append(t.x)
-					XYZ_list.append(t.y)
-					XYZ_list.append(t.z)
-					for i in range(len(XYZ_list)):
-						XYZ_list[i] = str(XYZ_list[i])
-					XYZ_list=','.join(XYZ_list)
-					d6_list.append(XYZ_list)	
-				Data_list = Data_list + d6_list
-				#print(XYZ_list)
-				#print(Data_list)
+					Data_list.append(t.x)
+					d6_list.append(t.x)
+					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
+				for t in DPast_list:
+					Data_list.append(t.y)
+					d7_list.append(t.y)
+					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
+				for t in DPast_list:
+					Data_list.append(t.z)
+					d8_list.append(t.z)
+					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 				num = len(d6_list)
 				Num_list.append(num)
 				Name6_list.append(dam_num)
@@ -400,12 +400,22 @@ def DPast_management(request):
 				Name6_list.append('6')
 				Name6_list=','.join(Name6_list)
 				Name_list.append(Name6_list)
-				time1_list = []
-				for t in DPast_list:
-					time1_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-				#num3 = len(time1_list)
-				#Num_list.append(num)
+				num = len(d7_list)
+				Num_list.append(num)
+				Name7_list.append(dam_num)
+				Name7_list.append(device_num[index])
+				Name7_list.append(station_num[index])
+				Name7_list.append('7')
+				Name7_list=','.join(Name7_list)
+				Name_list.append(Name7_list)
+				num = len(d8_list)
+				Num_list.append(num)
+				Name8_list.append(dam_num)
+				Name8_list.append(device_num[index])
+				Name8_list.append(station_num[index])
+				Name8_list.append('8')
+				Name8_list=','.join(Name8_list)
+				Name_list.append(Name8_list)
 
 			
 		print(Data_list)
@@ -439,11 +449,6 @@ def Raw_data_management(request):
 		Num_list = [] 
 		Time_list = []
 		for index in range(num):
-			'''Num_list = []
-			Num_list.append(station_num[index])
-			Num_list.append(device_num[index])
-			Num_list=','.join(Num_list)
-			Name_list.append(Num_list)'''
 
 		#判断锚点编号
 			dam_list = Dam.objects.get(dam_num = dam_num)
@@ -460,7 +465,10 @@ def Raw_data_management(request):
 			Name4_list = []
 			Name5_list = []
 			Name6_list = []
+			Name7_list = []
+			Name8_list = []
 
+			#温度
 			if temperature[index] == "是":
 				temperature_list = []
 				for t in DPast_list:
@@ -470,8 +478,8 @@ def Raw_data_management(request):
 				num = len(temperature_list)
 				Num_list.append(num)
 				Name1_list.append(dam_num)
-				Name1_list.append(device_num[index])
 				Name1_list.append(station_num[index])
+				Name1_list.append(device_num[index])
 				Name1_list.append('1')
 				Name1_list=','.join(Name1_list)
 				Name_list.append(Name1_list)
@@ -501,8 +509,8 @@ def Raw_data_management(request):
 					num = len(d2_list)
 				Num_list.append(num)
 				Name2_list.append(dam_num)
-				Name2_list.append(device_num[index])
 				Name2_list.append(station_num[index])
+				Name2_list.append(device_num[index])
 				Name2_list.append('2')
 				Name2_list=','.join(Name2_list)
 				Name_list.append(Name2_list)				
@@ -512,24 +520,22 @@ def Raw_data_management(request):
 				for d in Average_list:
 					d3_list.append(d.d)
 					Data_list.append(d.d)
+					Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 				num = len(d3_list)#计算list元素个数
 				Num_list.append(num)
 				Name3_list.append(dam_num)
-				Name3_list.append(device_num[index])
 				Name3_list.append(station_num[index])
+				Name3_list.append(device_num[index])
 				Name3_list.append('3')
 				Name3_list=','.join(Name3_list)#合并字符串	
 				Name_list.append(Name3_list)
-				time1_list = []
-				for t in D_list:
-					time1_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-				#num1 = len(time1_list)
-				#Num_list.append(num)
+					
+
 			#收敛
 			if convergence[index] =="是":
 				d4_list = []
 				for d in DPast_list:
+					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 					if station_num[index] == "0":
 						d4_list.append(d.d1)
 						Data_list.append(d.d1)
@@ -545,21 +551,19 @@ def Raw_data_management(request):
 				num = len(d4_list)
 				Num_list.append(num)
 				Name4_list.append(dam_num)
-				Name4_list.append(device_num[index])
 				Name4_list.append(station_num[index])
+				Name4_list.append(device_num[index])
+				
 				Name4_list.append('4')
 				Name4_list=','.join(Name4_list)
 				Name_list.append(Name4_list)
-				time1_list = []
-				for t in DPast_list:
-					time1_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-				#num2 = len(time1_list)
-				#Num_list.append(num)
+					
+
 			#平滑
 			if smooth[index] =="是":
 				d5_list = []
 				for d in Dping_list:
+					Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 					if station_num[index] == "0":
 						d5_list.append(d.d1)
 						Data_list.append(d.d1)
@@ -575,46 +579,53 @@ def Raw_data_management(request):
 				num = len(d5_list)
 				Num_list.append(num)
 				Name5_list.append(dam_num)
-				Name5_list.append(device_num[index])
 				Name5_list.append(station_num[index])
+				Name5_list.append(device_num[index])
 				Name5_list.append('5')
 				Name5_list=','.join(Name5_list)
 				Name_list.append(Name5_list)
-				time1_list = []
-				for t in D_list:
-					time1_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-				#num2 = len(time1_list)
-				#Num_list.append(num)
+
 			#坐标
 			if XYZ[index] == "是":				
 				d6_list = []
+				d7_list = []
+				d8_list = []
 				for t in DPast_list:
-					XYZ_list = []
-					XYZ_list.append(t.x)
-					XYZ_list.append(t.y)
-					XYZ_list.append(t.z)
-					for i in range(len(XYZ_list)):
-						XYZ_list[i] = str(XYZ_list[i])
-					XYZ_list=','.join(XYZ_list)
-					d6_list.append(XYZ_list)	
-				Data_list = Data_list + d6_list
-				#print(XYZ_list)
-				#print(Data_list)
+					Data_list.append(t.x)
+					d6_list.append(t.x)
+					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
+				for t in DPast_list:
+					Data_list.append(t.y)
+					d7_list.append(t.y)
+					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
+				for t in DPast_list:
+					Data_list.append(t.z)
+					d8_list.append(t.z)
+					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 				num = len(d6_list)
 				Num_list.append(num)
 				Name6_list.append(dam_num)
-				Name6_list.append(device_num[index])
 				Name6_list.append(station_num[index])
+				Name6_list.append(device_num[index])
 				Name6_list.append('6')
 				Name6_list=','.join(Name6_list)
 				Name_list.append(Name6_list)
-				time1_list = []
-				for t in D_list:
-					time1_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-				#num3 = len(time1_list)
-				#Num_list.append(num)
+				num = len(d7_list)
+				Num_list.append(num)
+				Name7_list.append(dam_num)
+				Name7_list.append(station_num[index])
+				Name7_list.append(device_num[index])
+				Name7_list.append('7')
+				Name7_list=','.join(Name7_list)
+				Name_list.append(Name7_list)
+				num = len(d8_list)
+				Num_list.append(num)
+				Name8_list.append(dam_num)
+				Name8_list.append(station_num[index])
+				Name8_list.append(device_num[index])
+				Name8_list.append('8')
+				Name8_list=','.join(Name8_list)
+				Name_list.append(Name8_list)
 
 			
 		print(Data_list)
@@ -627,28 +638,21 @@ def Raw_data_management_real(request):
 	if request.method == "POST":
 		dam_num = request.POST.get('dam_num')
 		dam_num = re.findall(r"\d+\.?\d*",dam_num)
-
 		device_num = request.POST.get('device_num')
 		device_num = re.findall(r"\d+\.?\d*",device_num)
-
 		station_num = request.POST.get('station_num')
 		station_num = re.findall(r"\d+\.?\d*",station_num)
-
 		type_num_list = request.POST.get('type_num')
 		type_num_list = re.findall(r"\d+\.?\d*",type_num_list)
-
 		print (type_num_list)
-		print (dam_num)
-		print (device_num)
-
+		#print (dam_num)
+		#print (device_num)
 		num = len(station_num)
 		Data_list = []
 		Name_list = [] 
 		Num_list = [] 
 		Time_list = []
-
 		for index in range(num):
-
 		#判断锚点编号
 			dam_list = Dam.objects.get(dam_num = dam_num[index])
 			device_list = Device.objects.filter(device_num = device_num[index],at_tip = 1,dam = dam_list)
@@ -657,176 +661,79 @@ def Raw_data_management_real(request):
 			Dping_list = Dping.objects.filter(device = device_list).order_by('-id')[:1]
 			Average_list = Average_data.objects.filter(device = device_list,station_num = station_num[index]).order_by('-id')[:1]
 			D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:1]
-			#D_list = D_list.reverse()[:1]
+
 			Name1_list = [] 
 			Name2_list = [] 
 			Name3_list = []
 			Name4_list = []
 			Name5_list = []
 			Name6_list = []
+			#温度
 			if type_num_list[index] == '1':
-				temperature_list = []
 				for t in DPast_list:
-					temperature_list.append(t.temperature)
 					Data_list.append(t.temperature)
 					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-				#print(temperature_list)
-				'''num = len(temperature_list)
-				Num_list.append(num)
-				Name1_list.append(dam_num[index])
-				Name1_list.append(device_num[index])
-				Name1_list.append(station_num[index])
-				Name1_list.append('1')
-				Name1_list=','.join(Name1_list)
-				Name_list.append(Name1_list)'''
-					
-				#num3 = len(time1_list)
-				#Num_list.append(num)
+			#原始
 			if type_num_list[index] == '2':
 				d2_list = []
 				for d in D_list :
-					#Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
+					Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
 					if station_num[index] == "0":
 						Data_list.append(d.d1)
-						d2_list.append(d.d1)
 					elif station_num[index] == "1":
 						Data_list.append(d.d2)
-						d2_list.append(d.d2)
 					elif station_num[index] == "2":
 						Data_list.append(d.d3)
-						d2_list.append(d.d3)
 					elif station_num[index] == "3":
-						Data_list.append(d.d4)
-						d2_list.append(d.d4)
-				'''num = len(d2_list)
-				Num_list.append(num)
-				Name2_list.append(dam_num[index])
-				Name2_list.append(device_num[index])
-				Name2_list.append(station_num[index])
-				Name2_list.append('2')
-				Name2_list=','.join(Name2_list)
-				Name_list.append(Name2_list)'''
-				
-
+						Data_list.append(d.d4)	
+			#平均
 			if type_num_list[index] == '3':
-				d3_list = []
 				for d in Average_list:
-					d3_list.append(d.d)
 					Data_list.append(d.d)
-				'''num = len(d3_list)#计算list元素个数
-				Num_list.append(num)
-				Name3_list.append(dam_num[index])
-				Name3_list.append(device_num[index])
-				Name3_list.append(station_num[index])
-				Name3_list.append('3')
-				Name3_list=','.join(Name3_list)#合并字符串	
-				Name_list.append(Name3_list)'''
-				'''time1_list = []
-				for t in D_list:
-					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))'''
-
+					Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
+			#收敛
 			if type_num_list[index] =='4':
-				d4_list = []
 				for d in DPast_list:
+					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 					if station_num[index] == "0":
-						d4_list.append(d.d1)
 						Data_list.append(d.d1)
 					elif station_num[index] == "1":
-						d4_list.append(d.d2)
 						Data_list.append(d.d2)
 					elif station_num[index] == "2":
-						d4_list.append(d.d3)
 						Data_list.append(d.d3)
 					elif station_num[index] == "3":
-						d4_list.append(d.d4)
 						Data_list.append(d.d4)
-				'''num = len(d4_list)
-				Num_list.append(num)
-				Name4_list.append(dam_num[index])
-				Name4_list.append(device_num[index])
-				Name4_list.append(station_num[index])
-				Name4_list.append('4')
-				Name4_list=','.join(Name4_list)
-				Name_list.append(Name4_list)'''
-				'''time1_list = []
-				for t in D_list:
-					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))'''
-
+			#平滑
 			if type_num_list[index] == '5':
-				d5_list = []
 				for d in Dping_list:
+					Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 					if station_num[index] == "0":
-						d5_list.append(d.d1)
 						Data_list.append(d.d1)
 					elif station_num[index] == "1":
-						d5_list.append(d.d2)
 						Data_list.append(d.d2)
 					elif station_num[index] == "2":
-						d5_list.append(d.d3)
 						Data_list.append(d.d3)
 					elif station_num[index] == "3":
-						d5_list.append(d.d4)
 						Data_list.append(d.d4)
-				'''num = len(d5_list)
-				Num_list.append(num)
-				Name5_list.append(dam_num[index])
-				Name5_list.append(device_num[index])
-				Name5_list.append(station_num[index])
-				Name5_list.append('5')
-				Name5_list=','.join(Name5_list)
-				Name_list.append(Name5_list)'''
-			'''	time1_list = []
-				for t in D_list:
-					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))'''
-
-			if type_num_list[index] == '6':			
-				d6_list = []
+			#坐标
+			if type_num_list[index] == '6':						
 				for t in DPast_list:
-					XYZ_list = []
-					XYZ_list.append(t.x)
-					XYZ_list.append(t.y)
-					XYZ_list.append(t.z)
-					for i in range(len(XYZ_list)):
-						XYZ_list[i] = str(XYZ_list[i])
-					XYZ_list=','.join(XYZ_list)
-					d6_list.append(XYZ_list)	
-				Data_list = Data_list + d6_list
-				#print(XYZ_list)
-				#print(Data_list)
-				'''num = len(d6_list)
-				Num_list.append(num)
-				Name6_list.append(dam_num[index])
-				Name6_list.append(device_num[index])
-				Name6_list.append(station_num[index])
-				Name6_list.append('6')
-				Name6_list=','.join(Name6_list)
-				Name_list.append(Name6_list)'''
-			'''	time1_list = []
-				for t in D_list:
-					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))'''
-
-				
+					Data_list.append(t.x)
+					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
+				for t in DPast_list:
+					Data_list.append(t.y)
+					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
+				for t in DPast_list:
+					Data_list.append(t.z)
+					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))		
 		print(Data_list)
 		print(Time_list)
-		'''for index in range(num):
-			#判断锚点编号
+		'''判断锚点编号
 			device_list = Device.objects.filter(device_num = device_num_list[index],at_tip = 1 )
 			#通过最大的ID查询
 			D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:1]
 			d = D_list[0]
-			#for d in D_list :
-			if station_num_list[index] == "0":
-				Data_list.append(d.d1)
-			elif station_num_list[index] == "1":
-				Data_list.append(d.d2)
-			elif station_num_list[index] == "2":
-				Data_list.append(d.d3)
-			elif station_num_list[index] == "3":
-				Data_list.append(d.d4)
-			Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-				
-		print(Data_list)
-		print(Time_list)'''
+			#for d in D_list :'''
 	return HttpResponse(json.dumps({'Data_list':Data_list,'Time_list':Time_list}))
 
 
