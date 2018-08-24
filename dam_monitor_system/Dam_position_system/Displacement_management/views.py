@@ -145,7 +145,7 @@ def DPast_management_sametime(request):
 				if convergence[index] =="是":
 					d4_list = []
 					for d in DPast_list:
-						Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
+						Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 						if station_num[index] == "0":
 							d4_list.append(d.d1)
 							Data_list.append(d.d1)
@@ -324,6 +324,7 @@ def DPast_management(request):
 			if convergence[index] =="是":
 				d4_list = []
 				for d in DPast_list:
+					Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 					if station_num[index] == "0":
 						d4_list.append(d.d1)
 						Data_list.append(d.d1)
@@ -344,7 +345,6 @@ def DPast_management(request):
 				Name4_list.append('4')
 				Name4_list=','.join(Name4_list)
 				Name_list.append(Name4_list)
-				for t in DPast_list:
 					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 
 			#平滑
@@ -474,6 +474,7 @@ def Raw_data_management(request):
 				for t in DPast_list:
 					temperature_list.append(t.temperature)
 					Data_list.append(t.temperature)
+					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 				#print(temperature_list)
 				num = len(temperature_list)
 				Num_list.append(num)
@@ -483,12 +484,7 @@ def Raw_data_management(request):
 				Name1_list.append('1')
 				Name1_list=','.join(Name1_list)
 				Name_list.append(Name1_list)
-				time1_list = []
-				for t in DPast_list:
-					time1_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-				#num3 = len(time1_list)
-				#Num_list.append(num)
+					
 			#原始
 			if raw[index] =="是":
 				d2_list = []
@@ -552,8 +548,7 @@ def Raw_data_management(request):
 				Num_list.append(num)
 				Name4_list.append(dam_num)
 				Name4_list.append(station_num[index])
-				Name4_list.append(device_num[index])
-				
+				Name4_list.append(device_num[index])	
 				Name4_list.append('4')
 				Name4_list=','.join(Name4_list)
 				Name_list.append(Name4_list)
@@ -694,7 +689,7 @@ def Raw_data_management_real(request):
 			#收敛
 			if type_num_list[index] =='4':
 				for d in DPast_list:
-					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
+					Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 					if station_num[index] == "0":
 						Data_list.append(d.d1)
 					elif station_num[index] == "1":
