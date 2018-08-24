@@ -535,7 +535,7 @@ def Raw_data_management(request):
 			if convergence[index] =="是":
 				d4_list = []
 				for d in DPast_list:
-					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
+					Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
 					if station_num[index] == "0":
 						d4_list.append(d.d1)
 						Data_list.append(d.d1)
