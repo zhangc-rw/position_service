@@ -171,10 +171,21 @@ desired effect
                   <form class="form-horizontal" id="form_label" action="/Displacement_management/label_detail_realTime/" method="post">
                     {% csrf_token %}
                     <div class="box-body">
-                      <div class="col-xs-6">
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">标签-基站列表</label>
-                          <button type="button" id="addcomparison" class="btn btn-info">新增对比</button>
+                      <div class="col-xs-12">
+                        <div class="form-group"> 
+                          <!--<label class="col-sm-3 control-label">标签-基站列表</label>-->
+                          <div class="col-xs-2">
+                            <label class="control-label">请选择大坝编号：</label>
+                          </div>
+                          <div class="col-xs-1">
+                            <select input type="varchar" class="form-control form-input" name="dam_num" id="dam_num" style="width: 100%;">
+                              <option>0</option>
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                            </select>
+                          </div>
+                          <button type="button" id="addcomparison" class="btn btn-info pull-right">新增对比</button>
                         </div>
                       </div>
                       <div class="col-xs-12">
@@ -183,7 +194,12 @@ desired effect
                             <tr>
                               <th>基站编号A</th>
                               <th>标签编号T</th>
+                              <th>温度曲线</th>
                               <th>原始曲线</th>
+                              <th>平均曲线</th>
+                              <th>收敛曲线</th>
+                              <th>平滑曲线</th>
+                              <th>XYZ坐标</th>
                             </tr>
                             <tr>
                               <td><select input type="varchar" class="form-control form-input" name="station_num[]" id="station_num" style="width: 100%;">
@@ -202,7 +218,27 @@ desired effect
                                   <option>6</option>
                                   <option>7</option>
                                 </select></td>
+                              <td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">
+                                  <option>是</option>
+                                  <option>否</option>
+                                </select></td>
+                              <td><select input type="varchar" class="form-control form-input" name="raw_num[]" id="raw_num" style="width: 100%;">
+                                  <option>是</option>
+                                  <option>否</option>
+                                </select></td>
+                              <td><select input type="varchar" class="form-control form-input" name="d1_num[]" id="d1_num" style="width: 100%;">
+                                  <option>是</option>
+                                  <option>否</option>
+                                </select></td>
+                              <td><select input type="varchar" class="form-control form-input" name="d2_num[]" id="d2_num" style="width: 100%;">
+                                  <option>是</option>
+                                  <option>否</option>
+                                </select></td>
                               <td><select input type="varchar" class="form-control form-input" name="d3_num[]" id="d3_num" style="width: 100%;">
+                                  <option>是</option>
+                                  <option>否</option>
+                                </select></td>
+                              <td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
                                 </select></td>
@@ -291,7 +327,27 @@ desired effect
 							'<option>6</option>' +
 							'<option>7</option>' +
                           '</select></td>'+
-						'<td><select input type="varchar" class="form-control form-input" name="d3_num[]" id="d3_num" style="width: 100%;">' +
+						'<td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">' +
+                            '<option>是</option>' +
+                            '<option>否</option>' +
+                          '</select></td>'+
+						'<td><select input type="varchar" class="form-control form-input" name="raw_num[]" id="raw_num" style="width: 100%;">' +
+                            '<option>是</option>' +
+                            '<option>否</option>' +
+                          '</select></td>'+
+                        '<td><select input type="varchar" class="form-control form-input" name="d1_num[]" id="d1_num" style="width: 100%;">' +
+                            '<option>是</option>' +
+                            '<option>否</option>' +
+                          '</select></td>'+
+                        '<td><select input type="varchar" class="form-control form-input" name="d2_num[]" id="d2_num" style="width: 100%;">' +
+                            '<option>是</option>' +
+                            '<option>否</option>' +
+                          '</select></td>'+
+                        '<td><select input type="varchar" class="form-control form-input" name="d3_num[]" id="d3_num" style="width: 100%;">' +
+                            '<option>是</option>' +
+                            '<option>否</option>' +
+                          '</select></td>'+
+						'<td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%;">' +
                             '<option>是</option>' +
                             '<option>否</option>' +
                           '</select></td>'+

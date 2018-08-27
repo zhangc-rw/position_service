@@ -165,12 +165,19 @@ desired effect
                       <!-- Line CHART -->
                       <div class="box box-primary">
                         <div class="box-header with-border">
-                          <h3 class="box-title">位移-温度曲线</h3>
                           <button type="button" class="btn btn-info pull-right submitBtn" onClick="JavaScript:window.history.back();">返回</button>
                         </div>
                         <div class="box-body">
+                          <h4 class="box-title">位移曲线</h4>
                           <div id="line-chart-1" style="width: 100%; height: 300px;"> </div>
+                          <h4 class="box-title">温度曲线</h4>
                           <div id="line-chart-2" style="width: 100%; height: 300px;"> </div>
+                          <h4 class="box-title">X坐标</h4>
+                          <div id="line-chart-3" style="width: 100%; height: 300px;"> </div>
+                          <h4 class="box-title">Y坐标</h4>
+                          <div id="line-chart-4" style="width: 100%; height: 300px;"> </div>
+                          <h4 class="box-title">Z坐标</h4>
+                          <div id="line-chart-5" style="width: 100%; height: 300px;"> </div>
                         </div>
                         <!-- /.box-body --> 
                       </div>
@@ -244,7 +251,9 @@ desired effect
 	//按Num_list中的个数，循环定义数组变量
 	for (var i = 0; i < Num_list.length; i++) {
 		window["line_time"+i] = [];//画图用的line_time
+		window["line_time_show"+i] = [];//标签显示用的line_time_show
 		window["line_data"+i] = [];//画图用的line_data
+		window["line_label_name"+i] = [];//添加显示在label的数据名称
 		window["line_array"+i] = [];//存放line_time和line_data，生成二维坐标
 		window["line_draw"+i] = {};//存放line_array和颜色等...
 		window["line_Name"+i] = [];//存放line_name，明确具体标签、基站，线的种类，元素带引号
@@ -254,11 +263,13 @@ desired effect
 	
 	var Time_list = {{Time_list|safe}};//时间列表
 	//console.log(Time_list)
+	var Time_list_YMD_past = [];//拆分出年月日,作为显示label使用
 	
 	//转化时间为中国标准时间格式
 	var time_list = [];
 	for (var k = 0; k < Time_list.length; k++) {
 		time_list.push(new Date (Time_list[k]));
+		Time_list_YMD_past.push(Time_list[k].split(" ")[0]);//通过设置的“ ”进行拆分，取第一个元素（年月日）放在一个数组中，在图例中显示
 	}
 	//console.log(time_list)
 	
@@ -277,6 +288,7 @@ desired effect
 	//console.log(line_name1[1])
 	//按Num_list中的个数，取出time_list,Data_list（第一个）方法不同
 	for (var s = 0; s < Num_list[0]; s++) {
+		window["line_time_show"+0].push(Time_list_YMD_past[s]);
 		window["line_time"+0].push(time_list[s]);
 		window["line_data"+0].push(Data_list[s]);
 	}
@@ -291,6 +303,7 @@ desired effect
 			start = Num_list[j-1];
 			isFirst = 0;
 		}
+		window["line_time_show"+j] = Time_list_YMD_past.slice(start,start + Num_list[j]);
 		window["line_time"+j] = time_list.slice(start,start + Num_list[j]);
 		window["line_data"+j] = Data_list.slice(start,start + Num_list[j]);
 		start = start + Num_list[j];
@@ -298,7 +311,7 @@ desired effect
 	}
 	//console.log((window["line_time"+1])[0])
 	//console.log((window["line_data"+1]))
-	
+	//console.log((window["line_time_show"+0]).length)
 	
 	//将已获得的line_time和line_data放入line_array中，确立横纵坐标，以画图
     for (var t = 0; t < Num_list.length; t += 1) {
@@ -309,21 +322,76 @@ desired effect
     }
 
 	//确定线的数据和颜色
-	var happy_distance = [], happy_temperature = [];
+	var happy_distance = [], happy_temperature = [], happy_X = [], happy_Y = [], happy_Z = [];
 	var color_choose = ['#3c8dbc','#00c0ef','#00a65a','#f39c12','#f56954','#d2d6de','#001F3F','#39CCCC','#605ca8','#ff851b','#D81B60','#111111'];
 	for (var h = 0; h < Num_list.length; h += 1) {
-		window["line_draw"+h] = {
-			data : window["line_array"+h],
-			color: color_choose[h],
-			label: "标签" + ":" + window["line_name"+h][0] + " " + "基站" + ":" + window["line_name"+h][2],
-		}
-	//console.log(window["line_draw"+h])
-	if (window["line_name"+h][4] == 1) {
-		happy_temperature.push(window["line_draw"+h])//存放的温度曲线
-		}else{
-			happy_distance.push(window["line_draw"+h])//存放的位移曲线
+		//判断时间为空，不显示undefined
+		if(window["line_time_show"+h].length==0){
+			window["line_draw"+h] = {
+				data : window["line_array"+h],
+				color: color_choose[h],
+				label: "该时间段没有数据" + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4],
 			}
-	}
+		//明确数据类型
+		}else{
+			if(window["line_name"+h][6]==1){
+				window["line_draw"+h] = {
+					data : window["line_array"+h],
+					color: color_choose[h],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4],
+				}
+			}else if(window["line_name"+h][6]==3){
+				window["line_draw"+h] = {
+					data : window["line_array"+h],
+					color: color_choose[h],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4] + " " + "平均数据",
+				}	
+			}else if(window["line_name"+h][6]==4){
+				window["line_draw"+h] = {
+					data : window["line_array"+h],
+					color: color_choose[h],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4] + " " + "收敛数据",
+				}
+			}else if(window["line_name"+h][6]==5){
+				window["line_draw"+h] = {
+					data : window["line_array"+h],
+					color: color_choose[h],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4] + " " + "平滑数据",
+				}	
+			}else if(window["line_name"+h][6]==6){
+				window["line_draw"+h] = {
+					data : window["line_array"+h],
+					color: color_choose[h],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4],
+				}	
+			}else if(window["line_name"+h][6]==7){
+				window["line_draw"+h] = {
+					data : window["line_array"+h],
+					color: color_choose[h],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4],
+				}	
+			}else if(window["line_name"+h][6]==8){
+				window["line_draw"+h] = {
+					data : window["line_array"+h],
+					color: color_choose[h],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4],
+				}	
+			}
+		}	
+			
+	//console.log(window["line_draw"+h])
+	    if (window["line_name"+h][6] == 1) {
+		    happy_temperature.push(window["line_draw"+h])//存放的温度曲线
+	    }else if(window["line_name"+h][6] == 6){
+		    happy_X.push(window["line_draw"+h])
+	    }else if(window["line_name"+h][6] == 7){
+		    happy_Y.push(window["line_draw"+h])
+	    }else if(window["line_name"+h][6] == 8){
+		    happy_Z.push(window["line_draw"+h])
+	    }else{
+		    happy_distance.push(window["line_draw"+h])//存放的位移曲线
+	    }
+	}// end for
 	//console.log(happy_distance)
 	//console.log(happy_temperature)
 	
@@ -359,8 +427,12 @@ desired effect
 			var d = new Date(val);
 			if (d.getHours < 10 && d.getMinutes < 10) {
 				return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' +  '0' + d.getHours();}
-				else {
-					return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours();}
+				else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+					return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
+					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
+					else {
+						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
 		}
       }
     })
@@ -427,8 +499,12 @@ desired effect
 			var d = new Date(val);
 			if (d.getHours < 10 && d.getMinutes < 10) {
 				return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' +  '0' + d.getHours();}
-				else {
-					return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours();}
+				else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+					return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
+					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
+					else {
+						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
 		}
       }
     })
@@ -460,6 +536,222 @@ desired effect
         		.fadeIn(200)
 				} else {
 					$('#line-chart-tooltip-2').hide()
+					}
+				
+	})
+	
+	//开始画线——X
+    $.plot('#line-chart-3', happy_X, {
+      grid  : {
+        hoverable  : true,
+        borderColor: '#111111',
+        borderWidth: 1,
+        tickColor  : '#8E8E8E'
+      },
+      series: {
+        shadowSize: 0,
+        lines     : {
+          show: true
+        },
+        points    : {
+          show: false
+        }
+      },
+      //lines : {
+        //fill : false,
+        //color: ['#3c8dbc']
+      //},
+      yaxis : {
+        show: true
+      },
+      xaxis : {
+        show: true,
+		mode:'time',
+		tickFormatter:function(val,axis){
+			var d = new Date(val);
+			if (d.getHours < 10 && d.getMinutes < 10) {
+				return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' +  '0' + d.getHours();}
+				else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+					return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
+					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
+					else {
+						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+		}
+      }
+    })
+	
+	//Initialize tooltip on hover
+    $('<div class="tooltip-inner" id="line-chart-tooltip-3"></div>').css({
+      position: 'absolute',
+      display : 'none',
+      opacity : 0.8
+    }).appendTo('body')
+	//格式 根据line_name第三个数区分是位移还是温度
+    $('#line-chart-3').bind('plothover', function (event, pos, item) {
+		
+			if (item) {
+				var x = item.datapoint[0],
+            	y = item.datapoint[1].toFixed(4) //设定精度
+				d = new Date(x);
+				if (d.getHours() < 10 && d.getMinutes() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
+					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
+					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
+					else {
+						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+						
+				$('#line-chart-tooltip-3').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
+				.css({ top: item.pageY + 5, left: item.pageX + 5 })
+        		.fadeIn(200)
+				} else {
+					$('#line-chart-tooltip-3').hide()
+					}
+				
+	})
+	
+	//开始画线——Y
+    $.plot('#line-chart-4', happy_Y, {
+      grid  : {
+        hoverable  : true,
+        borderColor: '#111111',
+        borderWidth: 1,
+        tickColor  : '#8E8E8E'
+      },
+      series: {
+        shadowSize: 0,
+        lines     : {
+          show: true
+        },
+        points    : {
+          show: false
+        }
+      },
+      //lines : {
+        //fill : false,
+        //color: ['#3c8dbc']
+      //},
+      yaxis : {
+        show: true
+      },
+      xaxis : {
+        show: true,
+		mode:'time',
+		tickFormatter:function(val,axis){
+			var d = new Date(val);
+			if (d.getHours < 10 && d.getMinutes < 10) {
+				return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' +  '0' + d.getHours();}
+				else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+					return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
+					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
+					else {
+						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+		}
+      }
+    })
+	
+	//Initialize tooltip on hover
+    $('<div class="tooltip-inner" id="line-chart-tooltip-4"></div>').css({
+      position: 'absolute',
+      display : 'none',
+      opacity : 0.8
+    }).appendTo('body')
+	//格式 根据line_name第三个数区分是位移还是温度
+    $('#line-chart-4').bind('plothover', function (event, pos, item) {
+		
+			if (item) {
+				var x = item.datapoint[0],
+            	y = item.datapoint[1].toFixed(4) //设定精度
+				d = new Date(x);
+				if (d.getHours() < 10 && d.getMinutes() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
+					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
+					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
+					else {
+						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+						
+				$('#line-chart-tooltip-4').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
+				.css({ top: item.pageY + 5, left: item.pageX + 5 })
+        		.fadeIn(200)
+				} else {
+					$('#line-chart-tooltip-4').hide()
+					}
+				
+	})
+	
+	//开始画线——Z
+    $.plot('#line-chart-5', happy_Z, {
+      grid  : {
+        hoverable  : true,
+        borderColor: '#111111',
+        borderWidth: 1,
+        tickColor  : '#8E8E8E'
+      },
+      series: {
+        shadowSize: 0,
+        lines     : {
+          show: true
+        },
+        points    : {
+          show: false
+        }
+      },
+      //lines : {
+        //fill : false,
+        //color: ['#3c8dbc']
+      //},
+      yaxis : {
+        show: true
+      },
+      xaxis : {
+        show: true,
+		mode:'time',
+		tickFormatter:function(val,axis){
+			var d = new Date(val);
+			if (d.getHours < 10 && d.getMinutes < 10) {
+				return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' +  '0' + d.getHours();}
+				else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+					return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
+					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
+					else {
+						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+		}
+      }
+    })
+	
+	//Initialize tooltip on hover
+    $('<div class="tooltip-inner" id="line-chart-tooltip-5"></div>').css({
+      position: 'absolute',
+      display : 'none',
+      opacity : 0.8
+    }).appendTo('body')
+	//格式 根据line_name第三个数区分是位移还是温度
+    $('#line-chart-5').bind('plothover', function (event, pos, item) {
+		
+			if (item) {
+				var x = item.datapoint[0],
+            	y = item.datapoint[1].toFixed(4) //设定精度
+				d = new Date(x);
+				if (d.getHours() < 10 && d.getMinutes() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
+					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
+						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
+					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
+						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
+					else {
+						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+						
+				$('#line-chart-tooltip-5').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
+				.css({ top: item.pageY + 5, left: item.pageX + 5 })
+        		.fadeIn(200)
+				} else {
+					$('#line-chart-tooltip-5').hide()
 					}
 				
 	})

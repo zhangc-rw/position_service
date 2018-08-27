@@ -21,6 +21,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <link rel="stylesheet" href="../../../../static/css/daterangepicker.css">
 <!-- bootstrap datepicker -->
 <link rel="stylesheet" href="../../../../static/css/bootstrap-datepicker.min.css">
+<!-- Bootstrap time Picker -->
+<link rel="stylesheet" href="../../../../static/css/bootstrap-timepicker.min.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="../../../../static/css/AdminLTE.min.css">
 <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
@@ -172,38 +174,50 @@ desired effect
                   <form class="form-horizontal" id="form_label" action="/Displacement_management/label_detail_history/" method="post">
                     {% csrf_token %}
                     <div class="box-body">
-                      <div class="col-xs-6">
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">标签-基站列表</label>
-                          <button type="button" id="addcomparison_1" class="btn btn-info">新增对比</button>
+                      <div class="col-xs-12">
+                        <div class="form-group"> 
+                          <!--<label class="col-sm-3 control-label">标签-基站列表</label>-->
+                          <div class="col-xs-2">
+                            <label class="control-label">请选择大坝编号：</label>
+                          </div>
+                          <div class="col-xs-1">
+                            <select input type="varchar" class="form-control form-input" name="dam_num" id="dam_num" style="width: 100%;">
+                              <option>0</option>
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                            </select>
+                          </div>
+                          <button type="button" id="addcomparison_1" class="btn btn-info pull-right">新增对比</button>
                         </div>
                       </div>
                       <div class="col-xs-12">
                         <div class="box-body">
                           <table class="table table-bordered" id="DandL_1">
                             <tr>
-                              <th>标签编号T</th>
                               <th>基站编号A</th>
+                              <th>标签编号T</th>
                               <th>时间范围</th>
                               <th>温度曲线</th>
                               <th>平均曲线</th>
                               <th>收敛曲线</th>
                               <th>平滑曲线</th>
+                              <th>XYZ坐标</th>
                             </tr>
                             <tr>
+                              <td><select input type="varchar" class="form-control form-input" name="station_num[]" id="station_num" style="width: 100%;">
+                                  <option>0</option>
+                                  <option>1</option>
+                                  <option>2</option>
+                                  <option>3</option>
+                                </select></td>
                               <td><select input type="varchar" class="form-control form-input" name="device_num[]" id="device_num" style="width: 100%;">
                                   <option>0</option>
                                   <option>1</option>
                                   <option>2</option>
                                   <option>3</option>
                                 </select></td>
-                              <td><select input type="varchar" class="form-control form-input" name="dam_num[]" id="dam_num" style="width: 100%;">
-                                  <option>0</option>
-                                  <option>1</option>
-                                  <option>2</option>
-                                  <option>3</option>
-                                </select></td>
-                              <td><input type="varchar" class="form-control form-input reservationtime" name="reservationtime[]" id="" style="width: 300px"></td>
+                              <td><input type="varchar" class="form-control form-input reservationtime_1" name="reservationtime[]" id="" style="width: 300px"></td>
                               <td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
@@ -220,7 +234,10 @@ desired effect
                                   <option>是</option>
                                   <option>否</option>
                                 </select></td>
-                              
+                              <td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%;">
+                                  <option>是</option>
+                                  <option>否</option>
+                                </select></td>
                             </tr>
                           </table>
                         </div>
@@ -243,38 +260,61 @@ desired effect
                   <form class="form-horizontal" id="form_label" action="/Displacement_management/label_detail_history_sametime/" method="post">
                     {% csrf_token %}
                     <div class="box-body">
-                      <div class="col-xs-6">
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">标签-基站列表(相同时间段)</label>
-                          <button type="button" id="addcomparison_2" class="btn btn-info">新增对比</button>
+                      <div class="form-group">
+                        <div class="col-xs-2">
+                          <label class="control-label">请选择大坝编号：</label>
                         </div>
+                        <div class="col-xs-1">
+                          <select input type="varchar" class="form-control form-input" name="dam_num" id="dam_num" style="width: 100%;">
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                          </select>
+                        </div>
+                        <div class="col-xs-2">
+                          <label class="control-label">请选择具体时间：</label>
+                        </div>
+                        <div class="col-xs-1">
+                          <div class="bootstrap-timepicker">
+                            <input type="varchar" class="form-control form-input timepicker" name="start_time" id="start_time" style="width: 100px">
+                          </div>
+                        </div>
+                        <div class="col-xs-1">
+                          <div class="bootstrap-timepicker">
+                            <input type="varchar" class="form-control form-input timepicker" name="end_time" id="end_time" style="width: 100px">
+                          </div>
+                        </div>
+                        <!--<button type="button" id="addcomparison_2" class="btn btn-info pull-right">新增对比</button>-->
                       </div>
+                      <!-- /.form group -->
                       <div class="col-xs-12">
                         <div class="box-body">
                           <table class="table table-bordered" id="DandL_2">
                             <tr>
-                              <th>标签编号T</th>
                               <th>基站编号A</th>
+                              <th>标签编号T</th>
                               <th>时间范围</th>
                               <th>温度曲线</th>
                               <th>平均曲线</th>
                               <th>收敛曲线</th>
                               <th>平滑曲线</th>
+                              <th>XYZ坐标</th>
                             </tr>
                             <tr>
+                              <td><select input type="varchar" class="form-control form-input" name="station_num[]" id="station_num" style="width: 100%;">
+                                  <option>0</option>
+                                  <option>1</option>
+                                  <option>2</option>
+                                  <option>3</option>
+                                </select></td>
                               <td><select input type="varchar" class="form-control form-input" name="device_num[]" id="device_num" style="width: 100%;">
                                   <option>0</option>
                                   <option>1</option>
                                   <option>2</option>
                                   <option>3</option>
                                 </select></td>
-                              <td><select input type="varchar" class="form-control form-input" name="dam_num[]" id="dam_num" style="width: 100%;">
-                                  <option>0</option>
-                                  <option>1</option>
-                                  <option>2</option>
-                                  <option>3</option>
-                                </select></td>
-                              <td><input type="varchar" class="form-control form-input reservationtime" name="reservationtime[]" id="" style="width: 300px"></td>
+                              <td><input type="varchar" class="form-control form-input reservationtime_2" name="reservationtime[]" id="" style="width: 300px"></td>
                               <td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
@@ -288,6 +328,10 @@ desired effect
                                   <option>否</option>
                                 </select></td>
                               <td><select input type="varchar" class="form-control form-input" name="d3_num[]" id="d3_num" style="width: 100%;">
+                                  <option>是</option>
+                                  <option>否</option>
+                                </select></td>
+                              <td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
                                 </select></td>
@@ -334,6 +378,8 @@ desired effect
 <script src="../../../../static/js/daterangepicker.js"></script> 
 <!-- bootstrap datepicker --> 
 <script src="../../../../static/js/bootstrap-datepicker.min.js"></script> 
+<!-- bootstrap time picker --> 
+<script src="../../../../static/js/bootstrap-timepicker.min.js"></script> 
 <!-- AdminLTE App --> 
 <script src="../../../../static/js/adminlte.min.js"></script> 
 <script src="../../../../static/js/form.js"></script> 
@@ -357,11 +403,12 @@ desired effect
               });  
 			  
 			//Date range picker with time picker
-			  $('.reservationtime').daterangepicker({
+			  $('.reservationtime_1').daterangepicker({
 				  timePicker: true,
 				  timePickerIncrement: 10,
                   "locale": {
 					  format: 'YYYY-MM-DD HH:mm',
+					  //format: 'YYYY-MM-DD',
 					  applyLabel: "应用",
                       cancelLabel: "取消",
                       //resetLabel: "重置",
@@ -370,23 +417,46 @@ desired effect
 					  }
 				})
 				
+			//Date range picker with time picker
+			  $('.reservationtime_2').daterangepicker({
+				  //timePicker: true,
+				  //timePickerIncrement: 10,
+                  "locale": {
+					  //format: 'YYYY-MM-DD HH:mm',
+					  format: 'YYYY-MM-DD',
+					  applyLabel: "应用",
+                      cancelLabel: "取消",
+                      //resetLabel: "重置",
+					  daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+           			  monthNames: ['一月', '二月', '三月', '四月', '五月', '六月','七月', '八月', '九月', '十月', '十一月', '十二月'],
+					  }
+				})
+				
+			//Timepicker
+			 $('.timepicker').timepicker({
+				 showInputs: false,
+				 minuteStep: 10,
+				 showMeridian:false,//修改为24h制
+				 
+				 })
+				
 				//点击“新增对比”，添加一栏标签、基站和时间
 			 $("#addcomparison_1").bind("click",function () {
 				 $("#DandL_1").append('' +
 				 '<tr> ' +
+				  '<td><select input type="varchar" class="form-control form-input" name="station_num[]" id="station_num" style="width: 100%;">' +
+                            '<option>0</option>' +
+                            '<option>1</option>' +
+                            '<option>2</option>' +
+                            '<option>3</option>' +
+                          '</select></td>'+
                  '<td><select input type="varchar" class="form-control form-input" name="device_num[]" id="device_num" style="width: 100%;">' +
                             '<option>0</option>' +
                             '<option>1</option>' +
                             '<option>2</option>' +
                             '<option>3</option>' +
                           '</select></td>'+
-                        '<td><select input type="varchar" class="form-control form-input" name="dam_num[]" id="dam_num" style="width: 100%;">' +
-                            '<option>0</option>' +
-                            '<option>1</option>' +
-                            '<option>2</option>' +
-                            '<option>3</option>' +
-                          '</select></td>'+
-						'<td><input type="varchar" class="form-control form-input reservationtime" name="reservationtime[]" id="" style="width: 300px"></td>'+
+						'<td><input type="varchar" class="form-control form-input reservationtime_1" name="reservationtime[]" id="" style="width: 300px"></td>'+
 						'<td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">' +
                             '<option>是</option>' +
                             '<option>否</option>' +
@@ -403,13 +473,18 @@ desired effect
                             '<option>是</option>' +
                             '<option>否</option>' +
                           '</select></td>'+
+						'<td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%;">' +
+                            '<option>是</option>' +
+                            '<option>否</option>' +
+                          '</select></td>'+
                         
                       ' </tr>');
-                      $('#DandL_1 tr:last-child .reservationtime').daterangepicker({
+                      $('#DandL_1 tr:last-child .reservationtime_1').daterangepicker({
 				  timePicker: true,
 				  timePickerIncrement: 10,
                   "locale": {
 					  format: 'YYYY-MM-DD HH:mm',
+					  //format: 'YYYY-MM-DD',
 					  applyLabel: "应用",
                       cancelLabel: "取消",
                       //resetLabel: "重置",
@@ -423,19 +498,19 @@ desired effect
 			 $("#addcomparison_2").bind("click",function () {
 				 $("#DandL_2").append('' +
 				 '<tr> ' +
+			      '<td><select input type="varchar" class="form-control form-input" name="station_num[]" id="station_num" style="width: 100%;">' +
+                            '<option>0</option>' +
+                            '<option>1</option>' +
+                            '<option>2</option>' +
+                            '<option>3</option>' +
+                          '</select></td>'+
                  '<td><select input type="varchar" class="form-control form-input" name="device_num[]" id="device_num" style="width: 100%;">' +
                             '<option>0</option>' +
                             '<option>1</option>' +
                             '<option>2</option>' +
                             '<option>3</option>' +
                           '</select></td>'+
-                        '<td><select input type="varchar" class="form-control form-input" name="dam_num[]" id="dam_num" style="width: 100%;">' +
-                            '<option>0</option>' +
-                            '<option>1</option>' +
-                            '<option>2</option>' +
-                            '<option>3</option>' +
-                          '</select></td>'+
-						'<td><input type="varchar" class="form-control form-input reservationtime" name="reservationtime[]" id="" style="width: 300px"></td>'+
+						'<td><input type="varchar" class="form-control form-input reservationtime_2" name="reservationtime[]" id="" style="width: 300px"></td>'+
 						'<td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">' +
                             '<option>是</option>' +
                             '<option>否</option>' +
@@ -452,12 +527,16 @@ desired effect
                             '<option>是</option>' +
                             '<option>否</option>' +
                           '</select></td>'+
+						'<td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%;">' +
+                            '<option>是</option>' +
+                            '<option>否</option>' +
+                          '</select></td>'+
                       ' </tr>');
-                      $('#DandL_2 tr:last-child .reservationtime').daterangepicker({
-				  timePicker: true,
-				  timePickerIncrement: 10,
+                      $('#DandL_2 tr:last-child .reservationtime_2').daterangepicker({
+				  //timePicker: true,
+				  //timePickerIncrement: 10,
                   "locale": {
-					  format: 'YYYY-MM-DD HH:mm',
+					  format: 'YYYY-MM-DD',
 					  applyLabel: "应用",
                       cancelLabel: "取消",
                       //resetLabel: "重置",
