@@ -345,8 +345,6 @@ def DPast_management(request):
 				Name4_list.append('4')
 				Name4_list=','.join(Name4_list)
 				Name_list.append(Name4_list)
-					Time_list.append(t.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S"))
-
 			#平滑
 			if smooth[index] =="是":
 				d5_list = []
