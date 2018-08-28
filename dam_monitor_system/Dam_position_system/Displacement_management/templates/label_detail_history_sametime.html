@@ -320,7 +320,7 @@ desired effect
 	//console.log(Name_list.length)
 	for (var n = 0; n < Name_list.length; n++) {
 		window["line_Name"+n].push(Name_list[n]);
-		window["line_name"+n] = String(window["line_Name"+n]);//转为数值数组，逗号也是元素了！
+		window["line_name"+n] = JSON.parse('[' + String(window["line_Name"+n]) + ']');//转为数组，逗号也是元素了！
 		//console.log(window["line_name"+n])
 	}
 	//console.log(line_name1[1])
@@ -372,63 +372,63 @@ desired effect
 			window["line_draw"+h] = {
 				data : window["line_array"+h],
 				color: color_choose[h],
-				label: "该时间段没有数据" + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4],
+				label: "该时间段没有数据" + " " + "基站" + ":" + window["line_name"+h][1] + " " + "标签" + ":" + window["line_name"+h][2],
 			}
 		//明确数据类型
 		}else{
-			if(window["line_name"+h][6]==1){
+			if(window["line_name"+h][3]==1){
 				window["line_draw"+h] = {
 					data : window["line_array"+h],
 					color: color_choose[h],
-					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][1] + " " + "标签" + ":" + window["line_name"+h][2],
 				}
-			}else if(window["line_name"+h][6]==3){
+			}else if(window["line_name"+h][3]==3){
 				window["line_draw"+h] = {
 					data : window["line_array"+h],
 					color: color_choose[h],
-					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4] + " " + "平均数据",
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][1] + " " + "标签" + ":" + window["line_name"+h][2] + " " + "平均数据",
 				}	
-			}else if(window["line_name"+h][6]==4){
+			}else if(window["line_name"+h][3]==4){
 				window["line_draw"+h] = {
 					data : window["line_array"+h],
 					color: color_choose[h],
-					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4] + " " + "收敛数据",
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][1] + " " + "标签" + ":" + window["line_name"+h][2] + " " + "收敛数据",
 				}
-			}else if(window["line_name"+h][6]==5){
+			}else if(window["line_name"+h][3]==5){
 				window["line_draw"+h] = {
 					data : window["line_array"+h],
 					color: color_choose[h],
-					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4] + " " + "平滑数据",
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][1] + " " + "标签" + ":" + window["line_name"+h][2] + " " + "平滑数据",
 				}
-			}else if(window["line_name"+h][6]==6){
+			}else if(window["line_name"+h][3]==6){
 				window["line_draw"+h] = {
 					data : window["line_array"+h],
 					color: color_choose[h],
-					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][1] + " " + "标签" + ":" + window["line_name"+h][2],
 				}	
-			}else if(window["line_name"+h][6]==7){
+			}else if(window["line_name"+h][3]==7){
 				window["line_draw"+h] = {
 					data : window["line_array"+h],
 					color: color_choose[h],
-					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][1] + " " + "标签" + ":" + window["line_name"+h][2],
 				}	
-			}else if(window["line_name"+h][6]==8){
+			}else if(window["line_name"+h][3]==8){
 				window["line_draw"+h] = {
 					data : window["line_array"+h],
 					color: color_choose[h],
-					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][2] + " " + "标签" + ":" + window["line_name"+h][4],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][1] + " " + "标签" + ":" + window["line_name"+h][2],
 				}	
 			}
 		}	
 		
 	//console.log(window["line_draw"+h])
-	    if (window["line_name"+h][6] == 1) {
+	    if (window["line_name"+h][3] == 1) {
 		    happy_temperature.push(window["line_draw"+h])//存放的温度曲线
-	    }else if(window["line_name"+h][6] == 6){
+	    }else if(window["line_name"+h][3] == 6){
 		    happy_X.push(window["line_draw"+h])
-	    }else if(window["line_name"+h][6] == 7){
+	    }else if(window["line_name"+h][3] == 7){
 		    happy_Y.push(window["line_draw"+h])
-	    }else if(window["line_name"+h][6] == 8){
+	    }else if(window["line_name"+h][3] == 8){
 		    happy_Z.push(window["line_draw"+h])
 	    }else{
 		    happy_distance.push(window["line_draw"+h])//存放的位移曲线

@@ -179,10 +179,9 @@ desired effect
                           </div>
                           <div class="col-xs-1">
                             <select input type="varchar" class="form-control form-input" name="dam_num" id="dam_num" style="width: 100%;">
-                              <option>0</option>
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
+                            {% for line in dam_list %}
+                              <option>{{line.dam_num}}</option>
+                            {% endfor %}
                             </select>
                           </div>
                           <button type="button" id="addcomparison" class="btn btn-info pull-right">新增对比</button>
@@ -203,20 +202,14 @@ desired effect
                             </tr>
                             <tr>
                               <td><select input type="varchar" class="form-control form-input" name="station_num[]" id="station_num" style="width: 100%;">
-                                  <option>0</option>
-                                  <option>1</option>
-                                  <option>2</option>
-                                  <option>3</option>
+                                  {% for line in station_list %}
+                              	  <option>{{line.device_num}}</option>
+                            	  {% endfor %}
                                 </select></td>
                               <td><select input type="varchar" class="form-control form-input" name="device_num[]" id="device_num" style="width: 100%;">
-                                  <option>0</option>
-                                  <option>1</option>
-                                  <option>2</option>
-                                  <option>3</option>
-                                  <option>4</option>
-                                  <option>5</option>
-                                  <option>6</option>
-                                  <option>7</option>
+                                  {% for line in device_list %}
+                              	  <option>{{line.device_num}}</option>
+                            	  {% endfor %}
                                 </select></td>
                               <td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">
                                   <option>是</option>
@@ -306,7 +299,7 @@ desired effect
               $.ajaxSetup({  
                    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
               });  
-				
+ 
 				//点击“新增对比”，添加一栏标签、基站
 			 $("#addcomparison").bind("click",function () {
 				 $("#DandL").append('' +
@@ -315,7 +308,7 @@ desired effect
                             '<option>0</option>' +
                             '<option>1</option>' +
                             '<option>2</option>' +
-                            '<option>3</option>' +
+                            '<option>3</option>' + 	
                           '</select></td>'+
                  '<td><select input type="varchar" class="form-control form-input" name="device_num[]" id="device_num" style="width: 100%;">' +
                             '<option>0</option>' +

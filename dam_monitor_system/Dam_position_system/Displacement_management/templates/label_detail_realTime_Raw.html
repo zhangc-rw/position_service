@@ -312,7 +312,7 @@ desired effect
 	var type_num_ori=[];
 	var happy_distance = [], happy_temperature = [], happy_X = [], happy_Y = [], happy_Z = [];//存放线的数据和颜色
 	var color_choose = ['#3c8dbc','#00c0ef','#00a65a','#f39c12','#f56954','#d2d6de','#001F3F','#39CCCC','#605ca8','#ff851b','#D81B60','#111111'];	
-	var is=1;
+	var is=0;
 	var isFirst = Name_list.length;//限定执行次数，避免重复添加lable
 	//console.log(isFirst)
 	for(var k=0;k<Name_list.length;k++){
@@ -335,10 +335,11 @@ desired effect
 	//把Name_list转为数组，取出“type”元素
 	for (var n = 0; n < Name_list.length; n++) {
 		window["Name_ori"+n].push(Name_list[n]);
-		window["name_ori"+n] = String(window["Name_ori"+n]);//转为数组，逗号也是元素了！
+		window["name_ori"+n] = JSON.parse('[' + String(window["Name_ori"+n]) + ']');
+		//console.log(window["Name_ori"+n])
 		//console.log(window["name_ori"+n])
 	}
-	//console.log(window["name_ori"+1][6])
+	//console.log(window["name_ori"+1][3])
 		
 	var dam_Num = JSON.parse('[' + dam_num_ori + ']');//将字符串数组转为数值数组，这样才能提取使用	
 	var station_Num = JSON.parse('[' + station_num_ori + ']');//将字符串数组转为数值数组，这样才能提取使用
@@ -387,10 +388,20 @@ desired effect
 					//将已获得的time_ori和data_ori放入line_coor中，确立横纵坐标，以画图
 					window["line_coor"+j]=[];//存放画线所需的横纵坐标，放在里面，每次循环至此都为空，以避免重复添加
 					for (var w = 0; w < window["time_ori"+j].length; w += 1) {
-						//数组掐头
 						if(window["line_coor"+j].length < 5) {
-							window["line_coor"+j].push([(window["time_ori"+j][w]), (window["data_ori"+j][w])])//由于window是数组，因此要把元素取出来再push；同理，此处指pushline_time0
+							//去除非值，横纵坐标一起取消
+							if (window["data_ori"+j][w]==0) {
+								window["data_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
+								window["time_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
+							}
+								window["line_coor"+j].push([(window["time_ori"+j][w]), (window["data_ori"+j][w])])//由于window是数组，因此要把元素取出来再push；同理，此处指pushline_time0
 						}else{
+							//去除非值，横纵坐标一起取消
+							if (window["data_ori"+j][w]==0) {
+								window["data_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
+								window["time_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
+							}
+							//数组掐头增尾
 							window["line_coor"+j].push([(window["time_ori"+j][w]), (window["data_ori"+j][w])])
 							window["line_coor"+j].shift([(window["time_ori"+j][w]), (window["data_ori"+j][w])])
 						}
@@ -400,57 +411,58 @@ desired effect
 					//console.log(window["line_coor"+j])
 					//console.log(window["line_coor"+j].length)
 					//限定执行次数，避免重复输出lable
+					//console.log(window["name_ori"+j])
 					if(is<isFirst){
-						if(window["name_ori"+j][6]==1){
+						if(window["name_ori"+j][3]==1){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
 								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j],
 							}
 						is=is+1;
-						}else if(window["name_ori"+j][6]==2){
+						}else if(window["name_ori"+j][3]==2){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
 								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j] + " " + "原始数据",
 							}
 						is=is+1;
-						}else if(window["name_ori"+j][6]==3){
+						}else if(window["name_ori"+j][3]==3){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
 								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j] + " " + "平均数据",
 							}
 						is=is+1;
-						}else if(window["name_ori"+j][6]==4){
+						}else if(window["name_ori"+j][3]==4){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
 								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j] + " " + "收敛数据",
 							}
 						is=is+1;
-						}else if(window["name_ori"+j][6]==5){
+						}else if(window["name_ori"+j][3]==5){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
 								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j] + " " + "平滑数据",
 							}
 						is=is+1;
-						}else if(window["name_ori"+j][6]==6){
+						}else if(window["name_ori"+j][3]==6){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
 								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j],
 							}
 						is=is+1;
-						}else if(window["name_ori"+j][6]==7){
+						}else if(window["name_ori"+j][3]==7){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
 								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j],
 							}
 						is=is+1;
-						}else if(window["name_ori"+j][6]==8){
+						}else if(window["name_ori"+j][3]==8){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
@@ -468,13 +480,13 @@ desired effect
 						
 					//console.log(window["line_draw"+j])
 					//在此处添加XYZ，历史亦然
-					if (window["name_ori"+j][6]== 1) {
+					if (window["name_ori"+j][3]== 1) {
 						happy_temperature.push(window["line_draw"+j])//存放的温度曲线
-					}else if(window["name_ori"+j][6]== 6){
+					}else if(window["name_ori"+j][3]== 6){
 						happy_X.push(window["line_draw"+j])
-					}else if(window["name_ori"+j][6]== 7){
+					}else if(window["name_ori"+j][3]== 7){
 						happy_Y.push(window["line_draw"+j])
-					}else if(window["name_ori"+j][6]== 8){
+					}else if(window["name_ori"+j][3]== 8){
 						happy_Z.push(window["line_draw"+j])
 					}else{
 						happy_distance.push(window["line_draw"+j])//存放的位移曲线

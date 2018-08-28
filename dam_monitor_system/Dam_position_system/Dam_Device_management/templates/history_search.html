@@ -182,10 +182,9 @@ desired effect
                           </div>
                           <div class="col-xs-1">
                             <select input type="varchar" class="form-control form-input" name="dam_num" id="dam_num" style="width: 100%;">
-                              <option>0</option>
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
+                            {% for line in dam_list %}
+                              <option>{{line.dam_num}}</option>
+                            {% endfor %}
                             </select>
                           </div>
                           <button type="button" id="addcomparison_1" class="btn btn-info pull-right">新增对比</button>
@@ -206,16 +205,14 @@ desired effect
                             </tr>
                             <tr>
                               <td><select input type="varchar" class="form-control form-input" name="station_num[]" id="station_num" style="width: 100%;">
-                                  <option>0</option>
-                                  <option>1</option>
-                                  <option>2</option>
-                                  <option>3</option>
+                                  {% for line in station_list %}
+                              	  <option>{{line.device_num}}</option>
+                            	  {% endfor %}
                                 </select></td>
                               <td><select input type="varchar" class="form-control form-input" name="device_num[]" id="device_num" style="width: 100%;">
-                                  <option>0</option>
-                                  <option>1</option>
-                                  <option>2</option>
-                                  <option>3</option>
+                                  {% for line in device_list %}
+                              	  <option>{{line.device_num}}</option>
+                            	  {% endfor %}
                                 </select></td>
                               <td><input type="varchar" class="form-control form-input reservationtime_1" name="reservationtime[]" id="" style="width: 300px"></td>
                               <td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">
@@ -266,10 +263,9 @@ desired effect
                         </div>
                         <div class="col-xs-1">
                           <select input type="varchar" class="form-control form-input" name="dam_num" id="dam_num" style="width: 100%;">
-                            <option>0</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
+                            {% for line in dam_list %}
+                              <option>{{line.dam_num}}</option>
+                            {% endfor %}
                           </select>
                         </div>
                         <div class="col-xs-2">
@@ -303,16 +299,14 @@ desired effect
                             </tr>
                             <tr>
                               <td><select input type="varchar" class="form-control form-input" name="station_num[]" id="station_num" style="width: 100%;">
-                                  <option>0</option>
-                                  <option>1</option>
-                                  <option>2</option>
-                                  <option>3</option>
+                                  {% for line in station_list %}
+                              	  <option>{{line.device_num}}</option>
+                            	  {% endfor %}
                                 </select></td>
                               <td><select input type="varchar" class="form-control form-input" name="device_num[]" id="device_num" style="width: 100%;">
-                                  <option>0</option>
-                                  <option>1</option>
-                                  <option>2</option>
-                                  <option>3</option>
+                                  {% for line in device_list %}
+                              	  <option>{{line.device_num}}</option>
+                            	  {% endfor %}
                                 </select></td>
                               <td><input type="varchar" class="form-control form-input reservationtime_2" name="reservationtime[]" id="" style="width: 300px"></td>
                               <td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">
