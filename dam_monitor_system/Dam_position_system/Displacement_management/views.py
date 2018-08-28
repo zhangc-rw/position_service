@@ -759,12 +759,15 @@ def realTime_search(request):
 	dam_num_list =[]
 	for d in dam_list:
 		dam_num_list.append(d.dam_num)	
+	print (dam_num_list)
 	device_list = Device.objects.filter(at_tip =  1)
 	device_num_list= []
 	for d in device_list:
 		device_num_list.append(d.device_num)
+	print (device_num_list)
 	station_list = Device.objects.filter(at_tip =  0)
 	station_num_list= []
 	for d in station_list:
 		station_num_list.append(d.device_num)
+	print (station_num_list)
 	return render(request,'realTime_search.html',{'dam_num_list':json.dumps(dam_num_list),'device_num_list':json.dumps(device_num_list),'station_num_list':json.dumps(station_num_list)})
