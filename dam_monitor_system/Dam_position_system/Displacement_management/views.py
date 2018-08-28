@@ -737,13 +737,34 @@ def label_history_select(request,aid,bid):
 	device_list = Device.objects.filter(device_num = bid,dam = dam_list)
 	return render(request,'label_history_select.html',{'device_list':device_list})
 def history_search(request):
-	dam_list = Dam.objects.all()	
+	dam_list = Dam.objects.all()
+	dam_num_list=[]
+	for d in dam_list:
+		dam_num_list.append(d.dam_num)	
+	print (dam_num_list)
 	device_list = Device.objects.filter(at_tip =  1)
+	device_num_list =[]
+	for d in device_list:
+		device_num_list.append(d.device_num)
+	print (device_num_list)
 	station_list = Device.objects.filter(at_tip =  0)
+	station_num_list= []
+	for d in station_list:
+		station_num_list.append(d.device_num)
+	print (station_num_list)
 	#station_num_list = station_num_list.distinct()
-	return render(request,'history_search.html',{'dam_list':dam_list,'device_list':device_list,'station_list':station_list})
+	return render(request,'history_search.html',{'dam_num_list':dam_num_list,'device_num_list':device_num_list,'station_num_list':station_num_list})
 def realTime_search(request):
 	dam_list = Dam.objects.all()
+	dam_num_list =[]
+	for d in dam_list:
+		dam_num_list.append(d.dam_num)	
 	device_list = Device.objects.filter(at_tip =  1)
+	device_num_list= []
+	for d in device_list:
+		device_num_list.append(d.device_num)
 	station_list = Device.objects.filter(at_tip =  0)
-	return render(request,'realTime_search.html',{'dam_list':dam_list,'device_list':device_list,'station_list':station_list})
+	station_num_list= []
+	for d in station_list:
+		station_num_list.append(d.device_num)
+	return render(request,'realTime_search.html',{'dam_num_list':dam_num_list,'device_num_list':device_num_list,'station_num_list':station_num_list})
