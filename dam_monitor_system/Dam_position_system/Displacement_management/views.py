@@ -753,7 +753,7 @@ def history_search(request):
 		station_num_list.append(d.device_num)
 	print (station_num_list)
 	#station_num_list = station_num_list.distinct()
-	return render(request,'history_search.html',{'dam_num_list':dam_num_list,'device_num_list':device_num_list,'station_num_list':station_num_list})
+	return render(request,'history_search.html',{'dam_num_list':json.dumps(dam_num_list),'device_num_list':json.dumps(device_num_list),'station_num_list':json.dumps(station_num_list)})
 def realTime_search(request):
 	dam_list = Dam.objects.all()
 	dam_num_list =[]
@@ -767,4 +767,4 @@ def realTime_search(request):
 	station_num_list= []
 	for d in station_list:
 		station_num_list.append(d.device_num)
-	return render(request,'realTime_search.html',{'dam_num_list':dam_num_list,'device_num_list':device_num_list,'station_num_list':station_num_list})
+	return render(request,'realTime_search.html',{'dam_num_list':json.dumps(dam_num_list),'device_num_list':json.dumps(device_num_list),'station_num_list':json.dumps(station_num_list)})
