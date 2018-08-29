@@ -184,16 +184,22 @@ desired effect
                       --> 
                     </div>
                     <div class="box-body">
-                          <h4 class="box-title">实时位移</h4>
-                          <div id="line-chart-1" style="width: 100%; height: 300px;"> </div>
                           <h4 class="box-title">温度曲线</h4>
+                          <div id="line-chart-1" style="width: 100%; height: 300px;"> </div>
+                          <h4 class="box-title">原始数据曲线</h4>
                           <div id="line-chart-2" style="width: 100%; height: 300px;"> </div>
-                          <h4 class="box-title">X坐标</h4>
+                          <h4 class="box-title">平均数据曲线</h4>
                           <div id="line-chart-3" style="width: 100%; height: 300px;"> </div>
-                          <h4 class="box-title">Y坐标</h4>
+                          <h4 class="box-title">收敛数据曲线</h4>
                           <div id="line-chart-4" style="width: 100%; height: 300px;"> </div>
-                          <h4 class="box-title">Z坐标</h4>
+                          <h4 class="box-title">平滑数据曲线</h4>
                           <div id="line-chart-5" style="width: 100%; height: 300px;"> </div>
+                          <h4 class="box-title">X坐标曲线</h4>
+                          <div id="line-chart-6" style="width: 100%; height: 300px;"> </div>
+                          <h4 class="box-title">Y坐标曲线</h4>
+                          <div id="line-chart-7" style="width: 100%; height: 300px;"> </div>
+                          <h4 class="box-title">Z坐标曲线</h4>
+                          <div id="line-chart-8" style="width: 100%; height: 300px;"> </div>
                     </div>
                     <!-- /.box-body--> 
                   </div>
@@ -310,7 +316,7 @@ desired effect
 	var station_num_ori=[];
 	var device_num_ori=[];
 	var type_num_ori=[];
-	var happy_distance = [], happy_temperature = [], happy_X = [], happy_Y = [], happy_Z = [];//存放线的数据和颜色
+	var happy_Temperature = [], happy_Raw = [], happy_Average = [], happy_Convergence = [], happy_Smooth = [], happy_X = [], happy_Y = [], happy_Z = [];//存放线的数据和颜色
 	var color_choose = ['#3c8dbc','#00c0ef','#00a65a','#f39c12','#f56954','#d2d6de','#001F3F','#39CCCC','#605ca8','#ff851b','#D81B60','#111111'];	
 	var is=0;
 	var isFirst = Name_list.length;//限定执行次数，避免重复添加lable
@@ -417,7 +423,7 @@ desired effect
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
-								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j],
+								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j] + " " + "温度数据",
 							}
 						is=is+1;
 						}else if(window["name_ori"+j][3]==2){
@@ -452,21 +458,21 @@ desired effect
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
-								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j],
+								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j] + " " + "X坐标",
 							}
 						is=is+1;
 						}else if(window["name_ori"+j][3]==7){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
-								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j],
+								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j] + " " + "Y坐标",
 							}
 						is=is+1;
 						}else if(window["name_ori"+j][3]==8){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
-								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j],
+								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j] + " " + "Z坐标",
 							}
 						is=is+1;
 						}
@@ -481,23 +487,29 @@ desired effect
 					//console.log(window["line_draw"+j])
 					//在此处添加XYZ，历史亦然
 					if (window["name_ori"+j][3]== 1) {
-						happy_temperature.push(window["line_draw"+j])//存放的温度曲线
+						happy_Temperature.push(window["line_draw"+j])//存放的温度曲线
+					}else if(window["name_ori"+j][3]== 2){
+						happy_Raw.push(window["line_draw"+j])
+					}else if(window["name_ori"+j][3]== 3){
+						happy_Average.push(window["line_draw"+j])
+					}else if(window["name_ori"+j][3]== 4){
+						happy_Convergence.push(window["line_draw"+j])
+					}else if(window["name_ori"+j][3]== 5){
+						happy_Smooth.push(window["line_draw"+j])
 					}else if(window["name_ori"+j][3]== 6){
 						happy_X.push(window["line_draw"+j])
 					}else if(window["name_ori"+j][3]== 7){
 						happy_Y.push(window["line_draw"+j])
 					}else if(window["name_ori"+j][3]== 8){
 						happy_Z.push(window["line_draw"+j])
-					}else{
-						happy_distance.push(window["line_draw"+j])//存放的位移曲线
 					}
 					
 					//console.log(happy_distance)
 					
 				}//for循环
 				
-				//开始画线-位移
-			    var interactive_plot = $.plot('#line-chart-1', happy_distance, {
+				//开始画线-温度
+			    var interactive_plot = $.plot('#line-chart-1', happy_Temperature, {
 					grid  : {
 						hoverable  : true,
         				borderColor: '#111111',
@@ -548,8 +560,164 @@ desired effect
       				}
     			})
 
-				//开始画线-温度
-                var interactive_plot = $.plot('#line-chart-2', happy_temperature, {
+				//开始画线-原始数据
+                var interactive_plot = $.plot('#line-chart-2', happy_Raw, {
+					grid  : {
+						hoverable  : true,
+        				borderColor: '#111111',
+        				borderWidth: 1,
+        				tickColor  : '#8E8E8E'
+      				},
+      				series: {
+        				shadowSize: 0, // Drawing is faster without shadows
+        				//color     : '#3c8dbc',
+						lines     : {
+          				show: true
+        				},
+        				points    : {
+          				show: true
+        				}
+      				},
+//      				lines : {
+//        				fill : false, //Converts the line chart to area chart
+//        				color: ['#f56954']
+//      				},
+      				yaxis : {
+//        				min : 0,
+//        				max : 100,
+        				show: true
+      				},
+      				xaxis : {
+        				show: true,
+						mode:'time',
+						tickFormatter:function(e){
+							var d = new Date(e);
+							if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+									return  '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+									else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
+										return '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+									else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+										return d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+									else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+										return d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+										return d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+										return '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+										return '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();} 
+									else {
+										return d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
+						}
+      				}
+    			})
+				
+				//开始画线-平均数据
+			    var interactive_plot = $.plot('#line-chart-3', happy_Average, {
+					grid  : {
+						hoverable  : true,
+        				borderColor: '#111111',
+        				borderWidth: 1,
+        				tickColor  : '#8E8E8E'
+      				},
+      				series: {
+        				shadowSize: 0, // Drawing is faster without shadows
+        				//color     : '#3c8dbc',
+						lines     : {
+          				show: true
+        				},
+        				points    : {
+          				show: true
+        				}
+      				},
+//      				lines : {
+//        				fill : false, //Converts the line chart to area chart
+//        				color: ['#f56954']
+//      				},
+      				yaxis : {
+//        				min : 0,
+//        				max : 100,
+        				show: true
+      				},
+      				xaxis : {
+        				show: true,
+						mode:'time',
+						tickFormatter:function(e){
+							var d = new Date(e);
+							if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+									return  '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+									else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
+										return '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+									else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+										return d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+									else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+										return d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+										return d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+										return '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+										return '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();} 
+									else {
+										return d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
+						}
+      				}
+    			})
+				
+				//开始画线-收敛曲线
+			    var interactive_plot = $.plot('#line-chart-4', happy_Convergence, {
+					grid  : {
+						hoverable  : true,
+        				borderColor: '#111111',
+        				borderWidth: 1,
+        				tickColor  : '#8E8E8E'
+      				},
+      				series: {
+        				shadowSize: 0, // Drawing is faster without shadows
+        				//color     : '#3c8dbc',
+						lines     : {
+          				show: true
+        				},
+        				points    : {
+          				show: true
+        				}
+      				},
+//      				lines : {
+//        				fill : false, //Converts the line chart to area chart
+//        				color: ['#f56954']
+//      				},
+      				yaxis : {
+//        				min : 0,
+//        				max : 100,
+        				show: true
+      				},
+      				xaxis : {
+        				show: true,
+						mode:'time',
+						tickFormatter:function(e){
+							var d = new Date(e);
+							if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+									return  '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+									else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
+										return '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+									else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+										return d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+									else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+										return d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+										return d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+										return '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+										return '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();} 
+									else {
+										return d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
+						}
+      				}
+    			})
+				
+				//开始画线-平滑曲线
+			    var interactive_plot = $.plot('#line-chart-5', happy_Smooth, {
 					grid  : {
 						hoverable  : true,
         				borderColor: '#111111',
@@ -601,7 +769,7 @@ desired effect
     			})
 				
 				//开始画线-X
-			    var interactive_plot = $.plot('#line-chart-3', happy_X, {
+			    var interactive_plot = $.plot('#line-chart-6', happy_X, {
 					grid  : {
 						hoverable  : true,
         				borderColor: '#111111',
@@ -653,7 +821,7 @@ desired effect
     			})
 				
 				//开始画线-Y
-			    var interactive_plot = $.plot('#line-chart-4', happy_Y, {
+			    var interactive_plot = $.plot('#line-chart-7', happy_Y, {
 					grid  : {
 						hoverable  : true,
         				borderColor: '#111111',
@@ -705,7 +873,7 @@ desired effect
     			})
 				
 				//开始画线-Z
-			    var interactive_plot = $.plot('#line-chart-5', happy_Z, {
+			    var interactive_plot = $.plot('#line-chart-8', happy_Z, {
 					grid  : {
 						hoverable  : true,
         				borderColor: '#111111',
@@ -772,30 +940,30 @@ desired effect
       opacity : 0.8
     }).appendTo('body')
 	
-    $('#line-chart-1').bind('plothover', function (event, pos, item) {
+	$('#line-chart-1').bind('plothover', function (event, pos, item) {
 		
 		if (item) {
 			var x = item.datapoint[0],
-            y = item.datapoint[1].toFixed(4) //设定精度
+            y = item.datapoint[1].toFixed(2) //设定精度
 			d = new Date(x);
 			if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10){
-				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
 				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
 				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
 				else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
 				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
 				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
 				else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
 				else {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
 
-        	$('#line-chart-tooltip').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
+        	$('#line-chart-tooltip').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 温度 ' + ':' + y + ' 摄氏度 ')
           	.css({ top: item.pageY + 5, left: item.pageX + 5 })
           	.fadeIn(200)
         } else {
@@ -803,30 +971,30 @@ desired effect
       	  }
     })
 	
-	$('#line-chart-2').bind('plothover', function (event, pos, item) {
+    $('#line-chart-2').bind('plothover', function (event, pos, item) {
 		
 		if (item) {
 			var x = item.datapoint[0],
-            y = item.datapoint[1].toFixed(2) //设定精度
+            y = item.datapoint[1].toFixed(4) //设定精度
 			d = new Date(x);
 			if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10){
-				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
 				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
 				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
 				else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
 				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
 				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
 				else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
 				else {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
 
-        	$('#line-chart-tooltip').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 温度 ' + ':' + y + ' 摄氏度 ')
+        	$('#line-chart-tooltip').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
           	.css({ top: item.pageY + 5, left: item.pageX + 5 })
           	.fadeIn(200)
         } else {
@@ -841,21 +1009,21 @@ desired effect
             y = item.datapoint[1].toFixed(4) //设定精度
 			d = new Date(x);
 			if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10){
-				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
 				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
 				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
 				else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
 				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
 				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
 				else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
 				else {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
 
         	$('#line-chart-tooltip').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
           	.css({ top: item.pageY + 5, left: item.pageX + 5 })
@@ -872,21 +1040,21 @@ desired effect
             y = item.datapoint[1].toFixed(4) //设定精度
 			d = new Date(x);
 			if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10){
-				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
 				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
 				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
 				else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
 				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
 				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
 				else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
 				else {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
 
         	$('#line-chart-tooltip').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
           	.css({ top: item.pageY + 5, left: item.pageX + 5 })
@@ -903,21 +1071,114 @@ desired effect
             y = item.datapoint[1].toFixed(4) //设定精度
 			d = new Date(x);
 			if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10){
-				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
 				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
 				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
 				else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
 				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
 				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
 				else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
 				else {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
+
+        	$('#line-chart-tooltip').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
+          	.css({ top: item.pageY + 5, left: item.pageX + 5 })
+          	.fadeIn(200)
+        } else {
+			$('#line-chart-tooltip').hide()
+      	  }
+    })
+	
+	$('#line-chart-6').bind('plothover', function (event, pos, item) {
+		
+		if (item) {
+			var x = item.datapoint[0],
+            y = item.datapoint[1].toFixed(4) //设定精度
+			d = new Date(x);
+			if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10){
+				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+				else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+				else {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
+
+        	$('#line-chart-tooltip').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
+          	.css({ top: item.pageY + 5, left: item.pageX + 5 })
+          	.fadeIn(200)
+        } else {
+			$('#line-chart-tooltip').hide()
+      	  }
+    })
+	
+	$('#line-chart-7').bind('plothover', function (event, pos, item) {
+		
+		if (item) {
+			var x = item.datapoint[0],
+            y = item.datapoint[1].toFixed(4) //设定精度
+			d = new Date(x);
+			if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10){
+				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+				else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+				else {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
+
+        	$('#line-chart-tooltip').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
+          	.css({ top: item.pageY + 5, left: item.pageX + 5 })
+          	.fadeIn(200)
+        } else {
+			$('#line-chart-tooltip').hide()
+      	  }
+    })
+	
+	$('#line-chart-8').bind('plothover', function (event, pos, item) {
+		
+		if (item) {
+			var x = item.datapoint[0],
+            y = item.datapoint[1].toFixed(4) //设定精度
+			d = new Date(x);
+			if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10){
+				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+				else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+				else {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
 
         	$('#line-chart-tooltip').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
           	.css({ top: item.pageY + 5, left: item.pageX + 5 })
