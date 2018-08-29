@@ -178,10 +178,7 @@ desired effect
                             <label class="control-label">请选择大坝编号：</label>
                           </div>
                           <div class="col-xs-1">
-                            <select input type="varchar" class="form-control form-input" name="dam_num" id="dam_num" style="width: 100%;">
-                            {% for line in dam_list %}
-                              <option>{{line.dam_num}}</option>
-                            {% endfor %}
+                            <select input type="varchar" class="form-control form-input dam_num" name="dam_num" id="dam_num" style="width: 100%;">
                             </select>
                           </div>
                           <button type="button" id="addcomparison" class="btn btn-info pull-right">新增对比</button>
@@ -201,15 +198,11 @@ desired effect
                               <th>XYZ坐标</th>
                             </tr>
                             <tr>
-                              <td><select input type="varchar" class="form-control form-input" name="station_num[]" id="station_num" style="width: 100%;">
-                                  {% for line in station_list %}
-                              	  <option>{{line.device_num}}</option>
-                            	  {% endfor %}
+                              <td><select input type="varchar" class="form-control form-input station_num" name="station_num[]" id="station_num" style="width: 100%;">
+                                  
                                 </select></td>
-                              <td><select input type="varchar" class="form-control form-input" name="device_num[]" id="device_num" style="width: 100%;">
-                                  {% for line in device_list %}
-                              	  <option>{{line.device_num}}</option>
-                            	  {% endfor %}
+                              <td><select input type="varchar" class="form-control form-input device_num" name="device_num[]" id="device_num" style="width: 100%;">
+                                  
                                 </select></td>
                               <td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">
                                   <option>是</option>
@@ -299,26 +292,63 @@ desired effect
               $.ajaxSetup({  
                    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
               });  
- 
+			  
+		//将大坝、基站和标签的list传至js，显示在前端的第一行列表
+			  var dam_num_list={{dam_num_list|safe}}
+			  var station_num_list={{station_num_list|safe}}
+			  var device_num_list={{device_num_list|safe}}
+			  //console.log(dam_num_list)
+			  var htmlDam = '';
+			  for(var i = 0;i < dam_num_list.length;i++){
+				  htmlDam+='<option>'+ dam_num_list[i] +'</option>';//字符串组，而不是push成数组
+				  }
+		      //console.log(htmlDam) 
+			  var htmlStation = '';
+			  for(var i = 0;i < station_num_list.length;i++){
+				  htmlStation+='<option>'+ station_num_list[i] +'</option>';//字符串组，而不是push成数组
+				  }
+			  var htmlDevice = '';
+			  for(var i = 0;i < device_num_list.length;i++){
+				  htmlDevice+='<option>'+ device_num_list[i] +'</option>';//字符串组，而不是push成数组
+				  }
+			  
+			  //回传至html相应位置， parents是用来找父级，tab_labelManagement已经在最外面了就不用了
+    		  $('#tab_labelManagement').find(".dam_num").html(htmlDam)
+			  $('#tab_labelManagement').find(".station_num").html(htmlStation)
+			  $('#tab_labelManagement').find(".device_num").html(htmlDevice)	
+		//将大坝、基站和标签的list传至js，显示在前端的append里
+			  var arrStation = '';
+			  for(var i = 0;i < station_num_list.length;i++){
+				  arrStation+='<option>'+ station_num_list[i] +'</option>';//字符串组，而不是push成数组
+				  }
+			  //console.log(arrStation)
+			  var arrDevice = '';
+			  for(var i = 0;i < device_num_list.length;i++){
+				  arrDevice+='<option>'+ device_num_list[i] +'</option>';
+				  }
+				  
 				//点击“新增对比”，添加一栏标签、基站
 			 $("#addcomparison").bind("click",function () {
 				 $("#DandL").append('' +
 				 '<tr> ' +
 				 '<td><select input type="varchar" class="form-control form-input" name="station_num[]" id="station_num" style="width: 100%;">' +
-                            '<option>0</option>' +
-                            '<option>1</option>' +
-                            '<option>2</option>' +
-                            '<option>3</option>' + 	
+				 arrStation +
+				 
+//                            '<option>0</option>' +
+//                            '<option>1</option>' +
+//                            '<option>2</option>' +
+//                            '<option>3</option>' + 	
                           '</select></td>'+
                  '<td><select input type="varchar" class="form-control form-input" name="device_num[]" id="device_num" style="width: 100%;">' +
-                            '<option>0</option>' +
-                            '<option>1</option>' +
-                            '<option>2</option>' +
-                            '<option>3</option>' +
-							'<option>4</option>' +
-							'<option>5</option>' +
-							'<option>6</option>' +
-							'<option>7</option>' +
+				 arrDevice +
+//                            '<option>0</option>' +
+//                            '<option>1</option>' +
+//                            '<option>2</option>' +
+//                            '<option>3</option>' +
+//							  '<option>4</option>' +
+//							  '<option>5</option>' +
+//							  '<option>6</option>' +
+//							  '<option>7</option>' +
                           '</select></td>'+
 						'<td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">' +
                             '<option>是</option>' +
