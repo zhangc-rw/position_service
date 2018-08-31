@@ -317,9 +317,9 @@ desired effect
 	var device_num_ori=[];
 	var type_num_ori=[];
 	var happy_Temperature = [], happy_Raw = [], happy_Average = [], happy_Convergence = [], happy_Smooth = [], happy_X = [], happy_Y = [], happy_Z = [];//存放线的数据和颜色
-	var color_choose = ['#3c8dbc','#00c0ef','#00a65a','#f39c12','#f56954','#d2d6de','#001F3F','#39CCCC','#605ca8','#ff851b','#D81B60','#111111'];	
-	var is=0;
-	var isFirst = Name_list.length;//限定执行次数，避免重复添加lable
+	var color_choose = ['#000000','#ADADAD','#2F0000','#FF0000','#600030','#FF79BC','#28004D','#000079','#0080FF','#003E3E ','#4DFFFF','#006030','#28FF28','#467500','#424200','#844200','#613030','#336666'];	
+	//var is=0;
+	//var isFirst = Name_list.length;//限定执行次数，避免重复添加lable，但是出现有些项无数据传回的现象，故采用传回的data作为计数
 	//console.log(isFirst)
 	for(var k=0;k<Name_list.length;k++){
 		window["Name_ori"+k]=[];//主要是为了取出最后一个type，表明数据类型
@@ -354,7 +354,7 @@ desired effect
 	//console.log(station_Num)
 	//console.log(device_Num)
 	//回传至html相应位置， parents是用来找父级，datalist已经在最外面了就不用了
-    $('#dataList').find(".dam").html(dam_Num.join('<br>'))
+  $('#dataList').find(".dam").html(dam_Num.join('<br>'))
 	$('#dataList').find(".station").html(station_Num.join('<br>'))
 	$('#dataList').find(".device").html(device_Num.join('<br>'))		
 //定时器，每隔一段时间遍历列表
@@ -384,17 +384,31 @@ desired effect
 				
 				for(var j=0;j<result.Data_list.length;j++){
 					//console.log(result.Data_list)
+          //console.log(result.Time_list)
+
+          //var isFirst = result.Data_list.length;
+          //console.log(window["time_ori"+j])
+          //console.log(window["time_ori"+j].length)
+          //console.log(new Date (result.Time_list[j]))
+          //console.log(window["time_ori"+j][window["time_ori"+j].length-1])
 			
 					//将传回的数值push进time_ori和data_ori数组
-					window["time_ori"+j].push(new Date (result.Time_list[j])) //转化时间为中国标准时间格式
-					window["data_ori"+j].push(result.Data_list[j]);
-					//console.log(window["time_ori"+0])
-					//console.log(window["data_ori"+0])
-					//console.log(window["data_ori"+1])
+          if (window["time_ori"+j].length < 1) {
+            window["time_ori"+j].push(new Date (result.Time_list[j])) //转化时间为中国标准时间格式
+            window["data_ori"+j].push(result.Data_list[j]);
+          }else{
+              if ((window["time_ori"+j][window["time_ori"+j].length-1].getTime()) !== (new Date (result.Time_list[j])).getTime()) {//判断若时间相同，则不push进数组
+                window["time_ori"+j].push(new Date (result.Time_list[j])) //转化时间为中国标准时间格式
+                window["data_ori"+j].push(result.Data_list[j]);
+              }
+            }
+					//console.log(window["time_ori"+j])
+					//console.log(window["data_ori"+j])
+
 					//将已获得的time_ori和data_ori放入line_coor中，确立横纵坐标，以画图
 					window["line_coor"+j]=[];//存放画线所需的横纵坐标，放在里面，每次循环至此都为空，以避免重复添加
 					for (var w = 0; w < window["time_ori"+j].length; w += 1) {
-						if(window["line_coor"+j].length < 5) {
+						if(window["line_coor"+j].length < 10) {//数组长度定为*，在前端显示为*个点
 							//去除非值，横纵坐标一起取消
 							if (window["data_ori"+j][w]==0) {
 								window["data_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
@@ -418,73 +432,74 @@ desired effect
 					//console.log(window["line_coor"+j].length)
 					//限定执行次数，避免重复输出lable
 					//console.log(window["name_ori"+j])
-					if(is<isFirst){
+
+					//if(is<isFirst){//由于后面数组清零，就不需要计数显示label了
 						if(window["name_ori"+j][3]==1){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
-								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j] + " " + "温度数据",
+								label: "标签" + ":" + device_Num[j] + " " + "温度数据",
 							}
-						is=is+1;
+						//is=is+1;
 						}else if(window["name_ori"+j][3]==2){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
 								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j] + " " + "原始数据",
 							}
-						is=is+1;
+						//is=is+1;
 						}else if(window["name_ori"+j][3]==3){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
 								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j] + " " + "平均数据",
 							}
-						is=is+1;
+						//is=is+1;
 						}else if(window["name_ori"+j][3]==4){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
 								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j] + " " + "收敛数据",
 							}
-						is=is+1;
+						//is=is+1;
 						}else if(window["name_ori"+j][3]==5){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
 								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j] + " " + "平滑数据",
 							}
-						is=is+1;
+						//is=is+1;
 						}else if(window["name_ori"+j][3]==6){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
-								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j] + " " + "X坐标",
+								label: "标签" + ":" + device_Num[j] + " " + "X坐标",
 							}
-						is=is+1;
+						//is=is+1;
 						}else if(window["name_ori"+j][3]==7){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
-								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j] + " " + "Y坐标",
+								label: "标签" + ":" + device_Num[j] + " " + "Y坐标",
 							}
-						is=is+1;
+						//is=is+1;
 						}else if(window["name_ori"+j][3]==8){
 							window["line_draw"+j] = {
 								data : window["line_coor"+j],
 								color: color_choose[j],
-								label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j] + " " + "Z坐标",
+								label: "标签" + ":" + device_Num[j] + " " + "Z坐标",
 							}
-						is=is+1;
+						//is=is+1;
 						}
-					}else{
-						window["line_draw"+j] = {
-							data : window["line_coor"+j],
-							color: color_choose[j],
+					//}else{
+						//window["line_draw"+j] = {
+							//data : window["line_coor"+j],
+							//color: color_choose[j],
 							//label: "基站" + ":" + station_Num[j] + " " + "标签" + ":" + device_Num[j]
-						}
-					}
-						
+						//}
+					//}
 					//console.log(window["line_draw"+j])
+
 					//在此处添加XYZ，历史亦然
 					if (window["name_ori"+j][3]== 1) {
 						happy_Temperature.push(window["line_draw"+j])//存放的温度曲线
@@ -503,8 +518,7 @@ desired effect
 					}else if(window["name_ori"+j][3]== 8){
 						happy_Z.push(window["line_draw"+j])
 					}
-					
-					//console.log(happy_distance)
+					//console.log(happy_Raw)
 					
 				}//for循环
 				
@@ -559,6 +573,7 @@ desired effect
 						}
       				}
     			})
+          happy_Temperature = [];//数组清零，实现向左跳动
 
 				//开始画线-原始数据
                 var interactive_plot = $.plot('#line-chart-2', happy_Raw, {
@@ -611,7 +626,8 @@ desired effect
 						}
       				}
     			})
-				
+          happy_Raw = [];      
+
 				//开始画线-平均数据
 			    var interactive_plot = $.plot('#line-chart-3', happy_Average, {
 					grid  : {
@@ -663,6 +679,7 @@ desired effect
 						}
       				}
     			})
+          happy_Average = [];
 				
 				//开始画线-收敛曲线
 			    var interactive_plot = $.plot('#line-chart-4', happy_Convergence, {
@@ -715,6 +732,7 @@ desired effect
 						}
       				}
     			})
+          happy_Convergence = [];
 				
 				//开始画线-平滑曲线
 			    var interactive_plot = $.plot('#line-chart-5', happy_Smooth, {
@@ -767,6 +785,7 @@ desired effect
 						}
       				}
     			})
+          happy_Smooth = [];
 				
 				//开始画线-X
 			    var interactive_plot = $.plot('#line-chart-6', happy_X, {
@@ -819,6 +838,7 @@ desired effect
 						}
       				}
     			})
+          happy_X = [];
 				
 				//开始画线-Y
 			    var interactive_plot = $.plot('#line-chart-7', happy_Y, {
@@ -871,6 +891,7 @@ desired effect
 						}
       				}
     			})
+          happy_Y = [];
 				
 				//开始画线-Z
 			    var interactive_plot = $.plot('#line-chart-8', happy_Z, {
@@ -923,7 +944,7 @@ desired effect
 						}
       				}
     			})
-				
+          happy_Z = [];
 				
 			 },//success
 					

@@ -369,10 +369,18 @@ desired effect
 	for (var h = 0; h < Num_list.length; h += 1) {
 		//判断时间为空，不显示undefined
 		if(window["line_time_show"+h].length==0){
-			window["line_draw"+h] = {
-				data : window["line_array"+h],
-				color: color_choose[h],
-				label: "该时间段没有数据" + " " + "基站" + ":" + window["line_name"+h][1] + " " + "标签" + ":" + window["line_name"+h][2],
+			if(window["line_name"+h][3]==3 || window["line_name"+h][3]==4 || window["line_name"+h][3]==5){
+				window["line_draw"+h] = {
+					data : window["line_array"+h],
+					color: color_choose[h],
+					label: "该时间段没有数据" + " " + "基站" + ":" + window["line_name"+h][1] + " " + "标签" + ":" + window["line_name"+h][2],
+				}
+			}else{
+				window["line_draw"+h] = {
+					data : window["line_array"+h],
+					color: color_choose[h],
+					label: "该时间段没有数据" + " " + "标签" + ":" + window["line_name"+h][2],
+				}
 			}
 		//明确数据类型
 		}else{
@@ -380,7 +388,7 @@ desired effect
 				window["line_draw"+h] = {
 					data : window["line_array"+h],
 					color: color_choose[h],
-					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][1] + " " + "标签" + ":" + window["line_name"+h][2],
+					label: window["line_time_show"+h][0] + " " + "标签" + ":" + window["line_name"+h][2],
 				}
 			}else if(window["line_name"+h][3]==3){
 				window["line_draw"+h] = {
@@ -404,19 +412,19 @@ desired effect
 				window["line_draw"+h] = {
 					data : window["line_array"+h],
 					color: color_choose[h],
-					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][1] + " " + "标签" + ":" + window["line_name"+h][2],
+					label: window["line_time_show"+h][0] + " " + "标签" + ":" + window["line_name"+h][2],
 				}	
 			}else if(window["line_name"+h][3]==7){
 				window["line_draw"+h] = {
 					data : window["line_array"+h],
 					color: color_choose[h],
-					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][1] + " " + "标签" + ":" + window["line_name"+h][2],
+					label: window["line_time_show"+h][0] + " " + "标签" + ":" + window["line_name"+h][2],
 				}	
 			}else if(window["line_name"+h][3]==8){
 				window["line_draw"+h] = {
 					data : window["line_array"+h],
 					color: color_choose[h],
-					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][1] + " " + "标签" + ":" + window["line_name"+h][2],
+					label: window["line_time_show"+h][0] + " " + "标签" + ":" + window["line_name"+h][2],
 				}	
 			}
 		}	
