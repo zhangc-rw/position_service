@@ -198,7 +198,7 @@ desired effect
                               <th>平均曲线</th>
                               <th>收敛曲线</th>
                               <th>平滑曲线</th>
-                              <th>XYZ坐标</th>
+                              <th style="display:none;">XYZ坐标</th>
                             </tr>
                             <tr>
                               <td><select input type="varchar" class="form-control form-input station_num" name="station_num[]" id="station_num" style="width: 100%;">
@@ -224,8 +224,8 @@ desired effect
                                   <option>是</option>
                                   <option>否</option>
                                 </select></td>
-                              <td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%;">
-                                  <option>是</option>
+                              <td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%;display:none;">
+                                  <option>否</option>
                                   <option>否</option>
                                 </select></td>
                             </tr>
@@ -285,7 +285,7 @@ desired effect
                               <th>平均曲线</th>
                               <th>收敛曲线</th>
                               <th>平滑曲线</th>
-                              <th>XYZ坐标</th>
+                              <th style="display:none">XYZ坐标</th>
                             </tr>
                             <tr>
                               <td><select input type="varchar" class="form-control form-input station_num" name="station_num[]" id="station_num" style="width: 100%;">
@@ -311,8 +311,8 @@ desired effect
                                   <option>是</option>
                                   <option>否</option>
                                 </select></td>
-                              <td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%;">
-                                  <option>是</option>
+                              <td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%; display:none;">
+                                  <option>否</option>
                                   <option>否</option>
                                 </select></td>
                             </tr>
@@ -401,7 +401,7 @@ desired effect
 				  }
 			  
 			  //回传至html相应位置， parents是用来找父级，tab_labelManagement和tab_labelManagement_sametime已经在最外面了就不用了
-    		  $('#tab_labelManagement').find(".dam_num").html(htmlDam)
+    		$('#tab_labelManagement').find(".dam_num").html(htmlDam)
 			  $('#tab_labelManagement').find(".station_num").html(htmlStation)
 			  $('#tab_labelManagement').find(".device_num").html(htmlDevice)
 			  $('#tab_labelManagement_sametime').find(".dam_num").html(htmlDam)
@@ -483,8 +483,8 @@ desired effect
                             '<option>是</option>' +
                             '<option>否</option>' +
                           '</select></td>'+
-						'<td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%;">' +
-                            '<option>是</option>' +
+						'<td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%; display:none;">' +
+                            '<option>否</option>' +
                             '<option>否</option>' +
                           '</select></td>'+
                         
@@ -531,8 +531,8 @@ desired effect
                             '<option>是</option>' +
                             '<option>否</option>' +
                           '</select></td>'+
-						'<td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%;">' +
-                            '<option>是</option>' +
+						'<td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%; display:none;">' +
+                            '<option>否</option>' +
                             '<option>否</option>' +
                           '</select></td>'+
                       ' </tr>');

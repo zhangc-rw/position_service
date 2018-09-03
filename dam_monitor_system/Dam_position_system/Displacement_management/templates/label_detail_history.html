@@ -172,12 +172,14 @@ desired effect
                           <div id="line-chart-1" style="width: 100%; height: 300px;"> </div>
                           <h4 class="box-title">温度曲线</h4>
                           <div id="line-chart-2" style="width: 100%; height: 300px;"> </div>
+                          <!--
                           <h4 class="box-title">X坐标</h4>
                           <div id="line-chart-3" style="width: 100%; height: 300px;"> </div>
                           <h4 class="box-title">Y坐标</h4>
                           <div id="line-chart-4" style="width: 100%; height: 300px;"> </div>
                           <h4 class="box-title">Z坐标</h4>
                           <div id="line-chart-5" style="width: 100%; height: 300px;"> </div>
+                      -->
                         </div>
                         <!-- /.box-body --> 
                       </div>
@@ -323,7 +325,7 @@ desired effect
 
 	//确定线的数据和颜色
 	var happy_distance = [], happy_temperature = [], happy_X = [], happy_Y = [], happy_Z = [];
-	var color_choose = ['#3c8dbc','#00c0ef','#00a65a','#f39c12','#f56954','#d2d6de','#001F3F','#39CCCC','#605ca8','#ff851b','#D81B60','#111111'];
+	var color_choose = ['#003E3E ','#467500','#006030','#424200','#FF0000','#28FF28','#844200','#613030','#0080FF','#000000','#ADADAD','#2F0000','#600030','#FF79BC','#28004D','#000079','#4DFFFF','#336666'];
 	for (var h = 0; h < Num_list.length; h += 1) {
 		//判断时间为空，不显示undefined
 		if(window["line_time_show"+h].length==0){
@@ -337,7 +339,7 @@ desired effect
 				window["line_draw"+h] = {
 					data : window["line_array"+h],
 					color: color_choose[h],
-					label: "该时间段没有数据" + " " + "标签" + ":" + window["line_name"+h][2],
+					label: "该时间段没有数据" + " " + "基站" + ":" + window["line_name"+h][1] + " " + "标签" + ":" + window["line_name"+h][2],
 				}
 			}
 		//明确数据类型
@@ -346,7 +348,7 @@ desired effect
 				window["line_draw"+h] = {
 					data : window["line_array"+h],
 					color: color_choose[h],
-					label: window["line_time_show"+h][0] + " " + "标签" + ":" + window["line_name"+h][2],
+					label: window["line_time_show"+h][0] + " " + "基站" + ":" + window["line_name"+h][1] + " " + "标签" + ":" + window["line_name"+h][2] + " " + "温度数据",
 				}
 			}else if(window["line_name"+h][3]==3){
 				window["line_draw"+h] = {
@@ -433,14 +435,22 @@ desired effect
 		mode:'time',
 		tickFormatter:function(val,axis){
 			var d = new Date(val);
-			if (d.getHours < 10 && d.getMinutes < 10) {
-				return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' +  '0' + d.getHours();}
-				else if (d.getHours() < 10 && d.getMinutes() >= 10) {
-					return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
-					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
-						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
-					else {
-						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+			if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+									return  '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+									else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
+										return '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+									else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+										return d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+									else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+										return d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+										return d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+										return '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+										return '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();} 
+									else {
+										return d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
 		}
       }
     })
@@ -458,14 +468,22 @@ desired effect
 				var x = item.datapoint[0],
             	y = item.datapoint[1].toFixed(4) //设定精度
 				d = new Date(x);
-				if (d.getHours() < 10 && d.getMinutes() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
-					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
-					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
-					else {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+				if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10){
+				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+				else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+				else {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
 						
 				$('#line-chart-tooltip-1').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
 				.css({ top: item.pageY + 5, left: item.pageX + 5 })
@@ -505,14 +523,22 @@ desired effect
 		mode:'time',
 		tickFormatter:function(val,axis){
 			var d = new Date(val);
-			if (d.getHours < 10 && d.getMinutes < 10) {
-				return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' +  '0' + d.getHours();}
-				else if (d.getHours() < 10 && d.getMinutes() >= 10) {
-					return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
-					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
-						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
-					else {
-						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+			if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+									return  '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+									else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
+										return '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+									else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+										return d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+									else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+										return d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+										return d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+										return '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+										return '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();} 
+									else {
+										return d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
 		}
       }
     })
@@ -530,14 +556,22 @@ desired effect
 				var x = item.datapoint[0],
             	y = item.datapoint[1].toFixed(4) //设定精度
 				d = new Date(x);
-				if (d.getHours() < 10 && d.getMinutes() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
-					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
-					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
-					else {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+				if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10){
+				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+				else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+				else {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
 						
 				$('#line-chart-tooltip-2').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 温度 ' + ':' + y + ' 摄氏度 ')
 				.css({ top: item.pageY + 5, left: item.pageX + 5 })
@@ -577,14 +611,22 @@ desired effect
 		mode:'time',
 		tickFormatter:function(val,axis){
 			var d = new Date(val);
-			if (d.getHours < 10 && d.getMinutes < 10) {
-				return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' +  '0' + d.getHours();}
-				else if (d.getHours() < 10 && d.getMinutes() >= 10) {
-					return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
-					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
-						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
-					else {
-						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+			if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+									return  '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+									else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
+										return '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+									else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+										return d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+									else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+										return d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+										return d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+										return '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+										return '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();} 
+									else {
+										return d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
 		}
       }
     })
@@ -602,14 +644,22 @@ desired effect
 				var x = item.datapoint[0],
             	y = item.datapoint[1].toFixed(4) //设定精度
 				d = new Date(x);
-				if (d.getHours() < 10 && d.getMinutes() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
-					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
-					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
-					else {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+				if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10){
+				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+				else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+				else {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
 						
 				$('#line-chart-tooltip-3').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
 				.css({ top: item.pageY + 5, left: item.pageX + 5 })
@@ -649,14 +699,22 @@ desired effect
 		mode:'time',
 		tickFormatter:function(val,axis){
 			var d = new Date(val);
-			if (d.getHours < 10 && d.getMinutes < 10) {
-				return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' +  '0' + d.getHours();}
-				else if (d.getHours() < 10 && d.getMinutes() >= 10) {
-					return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
-					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
-						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
-					else {
-						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+			if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+									return  '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+									else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
+										return '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+									else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+										return d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+									else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+										return d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+										return d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+										return '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+										return '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();} 
+									else {
+										return d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
 		}
       }
     })
@@ -674,14 +732,22 @@ desired effect
 				var x = item.datapoint[0],
             	y = item.datapoint[1].toFixed(4) //设定精度
 				d = new Date(x);
-				if (d.getHours() < 10 && d.getMinutes() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
-					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
-					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
-					else {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+				if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10){
+				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+				else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+				else {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
 						
 				$('#line-chart-tooltip-4').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
 				.css({ top: item.pageY + 5, left: item.pageX + 5 })
@@ -721,14 +787,22 @@ desired effect
 		mode:'time',
 		tickFormatter:function(val,axis){
 			var d = new Date(val);
-			if (d.getHours < 10 && d.getMinutes < 10) {
-				return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' +  '0' + d.getHours();}
-				else if (d.getHours() < 10 && d.getMinutes() >= 10) {
-					return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
-					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
-						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
-					else {
-						return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+			if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+									return  '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+									else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
+										return '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+									else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+										return d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+									else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+										return d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+										return d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+										return '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+									else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+										return '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();} 
+									else {
+										return d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
 		}
       }
     })
@@ -746,14 +820,22 @@ desired effect
 				var x = item.datapoint[0],
             	y = item.datapoint[1].toFixed(4) //设定精度
 				d = new Date(x);
-				if (d.getHours() < 10 && d.getMinutes() < 10) {
-					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes();} 
-					else if (d.getHours() < 10 && d.getMinutes() >= 10) {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes();} 
-					else if (d.getHours() >= 10 && d.getMinutes() < 10) {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes();}
-					else {
-						timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes();}
+				if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10){
+				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 
+				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();} 
+				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+				else if (d.getHours() >= 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() >= 10 && d.getMinutes() < 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() < 10 && d.getMinutes() >= 10 && d.getSeconds() < 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + d.getMinutes() + ':' + '0' + d.getSeconds();}
+				else if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() >= 10) {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + d.getSeconds();}
+				else {
+					timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();}
 						
 				$('#line-chart-tooltip-5').html(' 时间 ' +  ':' + timeStr + ' ; ' + ' 距离 ' + ':' + y + ' 米 ')
 				.css({ top: item.pageY + 5, left: item.pageX + 5 })
