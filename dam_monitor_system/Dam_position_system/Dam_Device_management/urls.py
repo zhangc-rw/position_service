@@ -20,6 +20,8 @@ import Displacement_management.views
 
 
 urlpatterns = [
+    url(r'^login/$', Dam_Device_management.views.login),
+
     url(r'^DandL_management/$', Dam_Device_management.views.DandL_management),
     url(r'^dam_management_form/$', Dam_Device_management.views.dam_management_form),
     url(r'^device_management_form/$', Dam_Device_management.views.device_management_form),

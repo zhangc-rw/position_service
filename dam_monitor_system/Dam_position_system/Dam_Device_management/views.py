@@ -6,9 +6,37 @@ from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import HttpResponse
 from django.http import HttpResponse
 
+from django.contrib.auth import authenticate, login as d_login, logout as d_logout
+from django.views.decorators.http import require_http_methods
 
 
 # Create your views here.
+@require_http_methods(["GET", "POST"])
+def login(request):
+	if request.method == 'GET':
+		#user = request.user
+		#if user.is_authenticated:   #如果已登录
+			return render(request, 'login.html')
+		#else:
+			#return render(request, 'login.html')
+	if request.method == 'POST':
+	 	userName = request.POST['username']
+	 	userPassword = request.POST['password']
+	 	print (userName)
+	 	print (userPassword)
+	 	user = authenticate(username=userName, password=userPassword) #django认证
+	 	if user is not None:
+	 		if user.is_active:  # 用户 在 Admin后台，被设置为 “激活状态”
+	 			d_login(request, user)   #将 登录信息 存储到 django自身的 login模块 中
+	 			print(111111111)
+	 			return render(request,'DandL_management.html')
+	 		else:
+	 			print(222222)
+	 			return render(request,'DandL_management.html')
+	 	else:
+	 		print(3333333)
+	 		return render(request,'islog.html')
+	#return render(request,'DandL_management.html')
 
 #大坝与设备信息显示
 def DandL_management(request):
