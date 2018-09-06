@@ -35,7 +35,7 @@
   <div class="login-box-body">
     <p class="login-box-msg">输入用户名及密码以登录</p>
 
-    <form class="form-horizontal" id="form_label" action="/Dam_Device_management/add_form_Device/"  onsubmit="return check(this)" method="post">
+    <form class="form-horizontal" id="form_label" action="/Dam_Device_management/login/"  onsubmit="return check(this)" method="post">
     {% csrf_token %}
       <div class="form-group has-feedback">
         <input type="varchar" class="form-control" name="username" id="username" placeholder="用户名">

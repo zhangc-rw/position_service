@@ -181,8 +181,15 @@ desired effect
                             <select input type="varchar" class="form-control form-input dam_num" name="dam_num" id="dam_num" style="width: 100%;">
                             </select>
                           </div>
-                          <button type="button" id="addcomparison" class="btn btn-info pull-right">新增对比</button>
                         </div>
+                        <div class="col-xs-1">
+                          <label class="control-label">温度：</label>
+                        </div>
+                        <div class="col-xs-2">
+                          <select input type="varchar" class="form-control form-input device_num_tem" multiple="multiple" data-placeholder="否" name="device_num_tem[]" id="device_num_tem" style="width: 100%;">
+                          </select>
+                        </div>
+                        <button type="button" id="addcomparison" class="btn btn-info pull-right">新增对比</button>
                       </div>
                       <div class="col-xs-12">
                         <div class="box-body">
@@ -190,7 +197,9 @@ desired effect
                             <tr>
                               <th>基站编号A</th>
                               <th>标签编号T</th>
+                              <!--
                               <th>温度曲线</th>
+                              -->
                               <th>原始曲线</th>
                               <th>平均曲线</th>
                               <th>收敛曲线</th>
@@ -199,15 +208,15 @@ desired effect
                             </tr>
                             <tr>
                               <td><select input type="varchar" class="form-control form-input station_num" name="station_num[]" id="station_num" style="width: 100%;">
-                                  
                                 </select></td>
                               <td><select input type="varchar" class="form-control form-input device_num" name="device_num[]" id="device_num" style="width: 100%;">
-                                  
                                 </select></td>
+                              <!--
                               <td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
                                 </select></td>
+                                -->
                               <td><select input type="varchar" class="form-control form-input" name="raw_num[]" id="raw_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
@@ -293,6 +302,8 @@ desired effect
                    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
               });  
 			  
+			  $('.device_num_tem').select2()
+			  
 		//将大坝、基站和标签的list传至js，显示在前端的第一行列表
 			  var dam_num_list={{dam_num_list|safe}}
 			  var station_num_list={{station_num_list|safe}}
@@ -308,14 +319,17 @@ desired effect
 				  htmlStation+='<option>'+ station_num_list[i] +'</option>';//字符串组，而不是push成数组
 				  }
 			  var htmlDevice = '';
+			  var htmlDevice_Tem = '';
 			  for(var i = 0;i < device_num_list.length;i++){
 				  htmlDevice+='<option>'+ device_num_list[i] +'</option>';//字符串组，而不是push成数组
+				  htmlDevice_Tem+='<option>'+ device_num_list[i] +'</option>';
 				  }
 			  
 			  //回传至html相应位置， parents是用来找父级，tab_labelManagement已经在最外面了就不用了
-    		$('#tab_labelManagement').find(".dam_num").html(htmlDam)
+    		  $('#tab_labelManagement').find(".dam_num").html(htmlDam)
 			  $('#tab_labelManagement').find(".station_num").html(htmlStation)
 			  $('#tab_labelManagement').find(".device_num").html(htmlDevice)	
+			  $('#tab_labelManagement').find(".device_num_tem").html(htmlDevice_Tem)
 		//将大坝、基站和标签的list传至js，显示在前端的append里
 			  var arrStation = '';
 			  for(var i = 0;i < station_num_list.length;i++){
@@ -350,10 +364,10 @@ desired effect
 //							  '<option>6</option>' +
 //							  '<option>7</option>' +
                           '</select></td>'+
-						'<td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">' +
-                            '<option>是</option>' +
-                            '<option>否</option>' +
-                          '</select></td>'+
+//						'<td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">' +
+//                            '<option>是</option>' +
+//                            '<option>否</option>' +
+//                          '</select></td>'+
 						'<td><select input type="varchar" class="form-control form-input" name="raw_num[]" id="raw_num" style="width: 100%;">' +
                             '<option>是</option>' +
                             '<option>否</option>' +
