@@ -43,6 +43,15 @@ def DandL_management(request):
 	dam_list = Dam.objects.all()
 	device_list = Device.objects.all()
 	return render(request,'DandL_management.html',{'dam_list':dam_list,'device_list':device_list})
+#大坝与设备列表显示
+def List_show(request):
+	dam_list = Dam.objects.all()
+	device_list = Device.objects.filter(at_tip = 1)
+	station_list = Device.objects.filter(at_tip = 0)
+
+	return render(request,'list_show.html',{'dam_list':dam_list,'device_list':device_list,'station_list':station_list})
+
+
 
 #大坝增加
 def add_form_Dam(request):
