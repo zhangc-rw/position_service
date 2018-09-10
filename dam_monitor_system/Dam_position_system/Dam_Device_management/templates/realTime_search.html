@@ -144,6 +144,7 @@ desired effect
       <ul class="sidebar-menu" data-widget="tree">
         <!-- Optionally, you can add icons to the links -->
         <li><a href="/Dam_Device_management/DandL_management"><i class="fa fa-link"></i><span>设备管理</span></a></li>
+        <li><a href="/Dam_Device_management/list_show"><i class="fa fa-link"></i><span>列表查看</span></a></li>
         <li><a href="/Dam_Device_management/history_search"><i class="fa fa-link"></i><span>历史查看</span></a></li>
         <li class="active"><a href="/Dam_Device_management/realTime_search"><i class="fa fa-link"></i><span>实时查看</span></a></li>
       </ul>
@@ -161,10 +162,10 @@ desired effect
           <!-- Custom Tabs (Pulled to the right) -->
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs pull-right">
-              <li class="active"><a href="#tab_labelManagement" data-toggle="tab">标签-基站列表</a></li>
+              <li class="active"><a href="#comparisonShow" data-toggle="tab">对比显示</a></li>
             </ul>
             <div class="tab-content">
-              <div class="tab-pane active" id="tab_labelManagement"> 
+              <div class="tab-pane active" id="comparisonShow"> 
                 <!-- Main content -->
                 <section class="content"> 
                   <!-- form start -->
@@ -181,13 +182,15 @@ desired effect
                             <select input type="varchar" class="form-control form-input dam_num" name="dam_num" id="dam_num" style="width: 100%;">
                             </select>
                           </div>
-                        </div>
-                        <div class="col-xs-1">
-                          <label class="control-label">温度：</label>
-                        </div>
-                        <div class="col-xs-2">
-                          <select input type="varchar" class="form-control form-input device_num_tem" multiple="multiple" data-placeholder="否" name="device_num_tem[]" id="device_num_tem" style="width: 100%;">
-                          </select>
+                          <div class="col-xs-1">
+                            <label class="control-label">温度：</label>
+                          </div>
+                          <div class="col-xs-2">
+                            <select input type="varchar" class="form-control form-input" name="device_num_tem[]" id="device_num_tem" style="width: 100%;">
+                              <option>是</option>
+                              <option>否</option>
+                            </select>
+                          </div>
                         </div>
                         <button type="button" id="addcomparison" class="btn btn-info pull-right">新增对比</button>
                       </div>
@@ -302,8 +305,6 @@ desired effect
                    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
               });  
 			  
-			  $('.device_num_tem').select2()
-			  
 		//将大坝、基站和标签的list传至js，显示在前端的第一行列表
 			  var dam_num_list={{dam_num_list|safe}}
 			  var station_num_list={{station_num_list|safe}}
@@ -322,14 +323,13 @@ desired effect
 			  var htmlDevice_Tem = '';
 			  for(var i = 0;i < device_num_list.length;i++){
 				  htmlDevice+='<option>'+ device_num_list[i] +'</option>';//字符串组，而不是push成数组
-				  htmlDevice_Tem+='<option>'+ device_num_list[i] +'</option>';
 				  }
 			  
-			  //回传至html相应位置， parents是用来找父级，tab_labelManagement已经在最外面了就不用了
-    		  $('#tab_labelManagement').find(".dam_num").html(htmlDam)
-			  $('#tab_labelManagement').find(".station_num").html(htmlStation)
-			  $('#tab_labelManagement').find(".device_num").html(htmlDevice)	
-			  $('#tab_labelManagement').find(".device_num_tem").html(htmlDevice_Tem)
+			  //回传至html相应位置， parents是用来找父级，comparisonShow已经在最外面了就不用了
+    		  $('#comparisonShow').find(".dam_num").html(htmlDam)
+			  $('#comparisonShow').find(".station_num").html(htmlStation)
+			  $('#comparisonShow').find(".device_num").html(htmlDevice)	
+			  
 		//将大坝、基站和标签的list传至js，显示在前端的append里
 			  var arrStation = '';
 			  for(var i = 0;i < station_num_list.length;i++){

@@ -146,6 +146,7 @@ desired effect
       <ul class="sidebar-menu" data-widget="tree">
         <!-- Optionally, you can add icons to the links -->
         <li><a href="/Dam_Device_management/DandL_management"><i class="fa fa-link"></i><span>设备管理</span></a></li>
+        <li><a href="/Dam_Device_management/list_show"><i class="fa fa-link"></i><span>列表查看</span></a></li>
         <li><a href="/Dam_Device_management/history_search"><i class="fa fa-link"></i><span>历史查看</span></a></li>
         <li class="active"><a href="/Dam_Device_management/realTime_search"><i class="fa fa-link"></i><span>实时查看</span></a></li>
       </ul>
@@ -184,24 +185,24 @@ desired effect
                       --> 
                     </div>
                     <div class="box-body">
-                          <h4 class="box-title">温度曲线</h4>
-                          <div id="line-chart-1" style="width: 100%; height: 300px;"> </div>
-                          <h4 class="box-title">原始数据曲线</h4>
-                          <div id="line-chart-2" style="width: 100%; height: 300px;"> </div>
-                          <h4 class="box-title">平均数据曲线</h4>
-                          <div id="line-chart-3" style="width: 100%; height: 300px;"> </div>
-                          <h4 class="box-title">收敛数据曲线</h4>
-                          <div id="line-chart-4" style="width: 100%; height: 300px;"> </div>
-                          <h4 class="box-title">平滑数据曲线</h4>
-                          <div id="line-chart-5" style="width: 100%; height: 300px;"> </div>
-                          <!--
+                      <h4 class="box-title">温度曲线</h4>
+                      <div id="line-chart-1" style="width: 100%; height: 300px;"> </div>
+                      <h4 class="box-title">原始数据曲线</h4>
+                      <div id="line-chart-2" style="width: 100%; height: 300px;"> </div>
+                      <h4 class="box-title">平均数据曲线</h4>
+                      <div id="line-chart-3" style="width: 100%; height: 300px;"> </div>
+                      <h4 class="box-title">收敛数据曲线</h4>
+                      <div id="line-chart-4" style="width: 100%; height: 300px;"> </div>
+                      <h4 class="box-title">平滑数据曲线</h4>
+                      <div id="line-chart-5" style="width: 100%; height: 300px;"> </div>
+                      <!--
                           <h4 class="box-title">X坐标曲线</h4>
                           <div id="line-chart-6" style="width: 100%; height: 300px;"> </div>
                           <h4 class="box-title">Y坐标曲线</h4>
                           <div id="line-chart-7" style="width: 100%; height: 300px;"> </div>
                           <h4 class="box-title">Z坐标曲线</h4>
                           <div id="line-chart-8" style="width: 100%; height: 300px;"> </div>
-                        -->
+                        --> 
                     </div>
                     <!-- /.box-body--> 
                   </div>
@@ -209,30 +210,30 @@ desired effect
                 </div>
                 <!-- /.col -->
                 <div class="col-md-1" style="display:none">
-                    <div class="box-header with-border">
-                      <h3 class="box-title">基站-标签列表信息</h3>
-                    </div>
-                    <div class="box-body no-padding box-messages">
-                      <ul class="nav nav-pills nav-stacked">
-                        <table id="dataList" class="table table-bordered">
-                          <thead>
-                            <tr>
-                              <th>大坝编号</th>
-                              <th>基站编号A</th>
-                              <th>标签编号T</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td class="dam" width="40px"></td>
-                              <td class="station" width="45px"></td>
-                              <td class="device" width="45px"></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </ul>
-                    </div>
-                    <!-- /.box-body --> 
+                  <div class="box-header with-border">
+                    <h3 class="box-title">基站-标签列表信息</h3>
+                  </div>
+                  <div class="box-body no-padding box-messages">
+                    <ul class="nav nav-pills nav-stacked">
+                      <table id="dataList" class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>大坝编号</th>
+                            <th>基站编号A</th>
+                            <th>标签编号T</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="dam" width="40px"></td>
+                            <td class="station" width="45px"></td>
+                            <td class="device" width="45px"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </ul>
+                  </div>
+                  <!-- /.box-body --> 
                 </div>
                 <!-- /.col --> 
               </div>
@@ -356,7 +357,7 @@ desired effect
 	//console.log(station_Num)
 	//console.log(device_Num)
 	//回传至html相应位置， parents是用来找父级，datalist已经在最外面了就不用了
-  $('#dataList').find(".dam").html(dam_Num.join('<br>'))
+    $('#dataList').find(".dam").html(dam_Num.join('<br>'))
 	$('#dataList').find(".station").html(station_Num.join('<br>'))
 	$('#dataList').find(".device").html(device_Num.join('<br>'))		
 //定时器，每隔一段时间遍历列表
@@ -1212,6 +1213,6 @@ desired effect
   
   })	
 	
-</script> 
+</script>
 </body>
 </html>

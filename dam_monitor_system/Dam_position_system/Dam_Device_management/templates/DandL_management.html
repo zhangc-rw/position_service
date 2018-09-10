@@ -137,6 +137,7 @@ desired effect
       <ul class="sidebar-menu" data-widget="tree">
         <!-- Optionally, you can add icons to the links -->
         <li class="active"><a href="/Dam_Device_management/DandL_management"><i class="fa fa-link"></i><span>设备管理</span></a></li>
+        <li><a href="/Dam_Device_management/list_show"><i class="fa fa-link"></i><span>列表查看</span></a></li>
         <li><a href="/Dam_Device_management/history_search"><i class="fa fa-link"></i><span>历史查看</span></a></li>
         <li><a href="/Dam_Device_management/realTime_search"><i class="fa fa-link"></i><span>实时查看</span></a></li>
       </ul>
@@ -180,7 +181,9 @@ desired effect
                                 <th>坐标x</th>
                                 <th>坐标y</th>
                                 <th>坐标z</th>
+                                <!--
                                 <th>操作</th>
+                                -->
                               </tr>
                             </thead>
                             <tbody>
@@ -194,7 +197,9 @@ desired effect
                               <td>{{line.x}}</td>
                               <td>{{line.y}}</td>
                               <td>{{line.z}}</td>
-                              <td><!--<a href='/Dam_Device_management/device_management_form_update/{{line.id}}' title="修改" class="glyphicon glyphicon-pencil"></a> <a href='/Dam_Device_management/device_management_form/{{line.id}}/d' title="删除" class="glyphicon glyphicon-remove" onclick="return confirm('确定将此记录删除?')"></a> <a href='/Displacement_management/label_detail_realtime/{{line.dam.dam_num}}/{{line.device_num}}/' title="实时状态" class="glyphicon glyphicon-play"></a> <a href='/Displacement_management/label_history_select/{{line.dam.dam_num}}/{{line.device_num}}' title="历史数据" class="glyphicon glyphicon-search"></a>--></td>
+                              <!--
+                              <td><a href='/Dam_Device_management/device_management_form_update/{{line.id}}' title="修改" class="glyphicon glyphicon-pencil"></a> <a href='/Dam_Device_management/device_management_form/{{line.id}}/d' title="删除" class="glyphicon glyphicon-remove" onclick="return confirm('确定将此记录删除?')"></a> <a href='/Displacement_management/label_detail_realtime/{{line.dam.dam_num}}/{{line.device_num}}/' title="实时状态" class="glyphicon glyphicon-play"></a> <a href='/Displacement_management/label_history_select/{{line.dam.dam_num}}/{{line.device_num}}' title="历史数据" class="glyphicon glyphicon-search"></a></td>
+                              -->
                               {% endfor %} </tr>
                               </tbody>
                             
@@ -230,7 +235,9 @@ desired effect
                                 <th>大坝概况</th>
                                 <th>端口号</th>
                                 <th>域名</th>
+                                <!--
                                 <th>操作</th>
+                                -->
                               </tr>
                             </thead>
                             <tbody>
@@ -242,7 +249,9 @@ desired effect
                               <td>{{line.dam_status}}</td>
                               <td>{{line.port_num}}</td>
                               <td>{{line.domain_name}}</td>
-                              <td><!--<a href='/Dam_Device_management/dam_management_form_update/{{line.id}}' title="修改" class="update"><img src="../../../static/img/pencil.png" alt="Update"/></a> <a href='/Dam_Device_management/dam_management_form/{{line.id}}/d' title="删除" class="delete" onclick="return confirm('确定将此记录删除?')"><img src="../../../static/img/cross.png" alt="Delete"/></a>--></td>
+                              <!--
+                              <td><a href='/Dam_Device_management/dam_management_form_update/{{line.id}}' title="修改" class="update"><img src="../../../static/img/pencil.png" alt="Update"/></a> <a href='/Dam_Device_management/dam_management_form/{{line.id}}/d' title="删除" class="delete" onclick="return confirm('确定将此记录删除?')"><img src="../../../static/img/cross.png" alt="Delete"/></a></td>
+                              -->
                               {% endfor %} </tr>
                               </tbody>
                             

@@ -146,6 +146,7 @@ desired effect
       <ul class="sidebar-menu" data-widget="tree">
         <!-- Optionally, you can add icons to the links -->
         <li><a href="/Dam_Device_management/DandL_management"><i class="fa fa-link"></i><span>设备管理</span></a></li>
+        <li><a href="/Dam_Device_management/list_show"><i class="fa fa-link"></i><span>列表查看</span></a></li>
         <li class="active"><a href="/Dam_Device_management/history_search"><i class="fa fa-link"></i><span>历史查看</span></a></li>
         <li><a href="/Dam_Device_management/realTime_search"><i class="fa fa-link"></i><span>实时查看</span></a></li>
       </ul>
@@ -163,11 +164,11 @@ desired effect
           <!-- Custom Tabs (Pulled to the right) -->
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs pull-right">
-              <li><a href="#tab_labelManagement" data-toggle="tab">标签-基站列表</a></li>
-              <li class="active"><a href="#tab_labelManagement_sametime" data-toggle="tab">标签-基站列表(相同时间段)</a></li>
+              <li><a href="#comparisonShow" data-toggle="tab">对比显示</a></li>
+              <li class="active"><a href="#sametime_comparisonShow" data-toggle="tab">相同时间段对比显示</a></li>
             </ul>
             <div class="tab-content">
-              <div class="tab-pane" id="tab_labelManagement"> 
+              <div class="tab-pane" id="comparisonShow"> 
                 <!-- Main content -->
                 <section class="content"> 
                   <!-- form start -->
@@ -185,13 +186,6 @@ desired effect
                             </select>
                           </div>
                         </div>
-                        <div class="col-xs-1">
-                          <label class="control-label">温度：</label>
-                        </div>
-                        <div class="col-xs-2">
-                          <select input type="varchar" class="form-control form-input device_num_tem" multiple="multiple" data-placeholder="否" name="device_num_tem[]" id="device_num_tem" style="width: 100%;">
-                          </select>
-                        </div>
                         <button type="button" id="addcomparison_1" class="btn btn-info pull-right">新增对比</button>
                       </div>
                       <div class="col-xs-12">
@@ -201,9 +195,7 @@ desired effect
                               <th>基站编号A</th>
                               <th>标签编号T</th>
                               <th>时间范围</th>
-                              <!--
                               <th>温度曲线</th>
-                              -->
                               <th>平均曲线</th>
                               <th>收敛曲线</th>
                               <th>平滑曲线</th>
@@ -215,12 +207,10 @@ desired effect
                               <td><select input type="varchar" class="form-control form-input device_num" name="device_num[]" id="device_num" style="width: 100%;">
                                 </select></td>
                               <td><input type="varchar" class="form-control form-input reservationtime_1" name="reservationtime[]" id="" style="width: 300px"></td>
-                              <!--
                               <td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
                                 </select></td>
-                                -->
                               <td><select input type="varchar" class="form-control form-input" name="d1_num[]" id="d1_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
@@ -252,7 +242,7 @@ desired effect
                 </section>
                 <!-- /.content --> 
               </div>
-              <div class="tab-pane active" id="tab_labelManagement_sametime"> 
+              <div class="tab-pane active" id="sametime_comparisonShow"> 
                 <!-- Main content -->
                 <section class="content"> 
                   <!-- form start -->
@@ -281,13 +271,6 @@ desired effect
                           </div>
                         </div>
                       </div>
-                      <div class="col-xs-1">
-                        <label class="control-label">温度：</label>
-                      </div>
-                      <div class="col-xs-2">
-                        <select input type="varchar" class="form-control form-input device_num_tem" multiple="multiple" data-placeholder="否" name="device_num_tem[]" id="device_num_tem" style="width: 100%;">
-                        </select>
-                      </div>
                       <!--<button type="button" id="addcomparison_2" class="btn btn-info pull-right">新增对比</button>--> 
                       <!-- /.form group -->
                       <div class="col-xs-12">
@@ -297,9 +280,7 @@ desired effect
                               <th>基站编号A</th>
                               <th>标签编号T</th>
                               <th>时间范围</th>
-                              <!--
                               <th>温度曲线</th>
-                              -->
                               <th>平均曲线</th>
                               <th>收敛曲线</th>
                               <th>平滑曲线</th>
@@ -311,12 +292,10 @@ desired effect
                               <td><select input type="varchar" class="form-control form-input device_num" name="device_num[]" id="device_num" style="width: 100%;">
                                 </select></td>
                               <td><input type="varchar" class="form-control form-input reservationtime_2" name="reservationtime[]" id="" style="width: 300px"></td>
-                              <!--
                               <td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
                                 </select></td>
-                                -->
                               <td><select input type="varchar" class="form-control form-input" name="d1_num[]" id="d1_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
@@ -400,8 +379,6 @@ desired effect
                    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
               });  
 			  
-			  $('.device_num_tem').select2()
-			  
 			  //将大坝、基站和标签的list传至js，显示在前端的第一行列表
 			  var dam_num_list={{dam_num_list|safe}}
 			  var station_num_list={{station_num_list|safe}}
@@ -417,21 +394,17 @@ desired effect
 				  htmlStation+='<option>'+ station_num_list[i] +'</option>';//字符串组，而不是push成数组
 				  }
 			  var htmlDevice = '';
-			  var htmlDevice_Tem = '';
 			  for(var i = 0;i < device_num_list.length;i++){
 				  htmlDevice+='<option>'+ device_num_list[i] +'</option>';//字符串组，而不是push成数组
-				  htmlDevice_Tem+='<option>'+ device_num_list[i] +'</option>';
 				  }
 			  
-			  //回传至html相应位置， parents是用来找父级，tab_labelManagement和tab_labelManagement_sametime已经在最外面了就不用了
-    		  $('#tab_labelManagement').find(".dam_num").html(htmlDam)
-			  $('#tab_labelManagement').find(".station_num").html(htmlStation)
-			  $('#tab_labelManagement').find(".device_num").html(htmlDevice)
-			  $('#tab_labelManagement').find(".device_num_tem").html(htmlDevice_Tem)
-			  $('#tab_labelManagement_sametime').find(".dam_num").html(htmlDam)
-			  $('#tab_labelManagement_sametime').find(".station_num").html(htmlStation)
-			  $('#tab_labelManagement_sametime').find(".device_num").html(htmlDevice)
-			  $('#tab_labelManagement_sametime').find(".device_num_tem").html(htmlDevice_Tem)	
+			  //回传至html相应位置， parents是用来找父级，comparisonShow和sametime_comparisonShow已经在最外面了就不用了
+    		  $('#comparisonShow').find(".dam_num").html(htmlDam)
+			  $('#comparisonShow').find(".station_num").html(htmlStation)
+			  $('#comparisonShow').find(".device_num").html(htmlDevice)
+			  $('#sametime_comparisonShow').find(".dam_num").html(htmlDam)
+			  $('#sametime_comparisonShow').find(".station_num").html(htmlStation)
+			  $('#sametime_comparisonShow').find(".device_num").html(htmlDevice)	
 		//将大坝、基站和标签的list传至js，显示在前端的append里
 			  var arrStation = '';
 			  for(var i = 0;i < station_num_list.length;i++){
@@ -492,10 +465,10 @@ desired effect
                             arrDevice +
                           '</select></td>'+
 						'<td><input type="varchar" class="form-control form-input reservationtime_1" name="reservationtime[]" id="" style="width: 300px"></td>'+
-//						'<td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">' +
-//                            '<option>是</option>' +
-//                            '<option>否</option>' +
-//                          '</select></td>'+
+						'<td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">' +
+                            '<option>是</option>' +
+                            '<option>否</option>' +
+                          '</select></td>'+
                         '<td><select input type="varchar" class="form-control form-input" name="d1_num[]" id="d1_num" style="width: 100%;">' +
                             '<option>是</option>' +
                             '<option>否</option>' +
@@ -540,10 +513,10 @@ desired effect
                             arrDevice +
                           '</select></td>'+
 						'<td><input type="varchar" class="form-control form-input reservationtime_2" name="reservationtime[]" id="" style="width: 300px"></td>'+
-//						'<td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">' +
-//                            '<option>是</option>' +
-//                            '<option>否</option>' +
-//                          '</select></td>'+
+						'<td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">' +
+                            '<option>是</option>' +
+                            '<option>否</option>' +
+                          '</select></td>'+
                         '<td><select input type="varchar" class="form-control form-input" name="d1_num[]" id="d1_num" style="width: 100%;">' +
                             '<option>是</option>' +
                             '<option>否</option>' +
