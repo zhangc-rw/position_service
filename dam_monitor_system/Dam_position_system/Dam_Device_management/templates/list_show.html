@@ -190,21 +190,24 @@ desired effect
                               </tr>
                             </thead>
                             <tbody>
-                            {% for line in device_list  %}
+                            {% for line in device_list %}
+                            {% for li in station_list %}
                             <tr name={{line.id}}>
-                              <td width="35px"><input type="checkbox" class="checkOne" value="{{line.carrier_num}}={{line.carrier_type}}"></td>
+                              <td width="35px"><input type="checkbox" class="checkOne" value="{{line.dam.dam_num}}={{li.device_num}}={{line.device_num}}"></td>
                               <td>{{line.dam.dam_num}}</td>
+                              <td>{{li.device_num}}</td>
                               <td>{{line.device_num}}</td>
-                              <td>{{line.card_num}}</td>
-                              <td>{{line.power}}</td>
+                              <td class="coor"></td>
                               <!--
                               <td>{{line.x}}</td>
                               <td>{{line.y}}</td>
                               <td>{{line.z}}</td>
                               -->
-                              <td><a href='/Displacement_management/label_detail_realtime/{{line.dam.dam_num}}/{{line.device_num}}/' title="实时查看" class="glyphicon glyphicon-play"></a> <a href='/Displacement_management/label_history_select/{{line.dam.dam_num}}/{{line.device_num}}' title="历史查看" class="glyphicon glyphicon-search"></a></td>
-                              {% endfor %} </tr>
-                              </tbody> 
+                              <td><a href='/Displacement_management/label_detail_realTime_Raw/{{line.dam.dam_num}}/{{li.device_num}}/{{line.device_num}}' title="实时查看" class="glyphicon glyphicon-play"></a> <a href='/Displacement_management/label_history_select/{{line.dam.dam_num}}/{{li.device_num}}/{{line.device_num}}' title="历史查看" class="glyphicon glyphicon-search"></a></td>
+                              {% endfor %} 
+                              {% endfor %}
+                             </tr>
+                             </tbody> 
                           </table>
                         </div>
                         <!-- /.box-body --> 
@@ -257,21 +260,196 @@ desired effect
      
 <script>
  $(document).ready(function(){
-              $.ajaxSetup({  
-                   data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
-              }); 
-			  
-			  
-			  
-			  
-			  
+	 $.ajaxSetup({
+		 data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
+     }); 
+	 
+	 //识别页面打钩项，获取dam_num
+	function getCheck_dam_num(){
+		var arr=[];
+		var dam_num_ori=[];
+		//获取状态为checked的value
+		$("input[type='checkbox']:checked").each(function(){ 
+		//$("input[type='checkbox']:checked").each(function(i.e){ 
+		//console.log(e)
+		arr.push(this.value);//将value通过push方法放入arr数组
+		})
+		//console.log(arr)
+		for(var k=0;k<arr.length;k++){
+			var numstype = arr[k].split("=");//通过设置的“=”进行拆分
+			//console.log(numstype)
+			dam_num_ori[k] = numstype[0];//第一项是dam_num_ori
+            //console.log(dam_num_ori)
+            } 
+		return dam_num_ori;
+		};
+	
+	//识别页面打钩项，获取station_num
+	function getCheck_station_num(){
+		var arr=[];
+		var station_num_ori=[];
+		//获取状态为checked的value
+		$("input[type='checkbox']:checked").each(function(){
+		arr.push(this.value);//将value通过push方法放入arr数组
+		})
+		for(var k=0;k<arr.length;k++){
+			var numstype = arr[k].split("=");//通过设置的“=”进行拆分
+			station_num_ori[k] = numstype[1];//第二项是station_num_ori
+            } 
+		//console.log(station_num_ori)
+		return station_num_ori;
+		};
+		
+	//识别页面打钩项，获取device_num
+	function getCheck_device_num(){
+		var arr=[];
+		var device_num_ori=[];
+		//获取状态为checked的value
+		$("input[type='checkbox']:checked").each(function(){ 
+		//$("input[type='checkbox']:checked").each(function(i.e){ 
+		//console.log(e)
+		arr.push(this.value);//将value通过push方法放入arr数组
+		})
+		//console.log(arr)
+		for(var k=0;k<arr.length;k++){
+			var numstype = arr[k].split("=");//通过设置的“=”进行拆分
+			//console.log(numstype)
+			device_num_ori[k] = numstype[2];//第三项是device_num_ori
+            //console.log(device_num_ori)
+            } 
+		return device_num_ori;
+		};
+		
+	 //识别页面打钩项，获取num，以便顺序识别打钩
+	function getCheck_num(){
+		var arr=[];
+		var num_ori=[];
+		var dam_num_ori=[];
+		var station_num_ori=[];
+		var device_num_ori=[];
+		//获取状态为checked的value
+		$("input[type='checkbox']:checked").each(function(){ 
+		//$("input[type='checkbox']:checked").each(function(i.e){ 
+		//console.log(e)
+		arr.push(this.value);//将value通过push方法放入arr数组
+		})
+		//console.log(arr)
+		for(var k=0;k<arr.length;k++){
+			var numstype = arr[k].split("=");//通过设置的“=”进行拆分
+			//console.log(numstype)
+			dam_num_ori[k] = numstype[0];
+			station_num_ori[k] = numstype[1];
+			device_num_ori[k] = numstype[2];
+			num_ori.push(dam_num_ori[k]+station_num_ori[k]+device_num_ori[k]);
+            //console.log(num_ori)
+            } 
+		return num_ori;
+		};
+		
+	//定时器，每隔一段时间遍历列表
+	setInterval(function postID(){
+		
+		var dam_num_ori = getCheck_dam_num();//获取通过getCheck_nums()得到的nums_ori
+		//console.log(dam_num_ori);
+		var dam_num = JSON.stringify(dam_num_ori);//数组转换成json，这样使用ajax传递
+		//console.log(dam_num)
+		var station_num_ori = getCheck_station_num();
+		//console.log(station_num_ori);
+		var station_num = JSON.stringify(station_num_ori);
+		//console.log(station_num)
+		var device_num_ori = getCheck_device_num();
+		//console.log(device_num_ori);
+		var device_num = JSON.stringify(device_num_ori);
+		//console.log(device_num)
+		var num_ori = getCheck_num();//获取通过getCheck_nums()得到的nums_ori
+		//console.log(num_ori);
+		var Nums = JSON.parse('[' + num_ori + ']');//将字符串数组转为数值数组，这样才能提取使用
+		//console.log(Nums);
+		
+		//ajax方法实现前后端交互
+		$.ajax({
+             type: "POST",
+             url: "/../Displacement_management/label_detail_realTime_real/",
+             dataType: "JSON",
+             data: {"dam_num":dam_num,"station_num":station_num,"device_num":device_num},
+			 traditional: true,
+			 //async:false,
+             //cache: false,
+             success: function (result) {//成功时弹出view传回来的结果即后端处理函数中HttpResponse的返回值</span>
+			 	
+				//返回坐标到打钩处
+				//console.log(result.Data_list)
+				//console.log(Nums)
+				var dataSource = [];
+				for(var j=0;j<result.Data_list.length;j++){
+					dataSource.push(
+					{
+						linkId:Nums[j], //关联的编号
+						location:[result.Data_list[j]] //位置坐标
+					}) //数据源
+				}
+				//console.log(dataSource)
+				//console.log(dataSource[0].linkId)
+				var checkedArr = $(".checkOne:checked");  //被选中的checkbox组成的数组
+				//console.log(checkedArr)
+				//console.log($(checkedArr[0]).val())
+				//console.log($(checkedArr[0]).parents('tr'))
+				//console.log((($(checkedArr[0]).val()).split("=")[0]))
+				//此处为两层循环，第一层是循环数据，第二层是循环选中的checkbox
+				for(var i = 0;i < dataSource.length; i ++){
+					for(var j = 0;j < checkedArr.length;j ++){
+						//当数据中的编号与checkbox的value相等，视为复合条件，就可以开始赋值
+						if(dataSource[i].linkId == (($(checkedArr[j]).val()).split("=")[0])+(($(checkedArr[j]).val()).split("=")[1])+(($(checkedArr[j]).val()).split("=")[2])){ //注意.val的用法,去7=20中的=，取7
+							//赋值采用遍历操作，先获取到checkbox的tr父节点（因为coor也包在tr中），然后再获取tr中的.coor节点，最后用.html()赋值
+							$(checkedArr[j]).parents('tr').find(".coor").html(dataSource[i].location.join(','))
+							}
+					}
+				}
+										
+			    //在此处实现将取消打钩项的坐标隐藏起来
+			    var uncheckedArr = $('input[class=checkOne]').not("input:checked"); //未被选中的checkbox组成的数组 通过使用class进行筛选 
+				//console.log(uncheckedArr)
+				//console.log(uncheckedArr.length)
+				var uncheckedNum = [];
+				for(var j = 0;j < uncheckedArr.length;j ++){
+					uncheckedNum.push((($(uncheckedArr[j]).val()).split("=")[0])+(($(uncheckedArr[j]).val()).split("=")[1])+(($(uncheckedArr[j]).val()).split("=")[2]));//将value通过push方法放入arr数组
+				}
+				//console.log(uncheckedNum)
+				var uncheckednum = JSON.parse('[' + uncheckedNum + ']');
+				//console.log(uncheckednum)
+			    //console.log(uncheckedArr) 
+			    var dataSource_unchecked = [];
+			    for(var j=0;j<uncheckednum.length;j++){
+				    dataSource_unchecked.push(
+				    { 
+				    linkId:uncheckednum[j], //关联的编号
+				    location:[""] //位置坐标 设置为空
+				    }) //数据源
+			    }
+			    //console.log(dataSource_unchecked)
+			    for(var i = 0;i < dataSource_unchecked.length; i ++){
+				    for(var j = 0;j < uncheckedArr.length;j ++){
+					    //当数据中的编号与checkbox的value相等，视为复合条件，就可以开始赋值
+					    if(dataSource_unchecked[i].linkId == (($(uncheckedArr[j]).val()).split("=")[0])+(($(uncheckedArr[j]).val()).split("=")[1])+(($(uncheckedArr[j]).val()).split("=")[2])){ //注意.val的用法,去7=20中的=，取7
+					    //赋值采用遍历操作，先获取到checkbox的tr父节点（因为coor也包在tr中），然后再获取tr中的.coor节点，最后用.html()赋值
+						    $(uncheckedArr[j]).parents('tr').find(".coor").html(dataSource_unchecked[i].location.join(','))
+					    }
+				    }
+			    }
+				
+		  },//success
+		  error: function (res) {
+			  console.log('error');//请求失败回调
+		  }
+	    })
+    },5000);
  }) 
 </script>
 <script>
     //设置列表的样式，将模板中的英文翻译为中文
     $('#dataList1').DataTable({
 	  'paging'      : true,
-      'lengthChange': false,
+      'lengthChange': true,
       'searching'   : true,
       'ordering'    : false,
       'info'        : false,

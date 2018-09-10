@@ -166,12 +166,12 @@ desired effect
               <div class="tab-pane active" id="tab_history_select"> 
                 <!-- Main content -->
                 <section class="content container-fluid">
-                  <div class="box box-default"> {% for line in device_list  %}
+                  <div class="box box-default"> {% for line in device_list  %}{% for li in station_list %}
                     <div class="box-header with-border">
-                      <h3 class="box-title">请选择{{line.dam.dam_num}}号大坝{{line.device_num}}号设备的时间</h3>
+                      <h3 class="box-title">请选择{{line.dam.dam_num}}号大坝{{li.device_num}}号基站{{line.device_num}}设备的时间</h3>
                     </div>
                     <!-- form start -->
-                    <form class="form-horizontal" id="form_label" action="/Displacement_management/label_detail_history/{{line.dam.dam_num}}/{{line.device_num}}/"  onsubmit="return check(this)" method="post">
+                    <form class="form-horizontal" id="form_label" action="/Displacement_management/label_detail_history/{{line.dam.dam_num}}/{{li.device_num}}/{{line.device_num}}/"  onsubmit="return check(this)" method="post">
                       {% csrf_token %}
                       <div class="box-body">
                         <div class="row">
@@ -194,6 +194,7 @@ desired effect
                       </div>
                       <!-- /.box-footer -->
                     </form>
+                    {% endfor %}
                     {% endfor %} </div>
                 </section>
                 <!-- /.content --> 
@@ -254,11 +255,12 @@ desired effect
               }); 
 	 
 	//Date range picker with time picker
-			  $('#reservationtime').daterangepicker({
+			  $('.reservationtime').daterangepicker({
 				  timePicker: true,
 				  timePickerIncrement: 10,
                   "locale": {
 					  format: 'YYYY-MM-DD HH:mm',
+					  //format: 'YYYY-MM-DD',
 					  applyLabel: "应用",
                       cancelLabel: "取消",
                       //resetLabel: "重置",
