@@ -203,7 +203,7 @@ desired effect
                               <td>{{line.y}}</td>
                               <td>{{line.z}}</td>
                               -->
-                              <td><a href='/Displacement_management/label_detail_realTime_Raw/{{line.dam.dam_num}}/{{li.device_num}}/{{line.device_num}}' title="实时查看" class="glyphicon glyphicon-play"></a> <a href='/Displacement_management/label_history_select/{{line.dam.dam_num}}/{{li.device_num}}/{{line.device_num}}' title="历史查看" class="glyphicon glyphicon-search"></a></td>
+                              <td><a href='/Displacement_management/label_detail_realTime_Raw/{{line.dam.dam_num}}/{{li.device_num}}/{{line.device_num}}/' title="实时查看" class="glyphicon glyphicon-play"></a> <a href='/Displacement_management/label_history_select/{{line.dam.dam_num}}/{{li.device_num}}/{{line.device_num}}' title="历史查看" class="glyphicon glyphicon-search"></a></td>
                               {% endfor %} 
                               {% endfor %}
                              </tr>
@@ -369,7 +369,7 @@ desired effect
 		//ajax方法实现前后端交互
 		$.ajax({
              type: "POST",
-             url: "/../Displacement_management/label_detail_realTime_real/",
+             url: "/../Displacement_management/label_detail_real/",
              dataType: "JSON",
              data: {"dam_num":dam_num,"station_num":station_num,"device_num":device_num},
 			 traditional: true,

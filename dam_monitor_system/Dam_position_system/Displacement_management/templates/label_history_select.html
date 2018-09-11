@@ -10,29 +10,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <title>大坝位移监测系统</title>
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-<link rel="stylesheet" href="../../../../static/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../../../../static/css/bootstrap.min.css">
 <!-- Font Awesome -->
-<link rel="stylesheet" href="../../../../static/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../../../../static/css/font-awesome.min.css">
 <!-- Ionicons -->
-<link rel="stylesheet" href="../../../../static/css/ionicons.min.css">
+<link rel="stylesheet" href="../../../../../static/css/ionicons.min.css">
 <!-- DataTables -->
-<link rel="stylesheet" href="../../../../static/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="../../../../../static/css/dataTables.bootstrap.min.css">
 <!-- daterange picker -->
-<link rel="stylesheet" href="../../../../static/css/daterangepicker.css">
+<link rel="stylesheet" href="../../../../../static/css/daterangepicker.css">
 <!-- bootstrap datepicker -->
-<link rel="stylesheet" href="../../../../static/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet" href="../../../../../static/css/bootstrap-datepicker.min.css">
 <!-- Bootstrap time Picker -->
-<link rel="stylesheet" href="../../../../static/css/bootstrap-timepicker.min.css">
+<link rel="stylesheet" href="../../../../../static/css/bootstrap-timepicker.min.css">
 <!-- Theme style -->
-<link rel="stylesheet" href="../../../../static/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../../../../static/css/AdminLTE.min.css">
 <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
-<link rel="stylesheet" href="../../../../static/css/skin-blue.min.css">
-<link rel="stylesheet" href="../../../../static/css/form.css">
-<link rel="stylesheet" href="../../../../static/css/_all-skins.min.css">
+<link rel="stylesheet" href="../../../../../static/css/skin-blue.min.css">
+<link rel="stylesheet" href="../../../../../static/css/form.css">
+<link rel="stylesheet" href="../../../../../static/css/_all-skins.min.css">
 <!-- Select2 -->
-<link rel="stylesheet" href="../../../../static/css/select2.min.css">
+<link rel="stylesheet" href="../../../../../static/css/select2.min.css">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -114,7 +114,7 @@ desired effect
             -->
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
-              <li class="user-header"> <img src="../../../static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+              <li class="user-header"> <img src="../../../../static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p> Alexander Pierce - Web Developer <small>Member since Nov. 2012</small> </p>
               </li>
               <!-- Menu Body -->
@@ -190,10 +190,10 @@ desired effect
                               <th style="display:none;">XYZ坐标</th>
                             </tr>
                             <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td><input type="varchar" class="form-control form-input reservationtime_1" name="reservationtime[]" id="" style="width: 300px"></td>
+                             <td class="dam_num"></td>
+                             <td class="station_num"></td>
+                             <td class="device_num"></td>
+                             <td><input type="varchar" class="form-control form-input reservationtime_1" name="reservationtime" id="" style="width: 300px"></td>
                               <td><select input type="varchar" class="form-control form-input" name="temperature_num" id="temperature_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
@@ -215,6 +215,7 @@ desired effect
                                   <option>否</option>
                                 </select></td>
                             </tr>
+                           
                           </table>
                         </div>
                         <!-- /.box-body --> 
@@ -251,10 +252,10 @@ desired effect
                               <th style="display:none">XYZ坐标</th>
                             </tr>
                             <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td><input type="varchar" class="form-control form-input reservationtime_2" name="reservationtime[]" id="" style="width: 300px"></td>
+                              <td class="dam_num"></td>
+                              <td class="station_num"></td>
+                              <td class="device_num"></td>
+                              <td><input type="varchar" class="form-control form-input reservationtime_1" name="reservationtime" id="" style="width: 300px"></td>
                               <td><select input type="varchar" class="form-control form-input" name="temperature_num" id="temperature_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
@@ -307,30 +308,30 @@ desired effect
 <!-- REQUIRED JS SCRIPTS --> 
 
 <!-- jQuery 3 --> 
-<script src="../../../../static/js/jquery.min.js"></script> 
+<script src="../../../../../static/js/jquery.min.js"></script> 
 <!-- Bootstrap 3.3.7 --> 
-<script src="../../../../static/js/bootstrap.min.js"></script> 
+<script src="../../../../../static/js/bootstrap.min.js"></script> 
 <!-- DataTables --> 
-<script src="../../../../static/js/jquery.dataTables.min.js"></script> 
-<script src="../../../../static/js/dataTables.bootstrap.min.js"></script> 
+<script src="../../../../../static/js/jquery.dataTables.min.js"></script> 
+<script src="../../../../../static/js/dataTables.bootstrap.min.js"></script> 
 <!-- date-range-picker --> 
-<script src="../../../../static/js/moment.min.js"></script> 
-<script src="../../../../static/js/daterangepicker.js"></script> 
+<script src="../../../../../static/js/moment.min.js"></script> 
+<script src="../../../../../static/js/daterangepicker.js"></script> 
 <!-- bootstrap datepicker --> 
-<script src="../../../../static/js/bootstrap-datepicker.min.js"></script> 
+<script src="../../../../../static/js/bootstrap-datepicker.min.js"></script> 
 <!-- bootstrap time picker --> 
-<script src="../../../../static/js/bootstrap-timepicker.min.js"></script> 
+<script src="../../../../../static/js/bootstrap-timepicker.min.js"></script> 
 <!-- AdminLTE App --> 
-<script src="../../../../static/js/adminlte.min.js"></script> 
-<script src="../../../../static/js/form.js"></script> 
+<script src="../../../../../static/js/adminlte.min.js"></script> 
+<script src="../../../../../static/js/form.js"></script> 
 <!-- vue --> 
-<script src="../../../../static/js/vue.js"></script> 
-<script src="../../../../static/js/csrf.js"></script> 
-<script src="../../../../static/js/fastclick.js"></script> 
+<script src="../../../../../static/js/vue.js"></script> 
+<script src="../../../../../static/js/csrf.js"></script> 
+<script src="../../../../../static/js/fastclick.js"></script> 
 <!-- AdminLTE for demo purposes --> 
-<script src="../../../../static/js/demo.js"></script> 
+<script src="../../../../../static/js/demo.js"></script> 
 <!-- Select2 --> 
-<script src="../../../../static/js/select2.full.min.js"></script> 
+<script src="../../../../../static/js/select2.full.min.js"></script> 
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
@@ -340,7 +341,22 @@ desired effect
  $(document).ready(function(){
               $.ajaxSetup({  
                    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
-              });  
+              }); 
+      var dam_num_list={{dam_list|safe}}
+      var station_num_list={{station_list|safe}}
+      var device_num_list={{device_list|safe}}
+      //console.log(dam_num_list)
+      //回传至html相应位置， parents是用来找父级，datalist已经在最外面了就不用了
+      var dam_Num = JSON.parse('[' + dam_num_list + ']');//将字符串数组转为数值数组，这样才能提取使用 
+      var station_Num = JSON.parse('[' + station_num_list + ']');//将字符串数组转为数值数组，这样才能提取使用
+      var device_Num = JSON.parse('[' + device_num_list + ']');//将字符串数组转为数值数组，这样才能提取使用
+      //console.log(dam_Num)    
+      $('#comparisonShow').find(".dam_num").html(dam_Num.join('<br>'))
+      $('#comparisonShow').find(".station_num").html(station_Num.join('<br>'))
+      $('#comparisonShow').find(".device_num").html(device_Num.join('<br>'))
+      $('#sametime_comparisonShow').find(".dam_num").html(dam_Num.join('<br>'))
+      $('#sametime_comparisonShow').find(".station_num").html(station_Num.join('<br>'))
+      $('#sametime_comparisonShow').find(".device_num").html(device_Num.join('<br>'))
 			  
 			//Date range picker with time picker
 			  $('.reservationtime_1').daterangepicker({
