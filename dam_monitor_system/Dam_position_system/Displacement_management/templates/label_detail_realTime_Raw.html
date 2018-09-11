@@ -330,11 +330,6 @@ desired effect
 		window["name_ori"+k]=[];
 		window["data_ori"+k]=[];//存放传回的坐标
 		window["time_ori"+k]=[];//存放转化后的时间，作为横坐标
-		//历史传输的存储
-		window["data_ori_past"+k]=[];//存放传回的坐标
-		window["time_ori_past"+k]=[];//存放转化后的时间，作为横坐标
-		
-    window["line_coor_past"+k]=[];
 		window["line_draw"+k] = {};//存放多组线的数据、颜色和标签
 		var type = Name_list[k].split(",");//通过设置的“,”进行拆分
 		dam_num_ori[k] = type[0];//第一项是dam_num_ori
@@ -386,11 +381,11 @@ desired effect
   
   //按Num_list中的个数，取出time_list,Data_list（第一个）方法不同
   for (var s = 0; s < Num_list[0]; s++) {
-    window["time_ori_past"+0].push(time_list[s]);
-    window["data_ori_past"+0].push(Data_list[s]);
+    window["time_ori"+0].push(time_list[s]);
+    window["data_ori"+0].push(Data_list[s]);
   }
-  //console.log(time_ori_past0)
-  //console.log(data_ori_past0)
+  //console.log(time_ori0)
+  //console.log(data_ori0)
   
   //按Num_list中的个数，取出time_list,Data_list（从第二个开始）
   var isFirst = 1;//只执行一次
@@ -400,22 +395,13 @@ desired effect
       start = Num_list[j-1];
       isFirst = 0;
     }
-    window["time_ori_past"+j] = time_list.slice(start,start + Num_list[j]);
-    window["data_ori_past"+j] = Data_list.slice(start,start + Num_list[j]);
+    window["time_ori"+j] = time_list.slice(start,start + Num_list[j]);
+    window["data_ori"+j] = Data_list.slice(start,start + Num_list[j]);
     start = start + Num_list[j];
-    //console.log(window["time_ori_past"+j])
+    //console.log(window["time_ori"+j])
   }
-  //console.log((window["time_ori_past"+1])[0])
-  //console.log((window["data_ori_past"+1]))
-  
-  
-  //将已获得的time_ori_past和data_ori_past放入line_coor_past中，确立横纵坐标，以画图
-    for (var t = 0; t < Num_list.length; t += 1) {
-    for (var w = 0; w < window["time_ori_past"+t].length; w += 1) {
-      window["line_coor_past"+t].push([(window["time_ori_past"+t][w]), (window["data_ori_past"+t][w])])//由于window是数组，因此要把元素取出来再push
-    }
-    //console.log(window["line_coor_past"+t])
-    }
+  //console.log((window["time_ori"+1])[0])
+  //console.log((window["data_ori"+1]))
 		
 //定时器，每隔一段时间遍历列表
 	setInterval(function postID(){
@@ -452,37 +438,35 @@ desired effect
           			//console.log(new Date (result.Time_list[j]))
           			//console.log(window["time_ori"+j][window["time_ori"+j].length-1])
 			
-					//将传回的数值push进time_ori和data_ori数组
-          			if (window["time_ori"+j].length < 1) {
-            			window["time_ori"+j].push(new Date (result.Time_list[j])) //转化时间为中国标准时间格式
-            			window["data_ori"+j].push(result.Data_list[j]);
-          			}else{
-              			if ((window["time_ori"+j][window["time_ori"+j].length-1].getTime()) !== (new Date (result.Time_list[j])).getTime()) {//判断若时间相同，则不push进数组
-                		window["time_ori"+j].push(new Date (result.Time_list[j])) //转化时间为中国标准时间格式
-                		window["data_ori"+j].push(result.Data_list[j]);
-              			}
-            		}
+					//将传回的数值push进time_ori和data_ori数组：判断若时间不相同且数值不为零，则push进数组
+              if (((window["time_ori"+j][window["time_ori"+j].length-1].getTime()) !== (new Date (result.Time_list[j])).getTime()) && 
+                (window["data_ori"+j][window["data_ori"+j].length-1] !== 0)) {
+                  window["time_ori"+j].push(new Date (result.Time_list[j])) //转化时间为中国标准时间格式
+                	window["data_ori"+j].push(result.Data_list[j]);
+              	}
+          //console.log(window["time_ori"+1])
+          //console.log(window["data_ori"+1])  	
 					//console.log(window["time_ori"+j])
 					//console.log(window["data_ori"+j])
 
-          window["line_coor"+j]=[];//存放画线所需的横纵坐标，放在里面，每次循环至此都为空，以避免重复添加
+          window["line_coor"+j]=[];
 					//将已获得的time_ori和data_ori放入line_coor中，确立横纵坐标，以画图
 					for (var w = 0; w < window["time_ori"+j].length; w += 1) {
 						//温度和原始数据显示150个
 						if(window["name_ori"+j][3]==1 || window["name_ori"+j][3]==2){
 							if(window["line_coor"+j].length < 150) {//数组长度定为*，在前端显示为*个点
 								//去除非值，横纵坐标一起取消
-								if (window["data_ori"+j][w]==0) {
-									window["data_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
-									window["time_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
-								}
+								//if (window["data_ori"+j][w]==0) {
+									//window["data_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
+									//window["time_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
+								//}
 									window["line_coor"+j].push([(window["time_ori"+j][w]), (window["data_ori"+j][w])])//由于window是数组，因此要把元素取出来再push；同理，此处指pushline_time0
 							}else{
 								//去除非值，横纵坐标一起取消
-								if (window["data_ori"+j][w]==0) {
-									window["data_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
-									window["time_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
-								}
+								//if (window["data_ori"+j][w]==0) {
+									//window["data_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
+									//window["time_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
+								//}
 								//数组掐头增尾
 								window["line_coor"+j].push([(window["time_ori"+j][w]), (window["data_ori"+j][w])])
 								window["line_coor"+j].shift([(window["time_ori"+j][w]), (window["data_ori"+j][w])])
@@ -491,17 +475,17 @@ desired effect
 							//其他数据显示5个
 							if(window["line_coor"+j].length < 5) {//数组长度定为*，在前端显示为*个点
 								//去除非值，横纵坐标一起取消
-								if (window["data_ori"+j][w]==0) {
-									window["data_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
-									window["time_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
-								}
+								//if (window["data_ori"+j][w]==0) {
+									//window["data_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
+									//window["time_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
+								//}
 									window["line_coor"+j].push([(window["time_ori"+j][w]), (window["data_ori"+j][w])])//由于window是数组，因此要把元素取出来再push；同理，此处指pushline_time0
 							}else{
 								//去除非值，横纵坐标一起取消
-								if (window["data_ori"+j][w]==0) {
-									window["data_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
-									window["time_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
-								}
+								//if (window["data_ori"+j][w]==0) {
+									//window["data_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
+									//window["time_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
+								//}
 								//数组掐头增尾
 								window["line_coor"+j].push([(window["time_ori"+j][w]), (window["data_ori"+j][w])])
 								window["line_coor"+j].shift([(window["time_ori"+j][w]), (window["data_ori"+j][w])])

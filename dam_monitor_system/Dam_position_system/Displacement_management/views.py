@@ -25,7 +25,6 @@ from django.http import HttpResponse
 	#return render(request,'label_detail_history.html')'''
 
 #实时位移查看
-
 def Raw_data_real(request):
 	dam_num = request.POST.get('dam_num')
 	dam_num = re.findall(r"\d+\.?\d*",dam_num)
@@ -37,13 +36,16 @@ def Raw_data_real(request):
 	print (device_num)
 	num = len(station_num)
 	Data_list = []
+	Time_list = []
 	for index in range(num):
 	#判断锚点编号
 		dam_list = Dam.objects.get(dam_num = dam_num[index])
 		device_list = Device.objects.get(device_num = device_num[index],at_tip = 1,dam = dam_list)
 		D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:1]
 		d2_list = []
+		
 		for d in D_list :
+			Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
 			if station_num[index] == "0":
 				Data_list.append(d.d1)
 				d2_list.append(d.d1)
@@ -56,7 +58,7 @@ def Raw_data_real(request):
 			elif station_num[index] == "3":
 				Data_list.append(d.d4)
 				d2_list.append(d.d4)
-	return HttpResponse(json.dumps({'Data_list':Data_list}))#,'Time_list':Time_list,'Num_list':Num_list}))
+	return HttpResponse(json.dumps({'Data_list':Data_list,'Time_list':Time_list}))#,'Num_list':Num_list}))
 
 def DReal_management(request,aid,bid,cid):
 	Data_list = []
@@ -66,16 +68,22 @@ def DReal_management(request,aid,bid,cid):
 	dam_list = Dam.objects.get(dam_num = aid)
 	device_list = Device.objects.get(device_num = cid,at_tip = 1,dam = dam_list)
 	#通过最大的ID查询
-	DPast_list = DPast.objects.filter(device = device_list).order_by('-id')[:1]
-	Dping_list = Dping.objects.filter(device = device_list).order_by('-id')[:1]
+	DPast_list = DPast.objects.filter(device = device_list).order_by('-id')[:4]
+	Dping_list = Dping.objects.filter(device = device_list).order_by('-id')[:4]
 	#收敛
-	Convergence_list = Convergence_data.objects.filter(device = device_list,station_num = bid).order_by('-id')[:1]
+	Convergence_list = Convergence_data.objects.filter(device = device_list,station_num = bid).order_by('-id')[:4]
 	#平滑
-	Smooth_list = Smooth_data.objects.filter(device = device_list,station_num = bid).order_by('-id')[:1]
+	Smooth_list = Smooth_data.objects.filter(device = device_list,station_num = bid).order_by('-id')[:4]
 	#平均
-	Average_list = Average_data.objects.filter(device = device_list,station_num = bid).order_by('-id')[:1]
+	Average_list = Average_data.objects.filter(device = device_list,station_num = bid).order_by('-id')[:4]
 
-	D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:1]
+	D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:120]
+	
+	Convergence_list = Convergence_list[::-1]
+	Smooth_list = Smooth_list[::-1]
+	Average_list = Average_list[::-1]
+	D_list = D_list[::-1]
+
 	#D_list = D_list.reverse()[:1]
 	#Name1_list = [] 
 	Name2_list = [] 
@@ -218,8 +226,8 @@ def DReal_management(request,aid,bid,cid):
 	print(Data_list)
 	#print(Time_list)
 	print(Name_list)
-	#print(Num_list)		
-	return  render(request, 'label_detail_realTime_Raw.html',{'Data_list': json.dumps(Data_list),'Time_list': json.dumps(Time_list),'Name_list': json.dumps(Name_list)})
+	print(Num_list)		
+	return  render(request, 'label_detail_realTime_Raw.html',{'Num_list': json.dumps(Num_list),'Data_list': json.dumps(Data_list),'Time_list': json.dumps(Time_list),'Name_list': json.dumps(Name_list)})
 #历史位移查看
 def DPast_management_sametime_2(request):
 	if request.method == "POST":
@@ -2181,6 +2189,12 @@ def Raw_data_management(request):
 			Average_list = Average_data.objects.filter(device = device_list,station_num = station_num[index]).order_by('-id')[:4]
 		
 			D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:120]
+
+			Convergence_list = Convergence_list[::-1]
+			Smooth_list = Smooth_list[::-1]
+			Average_list = Average_list [::-1]
+			D_list = D_list[::-1]
+
 			#D_list = D_list.reverse()[:1]
 			#Name1_list = [] 
 			Name2_list = [] 
@@ -2343,6 +2357,7 @@ def Raw_data_management(request):
 				dam_list = Dam.objects.get(dam_num = dam_num)
 				device_list = Device.objects.get(device_num = i,at_tip = 1,dam = dam_list)
 				D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:120]
+				D_list=D_list[::-1]
 				Name1_list = [] 
 				
 				temperature_list = []
@@ -2377,9 +2392,9 @@ def Raw_data_management_real(request):
 		type_num_list = request.POST.get('type_num')
 		type_num_list = re.findall(r"\d+\.?\d*",type_num_list)
 		
-		print (device_num)
-		print (station_num)
-		print (type_num_list)
+		#print (device_num)
+		#print (station_num)
+		#print (type_num_list)
 		device_num_2 = list(set(device_num))
 		num = len(station_num)
 		Data_list = []
@@ -2505,9 +2520,9 @@ def Raw_data_management_real(request):
 				num = len(temperature_list)
 				Num_list.append(num)
 
-		print(Data_list)
-		print(Time_list)
-		print(Num_list)
+		#print(Data_list)
+		#print(Time_list)
+		#print(Num_list)
 		#print(x_list)
 		'''判断锚点编号
 			device_list = Device.objects.filter(device_num = device_num_list[index],at_tip = 1 )
