@@ -114,7 +114,7 @@ desired effect
             -->
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
-              <li class="user-header"> <img src="../../../../static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+              <li class="user-header"> <img src="../../../../../static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p> Alexander Pierce - Web Developer <small>Member since Nov. 2012</small> </p>
               </li>
               <!-- Menu Body -->
@@ -172,7 +172,7 @@ desired effect
                 <!-- Main content -->
                 <section class="content"> 
                   <!-- form start -->
-                  <form class="form-horizontal" id="form_label" action="/Displacement_management/label_detail_history/" method="post">
+                  <form class="form-horizontal" id="form_label" action="/Displacement_management/label_detail_history_2/" method="post">
                     {% csrf_token %}
                     <div class="box-body">
                       <div class="col-xs-12">
@@ -190,9 +190,9 @@ desired effect
                               <th style="display:none;">XYZ坐标</th>
                             </tr>
                             <tr>
-                             <td class="dam_num"></td>
-                             <td class="station_num"></td>
-                             <td class="device_num"></td>
+                             <td><select input type="varchar" class="form-control form-input dam_num" name="dam_num" id="dam_num"></select></td>
+                             <td><select input type="varchar" class="form-control form-input station_num" name="station_num" id="station_num"></select></td>
+                             <td><select input type="varchar" class="form-control form-input device_num" name="device_num" id="device_num"></select></td>
                              <td><input type="varchar" class="form-control form-input reservationtime_1" name="reservationtime" id="" style="width: 300px"></td>
                               <td><select input type="varchar" class="form-control form-input" name="temperature_num" id="temperature_num" style="width: 100%;">
                                   <option>是</option>
@@ -234,7 +234,7 @@ desired effect
                 <!-- Main content -->
                 <section class="content"> 
                   <!-- form start -->
-                  <form class="form-horizontal" id="form_label" action="/Displacement_management/label_detail_history_sametime/" method="post">
+                  <form class="form-horizontal" id="form_label" action="/Displacement_management/label_detail_history_sametime_2/" method="post">
                     {% csrf_token %}
                     <div class="box-body">
                       <div class="col-xs-12">
@@ -252,10 +252,10 @@ desired effect
                               <th style="display:none">XYZ坐标</th>
                             </tr>
                             <tr>
-                              <td class="dam_num"></td>
-                              <td class="station_num"></td>
-                              <td class="device_num"></td>
-                              <td><input type="varchar" class="form-control form-input reservationtime_1" name="reservationtime" id="" style="width: 300px"></td>
+                             <td><select input type="varchar" class="form-control form-input dam_num" name="dam_num" id="dam_num"></select></td>
+                             <td><select input type="varchar" class="form-control form-input station_num" name="station_num" id="station_num"></select></td>
+                             <td><select input type="varchar" class="form-control form-input device_num" name="device_num" id="device_num"></select></td>
+                              <td><input type="varchar" class="form-control form-input reservationtime_2" name="reservationtime" id="" style="width: 300px"></td>
                               <td><select input type="varchar" class="form-control form-input" name="temperature_num" id="temperature_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
@@ -281,6 +281,19 @@ desired effect
                         </div>
                         <!-- /.box-body --> 
                       </div>
+                      <div class="col-xs-2">
+                          <label class="control-label">请选择具体时间：</label>
+                        </div>
+                        <div class="col-xs-1">
+                          <div class="bootstrap-timepicker">
+                            <input type="varchar" class="form-control form-input timepicker" name="start_time" id="start_time" style="width: 100px">
+                          </div>
+                        </div>
+                        <div class="col-xs-1">
+                          <div class="bootstrap-timepicker">
+                            <input type="varchar" class="form-control form-input timepicker" name="end_time" id="end_time" style="width: 100px">
+                          </div>
+                        </div>
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">
@@ -346,17 +359,26 @@ desired effect
       var station_num_list={{station_list|safe}}
       var device_num_list={{device_list|safe}}
       //console.log(dam_num_list)
-      //回传至html相应位置， parents是用来找父级，datalist已经在最外面了就不用了
-      var dam_Num = JSON.parse('[' + dam_num_list + ']');//将字符串数组转为数值数组，这样才能提取使用 
-      var station_Num = JSON.parse('[' + station_num_list + ']');//将字符串数组转为数值数组，这样才能提取使用
-      var device_Num = JSON.parse('[' + device_num_list + ']');//将字符串数组转为数值数组，这样才能提取使用
-      //console.log(dam_Num)    
-      $('#comparisonShow').find(".dam_num").html(dam_Num.join('<br>'))
-      $('#comparisonShow').find(".station_num").html(station_Num.join('<br>'))
-      $('#comparisonShow').find(".device_num").html(device_Num.join('<br>'))
-      $('#sametime_comparisonShow').find(".dam_num").html(dam_Num.join('<br>'))
-      $('#sametime_comparisonShow').find(".station_num").html(station_Num.join('<br>'))
-      $('#sametime_comparisonShow').find(".device_num").html(device_Num.join('<br>'))
+        var htmlDam = '';
+        for(var i = 0;i < dam_num_list.length;i++){
+          htmlDam+='<option>'+ dam_num_list[i] +'</option>';//字符串组，而不是push成数组
+          }
+          //console.log(htmlDam) 
+        var htmlStation = '';
+        for(var i = 0;i < station_num_list.length;i++){
+          htmlStation+='<option>'+ station_num_list[i] +'</option>';//字符串组，而不是push成数组
+          }
+        var htmlDevice = '';
+        for(var i = 0;i < device_num_list.length;i++){
+          htmlDevice+='<option>'+ device_num_list[i] +'</option>';//字符串组，而不是push成数组
+          }
+      //回传至html相应位置， parents是用来找父级，comparisonShow和sametime_comparisonShow已经在最外面了就不用了
+        $('#comparisonShow').find(".dam_num").html(htmlDam)
+        $('#comparisonShow').find(".station_num").html(htmlStation)
+        $('#comparisonShow').find(".device_num").html(htmlDevice)
+        $('#sametime_comparisonShow').find(".dam_num").html(htmlDam)
+        $('#sametime_comparisonShow').find(".station_num").html(htmlStation)
+        $('#sametime_comparisonShow').find(".device_num").html(htmlDevice)
 			  
 			//Date range picker with time picker
 			  $('.reservationtime_1').daterangepicker({

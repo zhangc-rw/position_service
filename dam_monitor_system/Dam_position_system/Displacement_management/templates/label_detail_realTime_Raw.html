@@ -114,7 +114,7 @@ desired effect
             -->
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
-              <li class="user-header"> <img src="../../../static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+              <li class="user-header"> <img src="../../../../../static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p> Alexander Pierce - Web Developer <small>Member since Nov. 2012</small> </p>
               </li>
               <!-- Menu Body -->
@@ -331,11 +331,10 @@ desired effect
 		window["data_ori"+k]=[];//存放传回的坐标
 		window["time_ori"+k]=[];//存放转化后的时间，作为横坐标
 		//历史传输的存储
-		window["Name_ori_past"+k]=[];//主要是为了取出最后一个type，表明数据类型
-		window["name_ori_past"+k]=[];
 		window["data_ori_past"+k]=[];//存放传回的坐标
 		window["time_ori_past"+k]=[];//存放转化后的时间，作为横坐标
 		
+    window["line_coor_past"+k]=[];
 		window["line_draw"+k] = {};//存放多组线的数据、颜色和标签
 		var type = Name_list[k].split(",");//通过设置的“,”进行拆分
 		dam_num_ori[k] = type[0];//第一项是dam_num_ori
@@ -350,11 +349,11 @@ desired effect
 	
 	//把Name_list转为数组，取出“type”元素
 	for (var n = 0; n < Name_list.length; n++) {
-		window["Name_ori_past"+n].push(Name_list[n]);
-		window["name_ori_past"+n] = JSON.parse('[' + String(window["Name_ori_past"+n]) + ']');
-		//console.log(window["Name_ori_past"+n])
-		//console.log(window["name_ori_past"+n])
-    //console.log(window["name_ori_past"+n][3])
+		window["Name_ori"+n].push(Name_list[n]);
+		window["name_ori"+n] = JSON.parse('[' + String(window["Name_ori"+n]) + ']');
+		//console.log(window["Name_ori"+n])
+		//console.log(window["name_ori"+n])
+    //console.log(window["name_ori"+n][3])
 	}
 	
 	//回传至html相应位置， parents是用来找父级，datalist已经在最外面了就不用了
@@ -364,58 +363,58 @@ desired effect
 	//console.log(dam_Num)		
 	//console.log(station_Num)
 	//console.log(device_Num)
-    $('#dataList').find(".dam").html(dam_Num.join('<br>'))
+  $('#dataList').find(".dam").html(dam_Num.join('<br>'))
 	$('#dataList').find(".station").html(station_Num.join('<br>'))
 	$('#dataList').find(".device").html(device_Num.join('<br>'))
-	
-//在实时中加入一部分历史数据
-	var Num_list = {{Num_list|safe}};//数量列表，每个元素都规定每一条线的数据个数
-	//console.log(Num_list);
-	
-	var Time_list = {{Time_list|safe}};//时间列表
-	//console.log(Time_list)
-	
-	//转化时间为中国标准时间格式
-	var time_list = [];
-	for (var k = 0; k < Time_list.length; k++) {
-		time_list.push(new Date (Time_list[k]));
-	}
-	//console.log(time_list)
-	
-	var Data_list = {{Data_list|safe}};//距离列表，存放具体数据
-	//console.log(Data_list);
-	
-	//按Num_list中的个数，取出time_list,Data_list（第一个）方法不同
-	for (var s = 0; s < Num_list[0]; s++) {
-		window["time_ori_past"+0].push(time_list[s]);
-		window["data_ori_past"+0].push(Data_list[s]);
-	}
-	//console.log(time_ori_past0)
-	//console.log(data_ori_past0)
-	
-	//按Num_list中的个数，取出time_list,Data_list（从第二个开始）
-	var isFirst = 1;//只执行一次
-	var start;
-	for (var j = 1; j < Num_list.length;j++) {
-		if(isFirst==1){
-			start = Num_list[j-1];
-			isFirst = 0;
-		}
-		window["time_ori_past"+j] = time_list.slice(start,start + Num_list[j]);
-		window["data_ori_past"+j] = Data_list.slice(start,start + Num_list[j]);
-		start = start + Num_list[j];
-		//console.log(window["time_ori_past"+j])
-	}
-	//console.log((window["time_ori_past"+1])[0])
-	//console.log((window["data_ori_past"+1]))
-	
-	
-	//将已获得的time_ori_past和data_ori_past放入line_coor_past中，确立横纵坐标，以画图
+
+  //在实时中加入一部分历史数据
+  var Num_list = {{Num_list|safe}};//数量列表，每个元素都规定每一条线的数据个数
+  //console.log(Num_list);
+  
+  var Time_list = {{Time_list|safe}};//时间列表
+  //console.log(Time_list)
+  
+  //转化时间为中国标准时间格式
+  var time_list = [];
+  for (var k = 0; k < Time_list.length; k++) {
+    time_list.push(new Date (Time_list[k]));
+  }
+  //console.log(time_list)
+  
+  var Data_list = {{Data_list|safe}};//距离列表，存放具体数据
+  //console.log(Data_list);
+  
+  //按Num_list中的个数，取出time_list,Data_list（第一个）方法不同
+  for (var s = 0; s < Num_list[0]; s++) {
+    window["time_ori_past"+0].push(time_list[s]);
+    window["data_ori_past"+0].push(Data_list[s]);
+  }
+  //console.log(time_ori_past0)
+  //console.log(data_ori_past0)
+  
+  //按Num_list中的个数，取出time_list,Data_list（从第二个开始）
+  var isFirst = 1;//只执行一次
+  var start;
+  for (var j = 1; j < Num_list.length;j++) {
+    if(isFirst==1){
+      start = Num_list[j-1];
+      isFirst = 0;
+    }
+    window["time_ori_past"+j] = time_list.slice(start,start + Num_list[j]);
+    window["data_ori_past"+j] = Data_list.slice(start,start + Num_list[j]);
+    start = start + Num_list[j];
+    //console.log(window["time_ori_past"+j])
+  }
+  //console.log((window["time_ori_past"+1])[0])
+  //console.log((window["data_ori_past"+1]))
+  
+  
+  //将已获得的time_ori_past和data_ori_past放入line_coor_past中，确立横纵坐标，以画图
     for (var t = 0; t < Num_list.length; t += 1) {
-		for (var w = 0; w < window["line_time_past"+t].length; w += 1) {
-			window["line_coor"+t].push([(window["time_ori_past"+t][w]), (window["data_ori_past"+t][w])])//由于window是数组，因此要把元素取出来再push
-		}
-		//console.log(window["line_coor"+t])
+    for (var w = 0; w < window["time_ori_past"+t].length; w += 1) {
+      window["line_coor_past"+t].push([(window["time_ori_past"+t][w]), (window["data_ori_past"+t][w])])//由于window是数组，因此要把元素取出来再push
+    }
+    //console.log(window["line_coor_past"+t])
     }
 		
 //定时器，每隔一段时间遍历列表
@@ -466,8 +465,8 @@ desired effect
 					//console.log(window["time_ori"+j])
 					//console.log(window["data_ori"+j])
 
+          window["line_coor"+j]=[];//存放画线所需的横纵坐标，放在里面，每次循环至此都为空，以避免重复添加
 					//将已获得的time_ori和data_ori放入line_coor中，确立横纵坐标，以画图
-					
 					for (var w = 0; w < window["time_ori"+j].length; w += 1) {
 						//温度和原始数据显示150个
 						if(window["name_ori"+j][3]==1 || window["name_ori"+j][3]==2){
@@ -573,7 +572,7 @@ desired effect
 							}
 						//is=is+1;
 						}
-					//console.log(window["line_draw"+1])
+					//console.log(window["line_draw"+j])
 
 					//在此处添加XYZ，历史亦然
 					if (window["name_ori"+j][3]== 1) {
@@ -594,8 +593,6 @@ desired effect
 						happy_Z.push(window["line_draw"+j])
 					}
 					//console.log(happy_Raw)
-					
-					window["line_coor"+j]=[];//存放画线所需的横纵坐标，放在里面，每次循环至此都为空，以避免重复添加
 					
 				}//for循环
 				
