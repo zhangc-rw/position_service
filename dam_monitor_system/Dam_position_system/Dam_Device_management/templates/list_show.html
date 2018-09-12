@@ -345,6 +345,11 @@ desired effect
             } 
 		return num_ori;
 		};
+
+    //要设定一个全局变量
+    for (var i = 0; i < 1000; i++) {
+       window["time"+i]=[];
+    }
 		
 	//定时器，每隔一段时间遍历列表
 	setInterval(function postID(){
@@ -365,7 +370,7 @@ desired effect
 		//console.log(num_ori);
 		var Nums = JSON.parse('[' + num_ori + ']');//将字符串数组转为数值数组，这样才能提取使用
 		//console.log(Nums);
-		
+    
 		//ajax方法实现前后端交互
 		$.ajax({
              type: "POST",
@@ -380,14 +385,46 @@ desired effect
 				//返回坐标到打钩处
 				//console.log(result.Data_list)
 				//console.log(Nums)
-				var dataSource = [];
-				for(var j=0;j<result.Data_list.length;j++){
-					dataSource.push(
-					{
-						linkId:Nums[j], //关联的编号
-						location:[result.Data_list[j]] //位置坐标
-					}) //数据源
-				}
+        //console.log(result.Time_list)
+        //将传回的数值push进time_ori和data_ori数组：判断若时间不相同，则push进数组
+        var dataSource = [];
+        for(var j=0;j<result.Data_list.length;j++){
+          //给初始的 window["time"+j]=[]push第一个数
+          if(window["time"+j].length < 1){
+              window["time"+j].push(new Date (result.Time_list[j])) //转化时间为中国标准时间格式
+              //console.log(window["time"+j])
+              dataSource.push(
+              {
+                linkId:Nums[j], //关联的编号
+                location:[result.Data_list[j]] //位置坐标
+              }) //数据源
+          //console.log(window["time"+j].length)
+          }else{
+            //判断前后时间是否相同，并作出标识
+            if ((window["time"+j][window["time"+j].length-1].getTime()) !== (new Date (result.Time_list[j])).getTime()) {
+              //console.log(window["time"+j].length)
+              window["time"+j].push(new Date (result.Time_list[j])) //转化时间为中国标准时间格式
+              window["time"+j].splice(window["time"+j].length-2,1); //去除下标为w，长度为1的元素
+              //console.log(window["time"+j])
+              dataSource.push(
+              {
+                linkId:Nums[j], //关联的编号
+                location:[result.Data_list[j]] //位置坐标
+              }) //数据源
+            }else{
+              window["time"+j].push(new Date (result.Time_list[j])) //转化时间为中国标准时间格式
+              window["time"+j].splice(window["time"+j].length-2,1); //去除下标为w，长度为1的元素
+              //console.log(window["time"+j])
+              dataSource.push(
+              {
+                linkId:Nums[j], //关联的编号
+                location:[result.Data_list[j] + '(无数据更新)'] //位置坐标
+              }) //数据源
+            }
+          }
+        }
+        //console.log(window["time"+j].length)
+
 				//console.log(dataSource)
 				//console.log(dataSource[0].linkId)
 				var checkedArr = $(".checkOne:checked");  //被选中的checkbox组成的数组
@@ -397,28 +434,28 @@ desired effect
 				//console.log((($(checkedArr[0]).val()).split("=")[0]))
 				//此处为两层循环，第一层是循环数据，第二层是循环选中的checkbox
 				for(var i = 0;i < dataSource.length; i ++){
-					for(var j = 0;j < checkedArr.length;j ++){
-						//当数据中的编号与checkbox的value相等，视为复合条件，就可以开始赋值
+          for(var j = 0;j < checkedArr.length;j ++){
+				  //当数据中的编号与checkbox的value相等，视为复合条件，就可以开始赋值
 						if(dataSource[i].linkId == (($(checkedArr[j]).val()).split("=")[0])+(($(checkedArr[j]).val()).split("=")[1])+(($(checkedArr[j]).val()).split("=")[2])){ //注意.val的用法,去7=20中的=，取7
-							//赋值采用遍历操作，先获取到checkbox的tr父节点（因为coor也包在tr中），然后再获取tr中的.coor节点，最后用.html()赋值
+						  //赋值采用遍历操作，先获取到checkbox的tr父节点（因为coor也包在tr中），然后再获取tr中的.coor节点，最后用.html()赋值
 							$(checkedArr[j]).parents('tr').find(".coor").html(dataSource[i].location.join(','))
-							}
+						}
 					}
 				}
 										
-			    //在此处实现将取消打钩项的坐标隐藏起来
-			    var uncheckedArr = $('input[class=checkOne]').not("input:checked"); //未被选中的checkbox组成的数组 通过使用class进行筛选 
-				//console.log(uncheckedArr)
-				//console.log(uncheckedArr.length)
-				var uncheckedNum = [];
-				for(var j = 0;j < uncheckedArr.length;j ++){
-					uncheckedNum.push((($(uncheckedArr[j]).val()).split("=")[0])+(($(uncheckedArr[j]).val()).split("=")[1])+(($(uncheckedArr[j]).val()).split("=")[2]));//将value通过push方法放入arr数组
-				}
-				//console.log(uncheckedNum)
-				var uncheckednum = JSON.parse('[' + uncheckedNum + ']');
-				//console.log(uncheckednum)
-			    //console.log(uncheckedArr) 
-			    var dataSource_unchecked = [];
+			   //在此处实现将取消打钩项的坐标隐藏起来
+			   var uncheckedArr = $('input[class=checkOne]').not("input:checked"); //未被选中的checkbox组成的数组 通过使用class进行筛选 
+				 //console.log(uncheckedArr)
+				 //console.log(uncheckedArr.length)
+				 var uncheckedNum = [];
+				 for(var j = 0;j < uncheckedArr.length;j ++){
+					 uncheckedNum.push((($(uncheckedArr[j]).val()).split("=")[0])+(($(uncheckedArr[j]).val()).split("=")[1])+(($(uncheckedArr[j]).val()).split("=")[2]));//将value通过push方法放入arr数组
+				 }
+				 //console.log(uncheckedNum)
+				 var uncheckednum = JSON.parse('[' + uncheckedNum + ']');
+				 //console.log(uncheckednum)
+			   //console.log(uncheckedArr) 
+			   var dataSource_unchecked = [];
 			    for(var j=0;j<uncheckednum.length;j++){
 				    dataSource_unchecked.push(
 				    { 

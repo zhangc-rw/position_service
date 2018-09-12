@@ -438,14 +438,18 @@ desired effect
           			//console.log(new Date (result.Time_list[j]))
           			//console.log(window["time_ori"+j][window["time_ori"+j].length-1])
 			
-					//将传回的数值push进time_ori和data_ori数组：判断若时间不相同且数值不为零，则push进数组
-              if (((window["time_ori"+j][window["time_ori"+j].length-1].getTime()) !== (new Date (result.Time_list[j])).getTime()) && 
-                (window["data_ori"+j][window["data_ori"+j].length-1] !== 0)) {
+					//将传回的数值push进time_ori和data_ori数组：判断若时间不相同，则push进数组
+              if ((window["time_ori"+j][window["time_ori"+j].length-1].getTime()) !== (new Date (result.Time_list[j])).getTime()) {
                   window["time_ori"+j].push(new Date (result.Time_list[j])) //转化时间为中国标准时间格式
                 	window["data_ori"+j].push(result.Data_list[j]);
               	}
-          //console.log(window["time_ori"+1])
-          //console.log(window["data_ori"+1])  	
+          //去除非值，横纵坐标一起取消
+              if (window["data_ori"+j][window["data_ori"+j].length-1] == 0) {
+                window["data_ori"+j].splice(window["data_ori"+j].length-1,1); //去除下标为w，长度为1的元素
+                window["time_ori"+j].splice(window["data_ori"+j].length-1,1); //去除下标为w，长度为1的元素
+              }
+          //console.log(window["time_ori"+0])
+          //console.log(window["data_ori"+0])  	
 					//console.log(window["time_ori"+j])
 					//console.log(window["data_ori"+j])
 
@@ -455,18 +459,8 @@ desired effect
 						//温度和原始数据显示150个
 						if(window["name_ori"+j][3]==1 || window["name_ori"+j][3]==2){
 							if(window["line_coor"+j].length < 150) {//数组长度定为*，在前端显示为*个点
-								//去除非值，横纵坐标一起取消
-								//if (window["data_ori"+j][w]==0) {
-									//window["data_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
-									//window["time_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
-								//}
 									window["line_coor"+j].push([(window["time_ori"+j][w]), (window["data_ori"+j][w])])//由于window是数组，因此要把元素取出来再push；同理，此处指pushline_time0
 							}else{
-								//去除非值，横纵坐标一起取消
-								//if (window["data_ori"+j][w]==0) {
-									//window["data_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
-									//window["time_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
-								//}
 								//数组掐头增尾
 								window["line_coor"+j].push([(window["time_ori"+j][w]), (window["data_ori"+j][w])])
 								window["line_coor"+j].shift([(window["time_ori"+j][w]), (window["data_ori"+j][w])])
@@ -474,18 +468,9 @@ desired effect
 						}else{
 							//其他数据显示5个
 							if(window["line_coor"+j].length < 5) {//数组长度定为*，在前端显示为*个点
-								//去除非值，横纵坐标一起取消
-								//if (window["data_ori"+j][w]==0) {
-									//window["data_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
-									//window["time_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
-								//}
+								
 									window["line_coor"+j].push([(window["time_ori"+j][w]), (window["data_ori"+j][w])])//由于window是数组，因此要把元素取出来再push；同理，此处指pushline_time0
 							}else{
-								//去除非值，横纵坐标一起取消
-								//if (window["data_ori"+j][w]==0) {
-									//window["data_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
-									//window["time_ori"+j].splice(w,1); //去除下标为w，长度为1的元素
-								//}
 								//数组掐头增尾
 								window["line_coor"+j].push([(window["time_ori"+j][w]), (window["data_ori"+j][w])])
 								window["line_coor"+j].shift([(window["time_ori"+j][w]), (window["data_ori"+j][w])])
@@ -493,7 +478,6 @@ desired effect
 						}
 					}
 					//console.log(window["line_coor"+0])
-					//console.log(window["line_coor"+1])
 					//console.log(window["line_coor"+j])
 					//console.log(window["line_coor"+j].length)
 					//console.log(window["name_ori"+j])

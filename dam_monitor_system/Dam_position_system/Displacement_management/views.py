@@ -96,21 +96,43 @@ def DReal_management(request,aid,bid,cid):
 
 	#原始
 	d2_list = []
-	for d in D_list :
-		Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
-		if bid== "0":
+	if bid== "0":
+		D_list_2 = Raw_data.objects.filter(device = device_list, d1 = 0).order_by('-id')[:120]
+		for i in D_list_2:
+			if i in D_list:
+				D_list.remove(i)
+		for d in D_list :
+			Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
 			Data_list.append(d.d1)
 			d2_list.append(d.d1)
-		elif bid == "1":
+	elif bid == "1":
+		D_list_2 = Raw_data.objects.filter(device = device_list, d2 = 0).order_by('-id')[:120]
+		for i in D_list_2:
+			if i in D_list:
+				D_list.remove(i)
+		for d in D_list :
+			Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
 			Data_list.append(d.d2)
 			d2_list.append(d.d2)
-		elif bid == "2":
+	elif bid == "2":
+		D_list_2 = Raw_data.objects.filter(device = device_list, d3 = 0).order_by('-id')[:120]
+		for i in D_list_2:
+			if i in D_list:
+				D_list.remove(i)
+		for d in D_list :
+			Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
 			Data_list.append(d.d3)
 			d2_list.append(d.d3)
-		elif bid == "3":
+	elif bid == "3":
+		D_list_2 = Raw_data.objects.filter(device = device_list, d4 = 0).order_by('-id')[:120]
+		for i in D_list_2:
+			if i in D_list:
+				D_list.remove(i)
+		for d in D_list :
+			Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
 			Data_list.append(d.d4)
 			d2_list.append(d.d4)
-		num = len(d2_list)
+	num = len(d2_list)
 	Num_list.append(num)
 	Name2_list.append(aid)
 	Name2_list.append(bid)
@@ -2225,21 +2247,43 @@ def Raw_data_management(request):
 			#原始
 			if raw[index] =="是":
 				d2_list = []
-				for d in D_list :
-					Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
-					if station_num[index] == "0":
+				if station_num[index]== "0":
+					D_list_2 = Raw_data.objects.filter(device = device_list, d1 = 0).order_by('-id')[:120]
+					for i in D_list_2:
+						if i in D_list:
+							D_list.remove(i)
+					for d in D_list :
+						Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
 						Data_list.append(d.d1)
 						d2_list.append(d.d1)
-					elif station_num[index] == "1":
+				elif station_num[index] == "1":
+					D_list_2 = Raw_data.objects.filter(device = device_list, d2 = 0).order_by('-id')[:120]
+					for i in D_list_2:
+						if i in D_list:
+							D_list.remove(i)
+					for d in D_list :
+						Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
 						Data_list.append(d.d2)
 						d2_list.append(d.d2)
-					elif station_num[index] == "2":
+				elif station_num[index] == "2":
+					D_list_2 = Raw_data.objects.filter(device = device_list, d3 = 0).order_by('-id')[:120]
+					for i in D_list_2:
+						if i in D_list:
+							D_list.remove(i)
+					for d in D_list :
+						Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
 						Data_list.append(d.d3)
 						d2_list.append(d.d3)
-					elif station_num[index] == "3":
+				elif station_num[index] == "3":
+					D_list_2 = Raw_data.objects.filter(device = device_list, d4 = 0).order_by('-id')[:120]
+					for i in D_list_2:
+						if i in D_list:
+							D_list.remove(i)
+					for d in D_list :
+						Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
 						Data_list.append(d.d4)
 						d2_list.append(d.d4)
-					num = len(d2_list)
+				num = len(d2_list)
 				Num_list.append(num)
 				Name2_list.append(dam_num)
 				Name2_list.append(station_num[index])
@@ -2378,7 +2422,7 @@ def Raw_data_management(request):
 		print(Data_list)
 		#print(Time_list)
 		print(Name_list)
-		#print(Num_list)		
+		print(Num_list)		
 	return  render(request, 'label_detail_realTime_Raw.html',{'Data_list': json.dumps(Data_list),'Num_list': json.dumps(Num_list),'Time_list': json.dumps(Time_list),'Name_list': json.dumps(Name_list)})
 		
 def Raw_data_management_real(request):
@@ -2520,7 +2564,7 @@ def Raw_data_management_real(request):
 				num = len(temperature_list)
 				Num_list.append(num)
 
-		#print(Data_list)
+		print(Data_list)
 		#print(Time_list)
 		#print(Num_list)
 		#print(x_list)
