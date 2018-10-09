@@ -326,7 +326,7 @@ desired effect
 
 	//确定线的数据和颜色
 	var happy_distance = [], happy_temperature = [], happy_X = [], happy_Y = [], happy_Z = [];
-	var color_choose = ['#003E3E ','#467500','#006030','#424200','#FF0000','#28FF28','#844200','#613030','#0080FF','#000000','#ADADAD','#2F0000','#600030','#FF79BC','#28004D','#000079','#4DFFFF','#336666'];
+	var color_choose = ['#467500','#600030','#424200','#000079','#006030','#28FF28','#613030','#28004D','#0080FF','#000000','#ADADAD','#2F0000','#FF79BC','#844200','#000079','#003E3E ','#4DFFFF','#FF0000','#336666'];
 	for (var h = 0; h < Num_list.length; h += 1) {
 		//判断时间为空，不显示undefined
 		if(window["line_time_show"+h].length==0){
@@ -556,7 +556,7 @@ desired effect
 		
 			if (item) {
 				var x = item.datapoint[0],
-            	y = item.datapoint[1].toFixed(4) //设定精度
+            	y = item.datapoint[1].toFixed(2) //设定精度
 				d = new Date(x);
 				if (d.getHours() < 10 && d.getMinutes() < 10 && d.getSeconds() < 10){
 				timeStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + '0' + d.getHours() + ':' + '0' + d.getMinutes() + ':' + '0' + d.getSeconds();} 

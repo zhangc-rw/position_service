@@ -6,6 +6,8 @@ from Displacement_management.models import Dping
 from Displacement_management.models import Average_data
 from Displacement_management.models import Average_data_his
 from Displacement_management.models import Raw_data
+from Displacement_management.models import Processing_data
+
 from Displacement_management.models import Smooth_data
 from Displacement_management.models import Smooth_data_his
 from Displacement_management.models import Convergence_data
@@ -32,21 +34,63 @@ def Raw_data_real(request):
 	device_num = re.findall(r"\d+\.?\d*",device_num)
 	station_num = request.POST.get('station_num')
 	station_num = re.findall(r"\d+\.?\d*",station_num)
-	print (dam_num)
-	print (device_num)
+	#print (dam_num)
+	#print (device_num)
+	print (station_num)
 	num = len(station_num)
 	Data_list = []
 	Time_list = []
 	for index in range(num):
+		print (station_num[index])
+		
+			
 	#判断锚点编号
 		dam_list = Dam.objects.get(dam_num = dam_num[index])
 		device_list = Device.objects.get(device_num = device_num[index],at_tip = 1,dam = dam_list)
-		D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:1]
+		#D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:1]
+		D_list = Processing_data.objects.filter(device = device_list,station_num = station_num[index]).order_by('-id')[:1]
 		d2_list = []
-		
-		for d in D_list :
-			Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
-			if station_num[index] == "0":
+
+		if station_num[index] == '15':
+			Data_list.append("无数据")
+			Time_list.append('NULL')
+		elif station_num[index] == '16':
+			Data_list.append("无数据")
+			Time_list.append('NULL')
+		elif station_num[index] == '17':
+			Data_list.append("无数据")
+			Time_list.append('NULL')
+		elif station_num[index] == '18':
+			Data_list.append("无数据")
+			Time_list.append('NULL')
+		elif device_num[index] == '8':
+			Data_list.append("无数据")
+			Time_list.append('NULL')
+		elif device_num[index] == '9':
+			Data_list.append("无数据")
+			Time_list.append('NULL')
+		elif device_num[index] == '10':
+			Data_list.append("无数据")
+			Time_list.append('NULL')
+		elif device_num[index] == '11':
+			Data_list.append("无数据")
+			Time_list.append('NULL')
+		elif device_num[index] == '12':
+			Data_list.append("无数据")
+			Time_list.append('NULL')
+		elif device_num[index] == '13':
+			Data_list.append("无数据")
+			Time_list.append('NULL')
+		elif device_num[index] == '14':
+			Data_list.append("无数据")
+			Time_list.append('NULL')
+
+		else:
+			for d in D_list :
+				Data_list.append(d.d)
+				d2_list.append(d.d)
+				Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
+			'''if station_num[index] == "0":
 				Data_list.append(d.d1)
 				d2_list.append(d.d1)
 			elif station_num[index] == "1":
@@ -57,7 +101,9 @@ def Raw_data_real(request):
 				d2_list.append(d.d3)
 			elif station_num[index] == "3":
 				Data_list.append(d.d4)
-				d2_list.append(d.d4)
+				d2_list.append(d.d4)'''
+	print (Time_list)	
+	print (Data_list)
 	return HttpResponse(json.dumps({'Data_list':Data_list,'Time_list':Time_list}))#,'Num_list':Num_list}))
 
 def DReal_management(request,aid,bid,cid):
@@ -77,7 +123,8 @@ def DReal_management(request,aid,bid,cid):
 	#平均
 	Average_list = Average_data.objects.filter(device = device_list,station_num = bid).order_by('-id')[:4]
 
-	D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:120]
+	#D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:120]
+	D_list = Processing_data.objects.filter(device = device_list,station_num = bid).order_by('-id')[:120]
 	
 	Convergence_list = Convergence_list[::-1]
 	Smooth_list = Smooth_list[::-1]
@@ -96,7 +143,15 @@ def DReal_management(request,aid,bid,cid):
 
 	#原始
 	d2_list = []
-	if bid== "0":
+	D_list_2 = Processing_data.objects.filter(device = device_list,station_num = bid, d = 0).order_by('-id')[:120]
+	for i in D_list_2:
+		if i in D_list:
+			D_list.remove(i)
+	for d in D_list :
+		Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
+		Data_list.append(d.d)
+		d2_list.append(d.d)
+	'''if bid== "0":
 		D_list_2 = Raw_data.objects.filter(device = device_list, d1 = 0).order_by('-id')[:120]
 		for i in D_list_2:
 			if i in D_list:
@@ -131,7 +186,7 @@ def DReal_management(request,aid,bid,cid):
 		for d in D_list :
 			Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
 			Data_list.append(d.d4)
-			d2_list.append(d.d4)
+			d2_list.append(d.d4)'''
 	num = len(d2_list)
 	Num_list.append(num)
 	Name2_list.append(aid)
@@ -2210,7 +2265,8 @@ def Raw_data_management(request):
 			#平均
 			Average_list = Average_data.objects.filter(device = device_list,station_num = station_num[index]).order_by('-id')[:4]
 		
-			D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:120]
+			#D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:120]
+			D_list = Processing_data.objects.filter(device = device_list,station_num = station_num[index]).order_by('-id')[:120]			
 
 			Convergence_list = Convergence_list[::-1]
 			Smooth_list = Smooth_list[::-1]
@@ -2247,7 +2303,15 @@ def Raw_data_management(request):
 			#原始
 			if raw[index] =="是":
 				d2_list = []
-				if station_num[index]== "0":
+				D_list_2 = Processing_data.objects.filter(device = device_list,station_num = station_num[index], d = 0).order_by('-id')[:120]
+				for i in D_list_2:
+					if i in D_list:
+						D_list.remove(i)
+				for d in D_list :
+					Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
+					Data_list.append(d.d)
+					d2_list.append(d.d)
+				'''if station_num[index]== "0":
 					D_list_2 = Raw_data.objects.filter(device = device_list, d1 = 0).order_by('-id')[:120]
 					for i in D_list_2:
 						if i in D_list:
@@ -2282,7 +2346,7 @@ def Raw_data_management(request):
 					for d in D_list :
 						Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
 						Data_list.append(d.d4)
-						d2_list.append(d.d4)
+						d2_list.append(d.d4)'''
 				num = len(d2_list)
 				Num_list.append(num)
 				Name2_list.append(dam_num)
@@ -2400,7 +2464,8 @@ def Raw_data_management(request):
 			for i in device_num_2 :
 				dam_list = Dam.objects.get(dam_num = dam_num)
 				device_list = Device.objects.get(device_num = i,at_tip = 1,dam = dam_list)
-				D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:120]
+				#D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:120]
+				D_list = Processing_data.objects.filter(device = device_list,station_num = station_num[index]).order_by('-id')[:120]	
 				D_list=D_list[::-1]
 				Name1_list = [] 
 				
@@ -2460,7 +2525,8 @@ def Raw_data_management_real(request):
 			#平均
 			Average_list = Average_data.objects.filter(device = device_list,station_num = station_num[index]).order_by('-id')[:1]
 			#原始
-			D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:1]
+			#D_list = Raw_data.objects.filter(device = device_list).order_by('-id')[:1]
+			D_list = Processing_data.objects.filter(device = device_list,station_num = station_num[index]).order_by('-id')[:1]			
 
 
 
@@ -2470,8 +2536,10 @@ def Raw_data_management_real(request):
 			if type_num_list[index] == '2':
 				d2_list = []
 				for d in D_list :
+					Data_list.append(d.d)
+					d2_list.append(d.d)
 					Time_list.append(d.dreal_update_time.strftime("%Y-%m-%d %H:%M:%S:%S"))
-					if station_num[index] == "0":
+					'''if station_num[index] == "0":
 						Data_list.append(d.d1)
 						d2_list.append(d.d1)
 					elif station_num[index] == "1":
@@ -2482,7 +2550,7 @@ def Raw_data_management_real(request):
 						d2_list.append(d.d3)
 					elif station_num[index] == "3":
 						Data_list.append(d.d4)	
-						d2_list.append(d.d4)
+						d2_list.append(d.d4)'''
 				num = len(d2_list)
 				Num_list.append(num)
 			#平均
@@ -2565,7 +2633,7 @@ def Raw_data_management_real(request):
 				Num_list.append(num)
 
 		print(Data_list)
-		#print(Time_list)
+		print(Time_list)
 		#print(Num_list)
 		#print(x_list)
 		'''判断锚点编号

@@ -347,7 +347,7 @@ desired effect
 		};
 
     //要设定一个全局变量
-    for (var i = 0; i < 1000; i++) {
+    for (var i = 0; i < 1000000; i++) {
        window["time"+i]=[];
     }
 		
@@ -418,7 +418,8 @@ desired effect
               dataSource.push(
               {
                 linkId:Nums[j], //关联的编号
-                location:[result.Data_list[j] + '(无数据更新)'] //位置坐标
+                //location:[result.Data_list[j] + '(无数据更新)'] //位置坐标
+                location:[result.Data_list[j]] //位置坐标
               }) //数据源
             }
           }
@@ -431,11 +432,12 @@ desired effect
 				//console.log(checkedArr)
 				//console.log($(checkedArr[0]).val())
 				//console.log($(checkedArr[0]).parents('tr'))
-				//console.log((($(checkedArr[0]).val()).split("=")[0]))
 				//此处为两层循环，第一层是循环数据，第二层是循环选中的checkbox
 				for(var i = 0;i < dataSource.length; i ++){
           for(var j = 0;j < checkedArr.length;j ++){
 				  //当数据中的编号与checkbox的value相等，视为复合条件，就可以开始赋值
+          //console.log((($(checkedArr[j]).val()).split("=")[0])+(($(checkedArr[j]).val()).split("=")[1])+(($(checkedArr[j]).val()).split("=")[2]))
+          //console.log(dataSource[i].linkId)
 						if(dataSource[i].linkId == (($(checkedArr[j]).val()).split("=")[0])+(($(checkedArr[j]).val()).split("=")[1])+(($(checkedArr[j]).val()).split("=")[2])){ //注意.val的用法,去7=20中的=，取7
 						  //赋值采用遍历操作，先获取到checkbox的tr父节点（因为coor也包在tr中），然后再获取tr中的.coor节点，最后用.html()赋值
 							$(checkedArr[j]).parents('tr').find(".coor").html(dataSource[i].location.join(','))
