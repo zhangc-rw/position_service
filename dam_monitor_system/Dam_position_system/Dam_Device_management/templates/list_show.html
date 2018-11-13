@@ -181,11 +181,9 @@ desired effect
                                 <th>基站编号A</th>
                                 <th>标签编号T</th>
                                 <th>查看当前数据</th>
-                                <!--
-                                <th>坐标x</th>
-                                <th>坐标y</th>
-                                <th>坐标z</th>
-                                -->
+                                <th>X坐标</th>
+                                <th>Y坐标</th>
+                                <th>Z坐标</th>
                                 <th>操作</th>
                               </tr>
                             </thead>
@@ -198,11 +196,9 @@ desired effect
                               <td>{{li.device_num}}</td>
                               <td>{{line.device_num}}</td>
                               <td class="coor"></td>
-                              <!--
-                              <td>{{line.x}}</td>
-                              <td>{{line.y}}</td>
-                              <td>{{line.z}}</td>
-                              -->
+                              <td class="X"></td>
+                              <td class="Y"></td>
+                              <td class="Z"></td>
                               <td><a href='/Displacement_management/label_detail_realTime_Raw/{{line.dam.dam_num}}/{{li.device_num}}/{{line.device_num}}/' title="实时查看" class="glyphicon glyphicon-play"></a> <a href='/Displacement_management/label_history_select/{{line.dam.dam_num}}/{{li.device_num}}/{{line.device_num}}' title="历史查看" class="glyphicon glyphicon-search"></a></td>
                               {% endfor %} 
                               {% endfor %}
@@ -386,6 +382,7 @@ desired effect
 				//console.log(result.Data_list)
 				//console.log(Nums)
         //console.log(result.Time_list)
+        //console.log(result.X_list)
         //将传回的数值push进time_ori和data_ori数组：判断若时间不相同，则push进数组
         var dataSource = [];
         for(var j=0;j<result.Data_list.length;j++){
@@ -396,7 +393,10 @@ desired effect
               dataSource.push(
               {
                 linkId:Nums[j], //关联的编号
-                location:[result.Data_list[j]] //位置坐标
+                distance:[result.Data_list[j]], //位置坐标
+                coor_x:[result.X_list[j]],
+                coor_y:[result.Y_list[j]],
+                coor_z:[result.Z_list[j]]
               }) //数据源
           //console.log(window["time"+j].length)
           }else{
@@ -409,7 +409,10 @@ desired effect
               dataSource.push(
               {
                 linkId:Nums[j], //关联的编号
-                location:[result.Data_list[j]] //位置坐标
+                distance:[result.Data_list[j]], //位置坐标
+                coor_x:[result.X_list[j]],
+                coor_y:[result.Y_list[j]],
+                coor_z:[result.Z_list[j]]
               }) //数据源
             }else{
               window["time"+j].push(new Date (result.Time_list[j])) //转化时间为中国标准时间格式
@@ -418,8 +421,11 @@ desired effect
               dataSource.push(
               {
                 linkId:Nums[j], //关联的编号
-                //location:[result.Data_list[j] + '(无数据更新)'] //位置坐标
-                location:[result.Data_list[j]] //位置坐标
+                //distance:[result.Data_list[j] + '(无数据更新)'] //位置坐标
+                distance:[result.Data_list[j]], //位置坐标
+                coor_x:[result.X_list[j]],
+                coor_y:[result.Y_list[j]],
+                coor_z:[result.Z_list[j]]
               }) //数据源
             }
           }
@@ -440,7 +446,10 @@ desired effect
           //console.log(dataSource[i].linkId)
 						if(dataSource[i].linkId == (($(checkedArr[j]).val()).split("=")[0])+(($(checkedArr[j]).val()).split("=")[1])+(($(checkedArr[j]).val()).split("=")[2])){ //注意.val的用法,去7=20中的=，取7
 						  //赋值采用遍历操作，先获取到checkbox的tr父节点（因为coor也包在tr中），然后再获取tr中的.coor节点，最后用.html()赋值
-							$(checkedArr[j]).parents('tr').find(".coor").html(dataSource[i].location.join(','))
+							$(checkedArr[j]).parents('tr').find(".coor").html(dataSource[i].distance.join(','))
+              $(checkedArr[j]).parents('tr').find(".X").html(dataSource[i].coor_x.join(','))
+              $(checkedArr[j]).parents('tr').find(".Y").html(dataSource[i].coor_y.join(','))
+              $(checkedArr[j]).parents('tr').find(".Z").html(dataSource[i].coor_z.join(','))
 						}
 					}
 				}
@@ -462,7 +471,10 @@ desired effect
 				    dataSource_unchecked.push(
 				    { 
 				    linkId:uncheckednum[j], //关联的编号
-				    location:[""] //位置坐标 设置为空
+				    distance:[""], //位置坐标 设置为空
+            coor_x:[""],
+            coor_y:[""],
+            coor_z:[""]
 				    }) //数据源
 			    }
 			    //console.log(dataSource_unchecked)
@@ -471,7 +483,10 @@ desired effect
 					    //当数据中的编号与checkbox的value相等，视为复合条件，就可以开始赋值
 					    if(dataSource_unchecked[i].linkId == (($(uncheckedArr[j]).val()).split("=")[0])+(($(uncheckedArr[j]).val()).split("=")[1])+(($(uncheckedArr[j]).val()).split("=")[2])){ //注意.val的用法,去7=20中的=，取7
 					    //赋值采用遍历操作，先获取到checkbox的tr父节点（因为coor也包在tr中），然后再获取tr中的.coor节点，最后用.html()赋值
-						    $(uncheckedArr[j]).parents('tr').find(".coor").html(dataSource_unchecked[i].location.join(','))
+						    $(uncheckedArr[j]).parents('tr').find(".coor").html(dataSource_unchecked[i].distance.join(','))
+                $(uncheckedArr[j]).parents('tr').find(".X").html(dataSource_unchecked[i].coor_x.join(','))
+                $(uncheckedArr[j]).parents('tr').find(".Y").html(dataSource_unchecked[i].coor_y.join(','))
+                $(uncheckedArr[j]).parents('tr').find(".Z").html(dataSource_unchecked[i].coor_z.join(','))
 					    }
 				    }
 			    }

@@ -187,7 +187,7 @@ desired effect
                               <th>平均曲线</th>
                               <th>收敛曲线</th>
                               <th>平滑曲线</th>
-                              <th style="display:none;">XYZ坐标</th>
+                              <th>XYZ坐标</th>
                             </tr>
                             <tr>
                              <td><select input type="varchar" class="form-control form-input dam_num" name="dam_num" id="dam_num"></select></td>
@@ -210,8 +210,8 @@ desired effect
                                   <option>是</option>
                                   <option>否</option>
                                 </select></td>
-                              <td><select input type="varchar" class="form-control form-input" name="coor_num" id="coor_num" style="width: 100%;display:none;">
-                                  <option>否</option>
+                              <td><select input type="varchar" class="form-control form-input" name="coor_num" id="coor_num" style="width: 100%;">
+                                  <option>是</option>
                                   <option>否</option>
                                 </select></td>
                             </tr>
@@ -250,7 +250,7 @@ desired effect
                               <th>平均曲线</th>
                               <th>收敛曲线</th>
                               <th>平滑曲线</th>
-                              <th style="display:none">XYZ坐标</th>
+                              <th>XYZ坐标</th>
                             </tr>
                             <tr>
                              <td><select input type="varchar" class="form-control form-input dam_num" name="dam_num" id="dam_num"></select></td>
@@ -273,8 +273,8 @@ desired effect
                                   <option>是</option>
                                   <option>否</option>
                                 </select></td>
-                              <td><select input type="varchar" class="form-control form-input" name="coor_num" id="coor_num" style="width: 100%; display:none;">
-                                  <option>否</option>
+                              <td><select input type="varchar" class="form-control form-input" name="coor_num" id="coor_num" style="width: 100%;">
+                                  <option>是</option>
                                   <option>否</option>
                                 </select></td>
                             </tr>
@@ -354,9 +354,10 @@ desired effect
 
 <script>
  $(document).ready(function(){
-              $.ajaxSetup({  
-                   data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
-              }); 
+ 	$.ajaxSetup({
+ 		data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
+    }); 
+
       var dam_num_list={{dam_list|safe}}
       var station_num_list={{station_list|safe}}
       var device_num_list={{device_list|safe}}
@@ -382,43 +383,53 @@ desired effect
         $('#sametime_comparisonShow').find(".station_num").html(htmlStation)
         $('#sametime_comparisonShow').find(".device_num").html(htmlDevice)
 			  
-			//Date range picker with time picker
-			  $('.reservationtime_1').daterangepicker({
-				  timePicker: true,
-				  timePickerIncrement: 10,
-                  "locale": {
-					  format: 'YYYY-MM-DD HH:mm',
-					  //format: 'YYYY-MM-DD',
-					  applyLabel: "应用",
-                      cancelLabel: "取消",
-                      //resetLabel: "重置",
-					  daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
-           			  monthNames: ['一月', '二月', '三月', '四月', '五月', '六月','七月', '八月', '九月', '十月', '十一月', '十二月'],
-					  }
-				})
+	//Date range picker with time picker
+	$('.reservationtime_1').daterangepicker({
+		timePicker: true,
+		timePickerIncrement: 10,
+		// ranges: {
+  //           "今天": [moment(), moment()],
+  //           "昨天": [moment().subtract(1,'days'), moment().subtract(1,'days')],
+  //           "过去七天": [moment().subtract(6,'days'), moment()],
+  //           "本月": [moment().startOf('month'), moment()],
+  //           "上月": [moment().subtract(1,'month').startOf('month'), moment().subtract(1,'month').endOf('month')],
+  //           "过去三个月": [moment().subtract(3,'month').startOf('month'), moment().subtract(3,'month').endOf('month')],
+  //           "去年": [moment().subtract(1,'year').startOf('year'), moment().subtract(1,'year').endOf('year')]
+  //         },
+    "locale": {
+      format: 'YYYY-MM-DD HH:mm',
+			//format: 'YYYY-MM-DD',
+			applyLabel: "应用",
+      cancelLabel: "取消",
+      //resetLabel: "重置",
+      customRangeLabel: "自定义",
+			daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+      monthNames: ['一月', '二月', '三月', '四月', '五月', '六月','七月', '八月', '九月', '十月', '十一月', '十二月'],
+    }
+	})
 				
-			//Date range picker with time picker
-			  $('.reservationtime_2').daterangepicker({
-				  //timePicker: true,
-				  //timePickerIncrement: 10,
-                  "locale": {
-					  //format: 'YYYY-MM-DD HH:mm',
-					  format: 'YYYY-MM-DD',
-					  applyLabel: "应用",
-                      cancelLabel: "取消",
-                      //resetLabel: "重置",
-					  daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
-           			  monthNames: ['一月', '二月', '三月', '四月', '五月', '六月','七月', '八月', '九月', '十月', '十一月', '十二月'],
-					  }
-				})
+	//Date range picker with time picker
+	$('.reservationtime_2').daterangepicker({
+		//timePicker: true,
+		//timePickerIncrement: 10,
+    "locale": {
+			//format: 'YYYY-MM-DD HH:mm',
+			format: 'YYYY-MM-DD',
+			applyLabel: "应用",
+      cancelLabel: "取消",
+      //resetLabel: "重置",
+			daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+      monthNames: ['一月', '二月', '三月', '四月', '五月', '六月','七月', '八月', '九月', '十月', '十一月', '十二月'],
+		}
+	})
 				
-			//Timepicker
-			 $('.timepicker').timepicker({
-				 showInputs: false,
-				 minuteStep: 10,
-				 showMeridian:false,//修改为24h制
-				 
-				 })  
+	//Timepicker
+	$('.timepicker').timepicker({
+		showInputs: false,
+		minuteStep: 10,
+		showMeridian: false,//修改为24h制
+	})  
+
   })	
 	
   </script>

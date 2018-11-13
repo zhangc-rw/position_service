@@ -6,7 +6,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<!--<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />-->
+<meta name="save" content="history">
 <title>大坝位移监测系统</title>
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -56,6 +57,11 @@ body, html {
 	width: 100%;
 }
 </style>
+<style>  
+.saveHistory {
+  behavior: url(#default#savehistory);  
+}  
+</style> 
 <!-- Google Font -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
@@ -182,7 +188,7 @@ desired effect
                             <label class="control-label">请选择大坝编号：</label>
                           </div>
                           <div class="col-xs-1">
-                            <select input type="varchar" class="form-control form-input dam_num" name="dam_num" id="dam_num" style="width: 100%;">
+                            <select input type="text" class="form-control form-input dam_num_1 saveHistory" name="dam_num" id="dam_num" style="width: 100%;">
                             </select>
                           </div>
                         </div>
@@ -199,14 +205,15 @@ desired effect
                               <th>平均曲线</th>
                               <th>收敛曲线</th>
                               <th>平滑曲线</th>
-                              <th style="display:none;">XYZ坐标</th>
+                              <th>XYZ坐标</th>
                             </tr>
                             <tr>
-                              <td><select input type="varchar" class="form-control form-input station_num" name="station_num[]" id="station_num" style="width: 100%;">
+                              <td><select input type="text" class="form-control form-input station_num_1 saveHistory" name="station_num[]" id="station_num" style="width: 100%;">
                                 </select></td>
-                              <td><select input type="varchar" class="form-control form-input device_num" name="device_num[]" id="device_num" style="width: 100%;">
+                              <td><select input type="text" class="form-control form-input device_num_1 saveHistory" name="device_num[]" id="device_num" style="width: 100%;">
                                 </select></td>
-                              <td><input type="varchar" class="form-control form-input reservationtime_1" name="reservationtime[]" id="" style="width: 300px"></td>
+                              <td><input type="text" class="form-control form-input reservationtime_1 saveHistory" name="reservationtime[]" id="" style="width: 300px">
+                                  </td>
                               <td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
@@ -223,8 +230,8 @@ desired effect
                                   <option>是</option>
                                   <option>否</option>
                                 </select></td>
-                              <td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%;display:none;">
-                                  <option>否</option>
+                              <td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%;">
+                                  <option>是</option>
                                   <option>否</option>
                                 </select></td>
                             </tr>
@@ -254,7 +261,7 @@ desired effect
                           <label class="control-label">请选择大坝编号：</label>
                         </div>
                         <div class="col-xs-1">
-                          <select input type="varchar" class="form-control form-input dam_num" name="dam_num" id="dam_num" style="width: 100%;">
+                          <select input type="text" class="form-control form-input dam_num_2 saveHistory" name="dam_num" id="dam_num" style="width: 100%;">
                           </select>
                         </div>
                         <div class="col-xs-2">
@@ -284,14 +291,14 @@ desired effect
                               <th>平均曲线</th>
                               <th>收敛曲线</th>
                               <th>平滑曲线</th>
-                              <th style="display:none">XYZ坐标</th>
+                              <th>XYZ坐标</th>
                             </tr>
                             <tr>
-                              <td><select input type="varchar" class="form-control form-input station_num" name="station_num[]" id="station_num" style="width: 100%;">
+                              <td><select input type="text" class="form-control form-input station_num_2 saveHistory" name="station_num[]" id="station_num" style="width: 100%;">
                                 </select></td>
-                              <td><select input type="varchar" class="form-control form-input device_num" name="device_num[]" id="device_num" style="width: 100%;">
+                              <td><select input type="text" class="form-control form-input device_num_2 saveHistory" name="device_num[]" id="device_num" style="width: 100%;">
                                 </select></td>
-                              <td><input type="varchar" class="form-control form-input reservationtime_2" name="reservationtime[]" id="" style="width: 300px"></td>
+                              <td><input type="text" class="form-control form-input reservationtime_2 saveHistory" name="reservationtime[]" id="" style="width: 300px"></td>
                               <td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">
                                   <option>是</option>
                                   <option>否</option>
@@ -308,8 +315,8 @@ desired effect
                                   <option>是</option>
                                   <option>否</option>
                                 </select></td>
-                              <td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%; display:none;">
-                                  <option>否</option>
+                              <td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%;">
+                                  <option>是</option>
                                   <option>否</option>
                                 </select></td>
                             </tr>
@@ -375,87 +382,152 @@ desired effect
 
 <script>
  $(document).ready(function(){
-              $.ajaxSetup({  
-                   data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
-              });  
+  $.ajaxSetup({
+    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
+  }); 
+
+    //Date range picker with time picker
+        $('.reservationtime_1').daterangepicker({
+          timePicker: true,
+          timePickerIncrement: 10,
+          // ranges: {
+          //   "今天": [moment(), moment()],
+          //   "昨天": [moment().subtract(1,'days'), moment().subtract(1,'days')],
+          //   "过去七天": [moment().subtract(6,'days'), moment()],
+          //   "本月": [moment().startOf('month'), moment()],
+          //   "上月": [moment().subtract(1,'month').startOf('month'), moment().subtract(1,'month').endOf('month')],
+          //   "过去三个月": [moment().subtract(3,'month').startOf('month'), moment().subtract(3,'month').endOf('month')],
+          //   "去年": [moment().subtract(1,'year').startOf('year'), moment().subtract(1,'year').endOf('year')]
+          // },
+          "locale": {
+            format: 'YYYY-MM-DD HH:mm',
+            //format: 'YYYY-MM-DD',
+            applyLabel: "应用",
+            cancelLabel: "取消",
+            resetLabel: "重置",
+            customRangeLabel: "自定义",
+            daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+            monthNames: ['一月', '二月', '三月', '四月', '五月', '六月','七月', '八月', '九月', '十月', '十一月', '十二月'],
+          }
+        })
+        
+    //Date range picker with time picker
+        $('.reservationtime_2').daterangepicker({
+          //timePicker: true,
+          //timePickerIncrement: 10,
+          autoUpadateInput: false,
+          "locale": {
+            //format: 'YYYY-MM-DD HH:mm',
+            format: 'YYYY-MM-DD',
+            applyLabel: "应用",
+            cancelLabel: "取消",
+            resetLabel: "重置",
+            daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+            monthNames: ['一月', '二月', '三月', '四月', '五月', '六月','七月', '八月', '九月', '十月', '十一月', '十二月'],
+          }
+        })
+        
+    //Timepicker
+       $('.timepicker').timepicker({
+         showInputs: false,
+         minuteStep: 10,
+         showMeridian: false,//修改为24h制
+         }) 
 			  
-			  //将大坝、基站和标签的list传至js，显示在前端的第一行列表
-			  var dam_num_list={{dam_num_list|safe}}
-			  var station_num_list={{station_num_list|safe}}
-			  var device_num_list={{device_num_list|safe}}
-			  //console.log(dam_num_list)
-			  var htmlDam = '';
-			  for(var i = 0;i < dam_num_list.length;i++){
-				  htmlDam+='<option>'+ dam_num_list[i] +'</option>';//字符串组，而不是push成数组
-				  }
-		      //console.log(htmlDam) 
-			  var htmlStation = '';
-			  for(var i = 0;i < station_num_list.length;i++){
-				  htmlStation+='<option>'+ station_num_list[i] +'</option>';//字符串组，而不是push成数组
-				  }
-			  var htmlDevice = '';
-			  for(var i = 0;i < device_num_list.length;i++){
-				  htmlDevice+='<option>'+ device_num_list[i] +'</option>';//字符串组，而不是push成数组
-				  }
-			  
-			  //回传至html相应位置， parents是用来找父级，comparisonShow和sametime_comparisonShow已经在最外面了就不用了
-    		  $('#comparisonShow').find(".dam_num").html(htmlDam)
-			  $('#comparisonShow').find(".station_num").html(htmlStation)
-			  $('#comparisonShow').find(".device_num").html(htmlDevice)
-			  $('#sametime_comparisonShow').find(".dam_num").html(htmlDam)
-			  $('#sametime_comparisonShow').find(".station_num").html(htmlStation)
-			  $('#sametime_comparisonShow').find(".device_num").html(htmlDevice)	
+		//将大坝、基站和标签的list传至js，显示在前端的第一行列表
+        var dam_num_list={{dam_num_list|safe}}
+        var station_num_list={{station_num_list|safe}}
+        var device_num_list={{device_num_list|safe}}
+        var station_num_total_list={{station_num_total_list|safe}}
+        var device_num_total_list={{device_num_total_list|safe}}
+        //console.log(station_num_total_list)
+
+        //根据大坝数量，分配大坝，基站和标签数组
+        for (var i = 0; i < dam_num_list.length; i++) {
+          window["dam_num"+i] = [];//实际使用大坝列表
+          window["station_num"+i] = [];//实际使用基站列表
+          window["device_num"+i] = [];//实际使用标签列表
+        }
+
+        //赋值
+        var start_station = 0;
+        var start_device = 0;
+        for (var i = 0; i < dam_num_list.length; i++) {
+          window["station_num"+i] = station_num_list.slice(start_station,start_station + station_num_total_list[i]);
+          window["device_num"+i] = device_num_list.slice(start_device,start_device + device_num_total_list[i]);
+          start_station = start_station + station_num_total_list[i];
+          start_device = start_device + device_num_total_list[i];
+          //console.log(window["station_num"+i])
+          //console.log(window["device_num"+i])
+        }
+
+        //显示dam 注意添加option的方法1
+        var htmlDam = '<option>'+ '-请选择-' +'</option>';
+        for(var i = 0;i < dam_num_list.length;i++){
+          htmlDam+='<option>'+ dam_num_list[i] +'</option>';//字符串组，而不是push成数组
+          //回传至html相应位置， parents是用来找父级，comparisonShow已经在最外面了就不用了
+          $('#comparisonShow').find(".dam_num_1").html(htmlDam); 
+          $('#sametime_comparisonShow').find(".dam_num_2").html(htmlDam)
+        }
+
+        //大坝与基站标签联动_对比显示
+        //查找两个select
+        var selDam_1 = document.getElementsByClassName("dam_num_1")[0];
+        var selStation_1 = document.getElementsByClassName("station_num_1")[0];
+        var selDevice_1 = document.getElementsByClassName("device_num_1")[0];
+        //为selDam绑定选中项改变事件
+        selDam_1.onchange = function(){
+        //获得当前select选中项的下标
+          var i = this.selectedIndex;
+          //console.log(i)
+          if(i > 0){
+            var j = i-1;//不能表示为window["station_num"+i-1]
+            //获得window["station_num"+i],window["device_num"+i]数组中i-1位置的子数组
+            var station = window["station_num"+j];
+            var device = window["device_num"+j];
+            //console.log(station)
+            //清空selStation,selDevice的内容:
+            selStation_1.innerHTML="";
+            selDevice_1.innerHTML="";
+            //显示基站标签在append里
+            var arrStation = '';
+            var arrDevice = '';
+            //创建文档片段
+            var frag_station = document.createDocumentFragment();
+            var frag_device = document.createDocumentFragment();
+            //创建一个option，内容为-请选择-,追加到selStation下，注意添加option的方法2
+            var opt_station = document.createElement("option");
+            opt_station.innerHTML="-请选择-";
+            frag_station.appendChild(opt_station);
+            var opt_device = document.createElement("option");
+            opt_device.innerHTML="-请选择-";
+            frag_device.appendChild(opt_device);
+            //遍历station中每个基站，device中每个标签
+            for(var i=0;i<station.length;i++){
+              //创建一个option，设置其内容为当前station，追加到selStation中
+              var opt_station = document.createElement("option");
+              opt_station.innerHTML=station[i];
+              frag_station.appendChild(opt_station);
+              arrStation+='<option>'+ station[i] +'</option>';//字符串组，而不是push成数组，构建基站列表，显示在append里
+            }
+            //console.log(arrStation)
+            for(var i=0;i<device.length;i++){
+              //创建一个option，设置其内容为当前device，追加到selDevice中
+              var opt_device = document.createElement("option");
+              opt_device.innerHTML=device[i];
+              frag_device.appendChild(opt_device);
+              arrDevice+='<option>'+ device[i] +'</option>';//字符串组，而不是push成数组 ，构建标签列表，显示在append里
+            }
+            //console.log(arrDevice)
+            //将frag整体追加到selStation,selDevice中
+            selStation_1.appendChild(frag_station);
+            selDevice_1.appendChild(frag_device);
+            //console.log(selStation_1)
+          }
+
 		//将大坝、基站和标签的list传至js，显示在前端的append里
-			  var arrStation = '';
-			  for(var i = 0;i < station_num_list.length;i++){
-				  arrStation+='<option>'+ station_num_list[i] +'</option>';//字符串组，而不是push成数组
-				  }
-			  //console.log(arrStation)
-			  var arrDevice = '';
-			  for(var i = 0;i < device_num_list.length;i++){
-				  arrDevice+='<option>'+ device_num_list[i] +'</option>';
-				  }
-			  
-			//Date range picker with time picker
-			  $('.reservationtime_1').daterangepicker({
-				  timePicker: true,
-				  timePickerIncrement: 10,
-                  "locale": {
-					  format: 'YYYY-MM-DD HH:mm',
-					  //format: 'YYYY-MM-DD',
-					  applyLabel: "应用",
-                      cancelLabel: "取消",
-                      //resetLabel: "重置",
-					  daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
-           			  monthNames: ['一月', '二月', '三月', '四月', '五月', '六月','七月', '八月', '九月', '十月', '十一月', '十二月'],
-					  }
-				})
-				
-			//Date range picker with time picker
-			  $('.reservationtime_2').daterangepicker({
-				  //timePicker: true,
-				  //timePickerIncrement: 10,
-                  "locale": {
-					  //format: 'YYYY-MM-DD HH:mm',
-					  format: 'YYYY-MM-DD',
-					  applyLabel: "应用",
-                      cancelLabel: "取消",
-                      //resetLabel: "重置",
-					  daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
-           			  monthNames: ['一月', '二月', '三月', '四月', '五月', '六月','七月', '八月', '九月', '十月', '十一月', '十二月'],
-					  }
-				})
-				
-			//Timepicker
-			 $('.timepicker').timepicker({
-				 showInputs: false,
-				 minuteStep: 10,
-				 showMeridian:false,//修改为24h制
-				 
-				 })
-				
 				//点击“新增对比”，添加一栏标签、基站和时间
-			 $("#addcomparison_1").bind("click",function () {
+			 $("#addcomparison_1").unbind("click").bind("click",function () {
 				 $("#DandL_1").append('' +
 				 '<tr> ' +
 				  '<td><select input type="varchar" class="form-control form-input" name="station_num[]" id="station_num" style="width: 100%;">' +
@@ -477,12 +549,12 @@ desired effect
                             '<option>是</option>' +
                             '<option>否</option>' +
                           '</select></td>'+
-						'<td><select input type="varchar" class="form-control form-input" name="d3_num[]" id="d3_num" style="width: 100%;">' +
+						            '<td><select input type="varchar" class="form-control form-input" name="d3_num[]" id="d3_num" style="width: 100%;">' +
                             '<option>是</option>' +
                             '<option>否</option>' +
                           '</select></td>'+
-						'<td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%; display:none;">' +
-                            '<option>否</option>' +
+						            '<td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%;">' +
+                            '<option>是</option>' +
                             '<option>否</option>' +
                           '</select></td>'+
                         
@@ -501,53 +573,63 @@ desired effect
 					  }
 				})
 			 })
-			 
-			 //点击“新增对比”，添加一栏标签、基站和时间(相同时间段)
-			 $("#addcomparison_2").bind("click",function () {
-				 $("#DandL_2").append('' +
-				 '<tr> ' +
-			      '<td><select input type="varchar" class="form-control form-input" name="station_num[]" id="station_num" style="width: 100%;">' +
-                            arrStation +
-                          '</select></td>'+
-                 '<td><select input type="varchar" class="form-control form-input" name="device_num[]" id="device_num" style="width: 100%;">' +
-                            arrDevice +
-                          '</select></td>'+
-						'<td><input type="varchar" class="form-control form-input reservationtime_2" name="reservationtime[]" id="" style="width: 300px"></td>'+
-						'<td><select input type="varchar" class="form-control form-input" name="temperature_num[]" id="temperature_num" style="width: 100%;">' +
-                            '<option>是</option>' +
-                            '<option>否</option>' +
-                          '</select></td>'+
-                        '<td><select input type="varchar" class="form-control form-input" name="d1_num[]" id="d1_num" style="width: 100%;">' +
-                            '<option>是</option>' +
-                            '<option>否</option>' +
-                          '</select></td>'+
-                        '<td><select input type="varchar" class="form-control form-input" name="d2_num[]" id="d2_num" style="width: 100%;">' +
-                            '<option>是</option>' +
-                            '<option>否</option>' +
-                          '</select></td>'+
-                        '<td><select input type="varchar" class="form-control form-input" name="d3_num[]" id="d3_num" style="width: 100%;">' +
-                            '<option>是</option>' +
-                            '<option>否</option>' +
-                          '</select></td>'+
-						'<td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%; display:none;">' +
-                            '<option>否</option>' +
-                            '<option>否</option>' +
-                          '</select></td>'+
-                      ' </tr>');
-                      $('#DandL_2 tr:last-child .reservationtime_2').daterangepicker({
-				  //timePicker: true,
-				  //timePickerIncrement: 10,
-                  "locale": {
-					  format: 'YYYY-MM-DD',
-					  applyLabel: "应用",
-                      cancelLabel: "取消",
-                      //resetLabel: "重置",
-					  daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
-           			  monthNames: ['一月', '二月', '三月', '四月', '五月', '六月','七月', '八月', '九月', '十月', '十一月', '十二月'],
-					  }
-				})
-			 })
-			
+      }
+
+      //大坝与基站标签联动_对比显示
+        //查找两个select
+        var selDam_2 = document.getElementsByClassName("dam_num_2")[0];
+        var selStation_2 = document.getElementsByClassName("station_num_2")[0];
+        var selDevice_2 = document.getElementsByClassName("device_num_2")[0];
+        //为selDam绑定选中项改变事件
+        selDam_2.onchange = function(){
+        //获得当前select选中项的下标
+          var i = this.selectedIndex;
+          //console.log(i)
+          if(i > 0){
+            var j = i-1;//不能表示为window["station_num"+i-1]
+            //获得window["station_num"+i],window["device_num"+i]数组中i-1位置的子数组
+            var station = window["station_num"+j];
+            var device = window["device_num"+j];
+            //console.log(station)
+            //清空selStation,selDevice的内容:
+            selStation_2.innerHTML="";
+            selDevice_2.innerHTML="";
+            //显示基站标签在append里
+            var arrStation = '';
+            var arrDevice = '';
+            //创建文档片段
+            var frag_station = document.createDocumentFragment();
+            var frag_device = document.createDocumentFragment();
+            //创建一个option，内容为-请选择-,追加到selStation下，注意添加option的方法2
+            var opt_station = document.createElement("option");
+            opt_station.innerHTML="-请选择-";
+            frag_station.appendChild(opt_station);
+            var opt_device = document.createElement("option");
+            opt_device.innerHTML="-请选择-";
+            frag_device.appendChild(opt_device);
+            //遍历station中每个基站，device中每个标签
+            for(var i=0;i<station.length;i++){
+              //创建一个option，设置其内容为当前station，追加到selStation中
+              var opt_station = document.createElement("option");
+              opt_station.innerHTML=station[i];
+              frag_station.appendChild(opt_station);
+              arrStation+='<option>'+ station[i] +'</option>';//字符串组，而不是push成数组，构建基站列表，显示在append里
+            }
+            //console.log(arrStation)
+            for(var i=0;i<device.length;i++){
+              //创建一个option，设置其内容为当前device，追加到selDevice中
+              var opt_device = document.createElement("option");
+              opt_device.innerHTML=device[i];
+              frag_device.appendChild(opt_device);
+              arrDevice+='<option>'+ device[i] +'</option>';//字符串组，而不是push成数组 ，构建标签列表，显示在append里
+            }
+            //console.log(arrDevice)
+            //将frag整体追加到selStation,selDevice中
+            selStation_2.appendChild(frag_station);
+            selDevice_2.appendChild(frag_device);
+            //console.log(selStation_2)
+          }
+        }
 				  
   })	
 	

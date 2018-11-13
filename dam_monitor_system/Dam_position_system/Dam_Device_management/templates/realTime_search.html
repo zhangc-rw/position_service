@@ -207,7 +207,7 @@ desired effect
                               <th>平均曲线</th>
                               <th>收敛曲线</th>
                               <th>平滑曲线</th>
-                              <th style="display:none">XYZ坐标</th>
+                              <th>XYZ坐标</th>
                             </tr>
                             <tr>
                               <td><select input type="varchar" class="form-control form-input station_num" name="station_num[]" id="station_num" style="width: 100%;">
@@ -236,8 +236,8 @@ desired effect
                                   <option>是</option>
                                   <option>否</option>
                                 </select></td>
-                              <td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%; display:none;" >
-                                  <option>否</option>
+                              <td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%;">
+                                  <option>是</option>
                                   <option>否</option>
                                 </select></td>
                             </tr>
@@ -301,48 +301,104 @@ desired effect
 
 <script>
  $(document).ready(function(){
-              $.ajaxSetup({  
-                   data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
-              });  
+  $.ajaxSetup({
+    data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
+  });  
 			  
 		//将大坝、基站和标签的list传至js，显示在前端的第一行列表
 			  var dam_num_list={{dam_num_list|safe}}
 			  var station_num_list={{station_num_list|safe}}
 			  var device_num_list={{device_num_list|safe}}
+        var station_num_total_list={{station_num_total_list|safe}}
+        var device_num_total_list={{device_num_total_list|safe}}
 			  //console.log(dam_num_list)
-			  var htmlDam = '';
+
+        //根据大坝数量，分配大坝，基站和标签数组
+        for (var i = 0; i < dam_num_list.length; i++) {
+          window["dam_num"+i] = [];//实际使用大坝列表
+          window["station_num"+i] = [];//实际使用基站列表
+          window["device_num"+i] = [];//实际使用标签列表
+        }
+
+        //赋值
+        var start_station = 0;
+        var start_device = 0;
+        for (var i = 0; i < dam_num_list.length; i++) {
+          window["station_num"+i] = station_num_list.slice(start_station,start_station + station_num_total_list[i]);
+          window["device_num"+i] = device_num_list.slice(start_device,start_device + device_num_total_list[i]);
+          start_station = start_station + station_num_total_list[i];
+          start_device = start_device + device_num_total_list[i];
+          //console.log(window["station_num"+i])
+          //console.log(window["device_num"+i])
+        }
+
+        //显示dam 注意添加option的方法1
+        var htmlDam = '<option>'+ '-请选择-' +'</option>';
 			  for(var i = 0;i < dam_num_list.length;i++){
-				  htmlDam+='<option>'+ dam_num_list[i] +'</option>';//字符串组，而不是push成数组
-				  }
-		      //console.log(htmlDam) 
-			  var htmlStation = '';
-			  for(var i = 0;i < station_num_list.length;i++){
-				  htmlStation+='<option>'+ station_num_list[i] +'</option>';//字符串组，而不是push成数组
-				  }
-			  var htmlDevice = '';
-			  var htmlDevice_Tem = '';
-			  for(var i = 0;i < device_num_list.length;i++){
-				  htmlDevice+='<option>'+ device_num_list[i] +'</option>';//字符串组，而不是push成数组
-				  }
-			  
-			  //回传至html相应位置， parents是用来找父级，comparisonShow已经在最外面了就不用了
-    		  $('#comparisonShow').find(".dam_num").html(htmlDam)
-			  $('#comparisonShow').find(".station_num").html(htmlStation)
-			  $('#comparisonShow').find(".device_num").html(htmlDevice)	
-			  
+          htmlDam+='<option>'+ dam_num_list[i] +'</option>';//字符串组，而不是push成数组
+          //回传至html相应位置， parents是用来找父级，comparisonShow已经在最外面了就不用了
+          $('#comparisonShow').find(".dam_num").html(htmlDam); 
+				}
+
+        //大坝与基站标签联动
+        //查找两个select
+        var selDam = document.getElementsByClassName("dam_num")[0];
+        var selStation = document.getElementsByClassName("station_num")[0];
+        var selDevice = document.getElementsByClassName("device_num")[0];
+        //为selDam绑定选中项改变事件
+        selDam.onchange = function liandong(){
+        //获得当前select选中项的下标
+          var i = this.selectedIndex;
+          //console.log(i)
+          if(i > 0){
+            var j = i-1;//不能表示为window["station_num"+i-1]
+            //获得window["station_num"+i],window["device_num"+i]数组中i-1位置的子数组
+            var station = window["station_num"+j];
+            var device = window["device_num"+j];
+            //console.log(station)
+            //清空selStation,selDevice的内容:
+            selStation.innerHTML="";
+            selDevice.innerHTML="";
+            //显示基站标签在append里
+            var arrStation = '';
+            var arrDevice = '';
+            //创建文档片段
+            var frag_station = document.createDocumentFragment();
+            var frag_device = document.createDocumentFragment();
+            //创建一个option，内容为-请选择-,追加到selStation下，注意添加option的方法2
+            var opt_station = document.createElement("option");
+            opt_station.innerHTML="-请选择-";
+            frag_station.appendChild(opt_station);
+            var opt_device = document.createElement("option");
+            opt_device.innerHTML="-请选择-";
+            frag_device.appendChild(opt_device);
+            //遍历station中每个基站，device中每个标签
+            for(var i=0;i<station.length;i++){
+              //创建一个option，设置其内容为当前station，追加到selStation中
+              var opt_station = document.createElement("option");
+              //console.log(opt_station)
+              opt_station.innerHTML=station[i];
+              frag_station.appendChild(opt_station);
+              arrStation+='<option>'+ station[i] +'</option>';//字符串组，而不是push成数组，构建基站列表，显示在append里
+            }
+            //console.log(arrStation)
+            for(var i=0;i<device.length;i++){
+              //创建一个option，设置其内容为当前device，追加到selDevice中
+              var opt_device = document.createElement("option");
+              opt_device.innerHTML=device[i];
+              frag_device.appendChild(opt_device);
+              arrDevice+='<option>'+ device[i] +'</option>';//字符串组，而不是push成数组 ，构建标签列表，显示在append里
+            }
+            //console.log(arrDevice)
+            //将frag整体追加到selStation,selDevice中
+            selStation.appendChild(frag_station);
+            selDevice.appendChild(frag_device);
+            //console.log(selStation)
+          }
+  
 		//将大坝、基站和标签的list传至js，显示在前端的append里
-			  var arrStation = '';
-			  for(var i = 0;i < station_num_list.length;i++){
-				  arrStation+='<option>'+ station_num_list[i] +'</option>';//字符串组，而不是push成数组
-				  }
-			  //console.log(arrStation)
-			  var arrDevice = '';
-			  for(var i = 0;i < device_num_list.length;i++){
-				  arrDevice+='<option>'+ device_num_list[i] +'</option>';
-				  }
-				  
 				//点击“新增对比”，添加一栏标签、基站
-			 $("#addcomparison").bind("click",function () {
+			 $("#addcomparison").unbind("click").bind("click",function () {
 				 $("#DandL").append('' +
 				 '<tr> ' +
 				 '<td><select input type="varchar" class="form-control form-input" name="station_num[]" id="station_num" style="width: 100%;">' +
@@ -384,14 +440,14 @@ desired effect
                             '<option>是</option>' +
                             '<option>否</option>' +
                           '</select></td>'+
-						'<td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%; display:none;">' +
-                            '<option>否</option>' +
+						            '<td><select input type="varchar" class="form-control form-input" name="coor_num[]" id="coor_num" style="width: 100%;">' +
+                            '<option>是</option>' +
                             '<option>否</option>' +
                           '</select></td>'+
                         
                       ' </tr>');
-			 })
-				  
+			 })  
+      }
   })	
 	
   </script>

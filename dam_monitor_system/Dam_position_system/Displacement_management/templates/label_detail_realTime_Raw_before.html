@@ -186,70 +186,104 @@ desired effect
                   </div>
                   <div class="box-body">
                     <h4 class="box-title">温度曲线</h4>
-                    <div id="line_chart_1" style="width: 100%; height: 300px;"> </div>
-                    <h4 class="box-title">原始数据曲线</h4>
-                    <div id="line_chart_2" style="width: 100%; height: 300px;"> </div>
-                    <h4 class="box-title">平均数据曲线</h4>
-                    <div id="line_chart_3" style="width: 100%; height: 300px;"> </div>
-                    <h4 class="box-title">收敛数据曲线</h4>
-                    <div id="line_chart_4" style="width: 100%; height: 300px;"> </div>
-                    <h4 class="box-title">平滑数据曲线</h4>
-                    <div id="line_chart_5" style="width: 100%; height: 300px;"> </div>
-                    <h4 class="box-title">X坐标曲线</h4>
-                    <div id="line_chart_6" style="width: 100%; height: 300px;"> </div>
-                    <h4 class="box-title">Y坐标曲线</h4>
-                    <div id="line_chart_7" style="width: 100%; height: 300px;"> </div>
-                    <h4 class="box-title">Z坐标曲线</h4>
-                    <div id="line_chart_8" style="width: 100%; height: 300px;"> </div>
+                    <div class="col-sm-9">
+                      <div id="line_chart_1" style="width: 1100px; height: 300px;"> </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div id="line_chart_1_overview" style="width:300px; height:150px"></div>
+                    </div>
                   </div>
-                  <!-- /.box-body--> 
+                  <div class="box-body">
+                    <h4 class="box-title">原始曲线</h4>
+                    <div class="col-sm-9">
+                      <div id="line_chart_2" style="width: 1100px; height: 300px;"> </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div id="line_chart_2_overview" style="width:300px; height:150px"></div>
+                    </div>
+                  </div>
+                  <div class="box-body">
+                    <h4 class="box-title">平均曲线</h4>
+                    <div class="col-sm-9">
+                      <div id="line_chart_3" style="width: 1100px; height: 300px;"> </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div id="line_chart_3_overview" style="width:300px; height:150px"></div>
+                    </div>
+                  </div>
+                  <div class="box-body">
+                    <h4 class="box-title">收敛曲线</h4>
+                    <div class="col-sm-9">
+                      <div id="line_chart_4" style="width: 1100px; height: 300px;"> </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div id="line_chart_4_overview" style="width:300px; height:150px"></div>
+                    </div>
+                  </div>
+                  <div class="box-body">
+                    <h4 class="box-title">平滑曲线</h4>
+                    <div class="col-sm-9">
+                      <div id="line_chart_5" style="width: 1100px; height: 300px;"> </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div id="line_chart_5_overview" style="width:300px; height:150px"></div>
+                    </div>
+                  </div>
+                      <!--
+                          <h4 class="box-title">X坐标曲线</h4>
+                          <div id="line_chart_6" style="width: 100%; height: 300px;"> </div>
+                          <h4 class="box-title">Y坐标曲线</h4>
+                          <div id="line_chart_7" style="width: 100%; height: 300px;"> </div>
+                          <h4 class="box-title">Z坐标曲线</h4>
+                          <div id="line_chart_8" style="width: 100%; height: 300px;"> </div>
+                        -->  
+                      </div>
+                      <!-- /.box --> 
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-1" style="display:none">
+                      <div class="box-header with-border">
+                        <h3 class="box-title">基站-标签列表信息</h3>
+                      </div>
+                      <div class="box-body no-padding box-messages">
+                        <ul class="nav nav-pills nav-stacked">
+                          <table id="dataList" class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th>大坝编号</th>
+                                <th>基站编号A</th>
+                                <th>标签编号T</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td class="dam" width="40px"></td>
+                                <td class="station" width="45px"></td>
+                                <td class="device" width="45px"></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </ul>
+                      </div>
+                      <!-- /.box-body --> 
+                    </div>
+                    <!-- /.col --> 
+                  </div>
+                  <!-- /.row --> 
                 </div>
-                <!-- /.box --> 
+                <!-- /.tab-content --> 
               </div>
-              <!-- /.col -->
-              <div class="col-md-1" style="display:none">
-                <div class="box-header with-border">
-                  <h3 class="box-title">基站-标签列表信息</h3>
-                </div>
-                <div class="box-body no-padding box-messages">
-                  <ul class="nav nav-pills nav-stacked">
-                    <table id="dataList" class="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th>大坝编号</th>
-                          <th>基站编号A</th>
-                          <th>标签编号T</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td class="dam" width="40px"></td>
-                          <td class="station" width="45px"></td>
-                          <td class="device" width="45px"></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </ul>
-                </div>
-                <!-- /.box-body --> 
-              </div>
-              <!-- /.col --> 
             </div>
-            <!-- /.row --> 
+            <!-- /.tab-content --> 
           </div>
-          <!-- /.tab-content --> 
+          <!-- nav-tabs-custom --> 
         </div>
+        <!-- /.col --> 
       </div>
-      <!-- /.tab-content --> 
-    </div>
-    <!-- nav-tabs-custom --> 
+      <!-- /.row -->
+    </section>
+    <!-- /.content --> 
   </div>
-  <!-- /.col --> 
-</div>
-<!-- /.row -->
-</section>
-<!-- /.content --> 
-</div>
 </div>
 <!-- /.tab-content -->
 </div>
@@ -298,16 +332,17 @@ desired effect
 <!-- FLOT CATEGORIES PLUGIN - Used to draw bar charts --> 
 <script src="../../../../../static/js/jquery.flot.categories.js"></script> 
 <script src="../../../../../static/js/jquery.flot.time.min.js"></script> 
+<script src="../../../../static/js/jquery.flot.selection.js"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. --> 
 
-<script>
-  $(document).ready(function(){
-    $.ajaxSetup({
-      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
-    });  
+     <script>
+       $(document).ready(function(){
+        $.ajaxSetup({  
+         data: {csrfmiddlewaretoken: '{{ csrf_token }}' },  
+       });  
 
 //从后台获得之前页面发送的基站和标签的编号，拆分回传至html相应位置
 //注意变量的的全局性，不要写在循环里面
@@ -481,12 +516,12 @@ setInterval(function postID(){
 					//console.log(window["name_ori"+j])
 
 					//if(is<isFirst){//由于后面数组清零，就不需要计数显示label了
-           if(window["name_ori"+j][3]==1){
-             window["line_draw"+j] = {
-              data : window["line_coor"+j],
-              color: color_choose[j],
-              label: "标签" + ":" + device_Num[j] + " " + "温度数据",
-            }
+						if(window["name_ori"+j][3]==1){
+							window["line_draw"+j] = {
+								data : window["line_coor"+j],
+								color: color_choose[j],
+								label: "标签" + ":" + device_Num[j] + " " + "温度数据",
+							}
 						//is=is+1;
           }else if(window["name_ori"+j][3]==2){
            window["line_draw"+j] = {
@@ -559,8 +594,7 @@ setInterval(function postID(){
 						happy_Z.push(window["line_draw"+j])
 					}
 					//console.log(happy_Raw)
-          //console.log(happy_X)
-          
+					
 				}//for循环
 				
 				//开始画线-温度
@@ -993,7 +1027,7 @@ xaxis : {
 				 console.log('error');//请求失败回调
        }
      })
-},1000);
+},5000);
 
 	//Initialize tooltip on hover
   $('<div class="tooltip-inner" id="line-chart-tooltip"></div>').css({
