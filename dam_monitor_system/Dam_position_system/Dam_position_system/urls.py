@@ -19,7 +19,8 @@ import Dam_Device_management.views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', Dam_Device_management.views.login),
+
+    url(r'^$', Dam_Device_management.views.Old_login),
     url(r'^Warning_management/', include('Warning_management.urls')),
     url(r'^Displacement_management/', include('Displacement_management.urls')),
     url(r'^Dam_Device_management/', include('Dam_Device_management.urls')),

@@ -1,5 +1,14 @@
 from django.db import models
 # Create your models here.
+class Landing_record(models.Model):
+	#计算机名
+	Computer_name = models.CharField(max_length=100,null=True)
+	#登陆IP
+	Computer_ip = models.CharField(max_length=100,null=True)
+	#登录时间
+	Landing_time = models.DateTimeField(auto_now=True,null=True)
+	def __str__(self):
+		return self.dam_name
 class Dam(models.Model):
 	#大坝编号
 	dam_num = models.IntegerField(unique=True)
@@ -96,3 +105,4 @@ class Stationr_data(models.Model):
 
 	def __str__(self):
 		return self.dam.dam_name + " 的 " + str(self.device_num) + " 历史待测点"
+

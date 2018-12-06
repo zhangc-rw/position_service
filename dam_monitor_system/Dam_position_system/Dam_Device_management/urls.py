@@ -20,10 +20,12 @@ import Displacement_management.views
 
 
 urlpatterns = [
-    url(r'^login/$', Dam_Device_management.views.login),
+    url(r'^login/$', Dam_Device_management.views.Login,name='tiao'),
+    url(r'^login_out/$', Dam_Device_management.views.Login_out),
 
     url(r'^DandL_management/$', Dam_Device_management.views.DandL_management),
-    url(r'^list_show/$', Dam_Device_management.views.List_show),
+    url(r'^list_show_history/$', Dam_Device_management.views.List_show_history),
+    url(r'^list_show_realTime/$', Dam_Device_management.views.List_show_realTime),
 
     url(r'^dam_management_form/$', Dam_Device_management.views.dam_management_form),
     url(r'^device_management_form/$', Dam_Device_management.views.device_management_form),

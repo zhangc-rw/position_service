@@ -19,18 +19,18 @@ import Displacement_management.views
 
 urlpatterns = [
     url(r'^label_detail_real/$', Displacement_management.views.Raw_data_real),
+    url(r'^label_detail_raw_history/$', Displacement_management.views.Raw_data_history),
 
     url(r'^DReal_management/$', Displacement_management.views.DReal_management),
 
     #url(r'^DPast_management/$', Displacement_management.views.DPast_management),
 
-    url(r'^label_detail_realTime_Raw/(?P<aid>\d+)/(?P<bid>\d+)/(?P<cid>\d+)/$', Displacement_management.views.DReal_management),
+    url(r'^label_detail_realTime/(?P<aid>\d+)/(?P<bid>\d+)/(?P<cid>\d+)/$', Displacement_management.views.DReal_management),
     url(r'^label_history_select/(?P<aid>\d+)/(?P<bid>\d+)/(?P<cid>\d+)/$', Displacement_management.views.Label_history_select),
     #url(r'^label_detail_history/(?P<aid>\d+)/(?P<bid>\d+)/$', Displacement_management.views.DPast_management),
-    
+
     url(r'^label_detail_history_2/$', Displacement_management.views.DPast_management_2),
     url(r'^label_detail_history_sametime_2/$', Displacement_management.views.DPast_management_sametime_2),
-    
 
     url(r'^label_detail_history/$', Displacement_management.views.DPast_management),
     url(r'^label_detail_history_sametime/$', Displacement_management.views.DPast_management_sametime),

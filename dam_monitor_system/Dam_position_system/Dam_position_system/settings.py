@@ -130,3 +130,7 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+LOGIN_URL = '/Dam_Device_management/login'
+
+#SESSION_ENGINE = 'django.contrib.sessions.backends.cache' #缓存session
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True    # 是否关闭浏览器使得Session过期（默认）

@@ -145,10 +145,37 @@ desired effect
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu" data-widget="tree">
       <!-- Optionally, you can add icons to the links -->
-      <li><a href="/Dam_Device_management/DandL_management"><i class="fa fa-link"></i><span>设备管理</span></a></li>
-      <li><a href="/Dam_Device_management/list_show"><i class="fa fa-link"></i><span>列表查看</span></a></li>
-      <li><a href="/Dam_Device_management/history_search"><i class="fa fa-link"></i><span>历史查看</span></a></li>
-      <li class="active"><a href="/Dam_Device_management/realTime_search"><i class="fa fa-link"></i><span>实时查看</span></a></li>
+      <li>
+        <a href="/Dam_Device_management/DandL_management">
+          <i class="fa fa-edit"></i> <span>设备管理</span>
+        </a>
+      </li>
+      <li class="active treeview menu-open">
+        <a href="#">
+          <i class="fa fa-pie-chart"></i>
+          <span>查询统计</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="/Dam_Device_management/history_search"><i class="fa fa-circle-o"></i>监测历史数据查询</a></li>
+          <li class="active"><a href="/Dam_Device_management/realTime_search"><i class="fa fa-circle-o"></i>监测实时数据查询</a></li>
+        </ul>
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-table"></i>
+          <span>数据管理</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="/Dam_Device_management/list_show_history"><i class="fa fa-circle-o"></i>监测历史数据查询</a></li>
+          <li><a href="/Dam_Device_management/list_show_realTime"><i class="fa fa-circle-o"></i>监测实时数据查询</a></li>
+        </ul>
+      </li>
     </ul>
     <!-- /.sidebar-menu --> 
   </section>
@@ -303,11 +330,11 @@ desired effect
      Both of these plugins are recommended to enhance the
      user experience. --> 
 
-<script>
-  $(document).ready(function(){
-    $.ajaxSetup({
-      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
-    });  
+     <script>
+      $(document).ready(function(){
+        $.ajaxSetup({
+          data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+        });  
 
 //从后台获得之前页面发送的基站和标签的编号，拆分回传至html相应位置
 //注意变量的的全局性，不要写在循环里面
